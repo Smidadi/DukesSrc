@@ -13,7 +13,7 @@ public class Castle {
 	private int revenu;
 	// private int production;  type : troops/amelioration + nb tours restant 
 	// ORdre de déplacement = target + troops 
-	private ArrayList<Troupes> tabTroupes;
+	private ArrayList<Troupes> tabTroupes = new ArrayList<Troupes>();
 	private CastleStruct Castle;
 	private CastleDoor CastleDoor;
 	private TeamColor color;
@@ -33,7 +33,7 @@ public class Castle {
 			}
 			this.niveau = 1;
 			this.tresor = 0;
-			this.tabTroupes = Troupes.createTroupes(4,2,2); // Temporary 			
+			//this.tabTroupes = Troupes.createTroupes(4,2,2); // Temporary 			
 			this.Castle = new CastleStruct(type,tabOfCastle);
 			this.CastleDoor = new CastleDoor(this.Castle.getCenter(),type);
 			this.color = new TeamColor();
@@ -43,7 +43,7 @@ public class Castle {
 			this.name = "Baron " + Integer.toString(nb);
 			this.niveau = 1 + (int) Math.random() * 5;
 			this.tresor = 500 + (int) Math.random() * 1001;	// 500 - 1500			
-			this.tabTroupes = Troupes.createTroupes(1 + (int) Math.random() * 5, 1 + (int) Math.random() * 5, 1 + (int) Math.random() * 5); // temporaire
+			//this.tabTroupes = Troupes.createTroupes(1 + (int) Math.random() * 5, 1 + (int) Math.random() * 5, 1 + (int) Math.random() * 5); // temporaire
 			this.Castle = new CastleStruct(type,tabOfCastle);
 			this.CastleDoor = new CastleDoor(this.Castle.getCenter(),type);
 			this.color = new TeamColor(128,128,128); //grey 
