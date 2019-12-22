@@ -6,25 +6,29 @@ import java.util.Random;
 public class Troupes {
 	
 	protected String name;
+	protected String Owner;
 	protected int cout;
 	protected int temps;
 	protected int vitesse;
 	protected int vie;
 	protected int degat;
+	protected GeometricForm shape;
+	protected TeamColor Color;
+	protected OST ost;
 	
-	public static ArrayList<Troupes> createTroupes(int p, int c, int o) {
+	public static ArrayList<Troupes> createTroupes( ArrayList<Castle> tabOfCastle, String CastleName, int p, int c, int o) {
 		ArrayList<Troupes> tab = new ArrayList<Troupes>();
 		
 		for(int i = 0; i < p; i++) {
-			tab.add(new Piquier());
+			tab.add(new Piquier(tabOfCastle, CastleName));
 		}
 		
 		for(int i = 0; i < c; i++) {
-			tab.add(new Chevalier());
+			tab.add(new Chevalier(tabOfCastle, CastleName));
 		}
 		
 		for(int i = 0; i < o; i++) {
-			tab.add(new Onagre());
+			tab.add(new Onagre(tabOfCastle, CastleName));
 		}
 		
 		return tab;
@@ -99,8 +103,13 @@ public class Troupes {
 	public void defendHimself(ArrayList<Troupes> tabTroupes, ArrayList<Troupes> enemyTroupes) {	// Appel � attackACastle avec une troupe ennemie comme attaquant
 		attackACastle(tabTroupes, enemyTroupes);
 	}
+	
+	static void printTroops(){
+		
+	}
 
-	// getters & setters 
+	/* ----- GETTER ----- */
+	/* ----- SETTER ----- */
 	
 	@Override
 	public String toString() {
