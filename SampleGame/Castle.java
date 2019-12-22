@@ -2,6 +2,8 @@ package SampleGame;
 
 import java.util.ArrayList;
 
+import javafx.scene.shape.Rectangle;
+
 public class Castle {
 	
 	private String name;
@@ -16,6 +18,8 @@ public class Castle {
 	private CastleDoor CastleDoor;
 	private TeamColor color;
 	
+	private Rectangle rectCastle;
+	private Rectangle rectDoor;
 	
 	
 	Castle(String type, ArrayList<Castle> tabOfCastle) {
@@ -34,6 +38,7 @@ public class Castle {
 			this.CastleDoor = new CastleDoor(this.Castle.getCenter(),type);
 			this.color = new TeamColor();
 		}
+		
 		if(type == "Baron") {
 			this.name = "Baron " + Integer.toString(nb);
 			this.niveau = 1 + (int) Math.random() * 5;
@@ -43,6 +48,20 @@ public class Castle {
 			this.CastleDoor = new CastleDoor(this.Castle.getCenter(),type);
 			this.color = new TeamColor(128,128,128); //grey 
 		}
+		
+		int x = this.Castle.getCornerLT().getX();
+		int y = this.Castle.getCornerLT().getY();
+		double w = Coordonnee.distance(this.Castle.getCornerLT(), this.Castle.getCornerRT());
+		double h = Coordonnee.distance(this.Castle.getCornerLT(), this.Castle.getCornerLB());
+		
+		this.rectCastle = new Rectangle(x,y,w,h);
+		
+		int Dx = this.CastleDoor.getCornerLT().getX();
+		int Dy = this.CastleDoor.getCornerLT().getY();
+		double Dw = Coordonnee.distance(this.CastleDoor.getCornerLT(), this.CastleDoor.getCornerRT());
+		double Dh = Coordonnee.distance(this.CastleDoor.getCornerLT(), this.CastleDoor.getCornerLB());
+		
+		this.rectDoor = new Rectangle(Dx,Dy,Dw,Dh);
 		
 		this.type = type;
 		this.revenu = this.niveau * 10;
@@ -107,5 +126,17 @@ public class Castle {
 	}
 	public void setColor(TeamColor color) {
 		this.color = color;
+	}
+	public Rectangle getRectCastle() {
+		return rectCastle;
+	}
+	public void setRectCastle(Rectangle rectCastle) {
+		this.rectCastle = rectCastle;
+	}
+	public Rectangle getRectDoor() {
+		return rectDoor;
+	}
+	public void setRectDoor(Rectangle rectDoor) {
+		this.rectDoor = rectDoor;
 	}
 }

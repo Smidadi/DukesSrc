@@ -2,45 +2,117 @@ package SampleGame;
 
 import java.util.ArrayList;
 
-import javafx.application.Application; 
-import javafx.scene.Scene; 
+import javafx.animation.AnimationTimer;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.Pane; 
 import javafx.scene.paint.Color; 
-import javafx.scene.shape.Rectangle; 
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.Stage; 
 
 public class Main extends Application {
-	// A enlever + extends Application 
+	private static final Text NULL = null;
 	private Scene scene;
+	private Input input;
+	private AnimationTimer gameLoop;
+	private ArrayList<Castle> tabOfCastle = new ArrayList<>();
+	private ArrayList<Text> tabOfText = new ArrayList<>();
+	
+	private Text status = NULL;
+	private Text upgrade;
+	
+	Pane root;
+	
+	Castle selectedCastle;
 	
 	@Override 
 	public void start(Stage primaryStage) throws Exception { 
 		
-		ArrayList<Castle> tabOfCastle = Build(5,5);
-		
-
-		Pane root = new Pane(); 
-		
-		//Rectangle(x,y,w,h);
-		
-		printAllCastle(tabOfCastle, root);
-		
-		for(int i=0 ; i<tabOfCastle.size() ; i++) {
-			System.out.println("Name : " + tabOfCastle.get(i).getName() + "\n");
-			Coordonnee c = tabOfCastle.get(i).getCastle().getCenter();
-			for(int k=0; k<tabOfCastle.size() ; k++) {
-				System.out.println("   Name : " + tabOfCastle.get(k).getName() + "|| distance : " + Coordonnee.distance(c, tabOfCastle.get(k).getCastle().getCenter()) + "\n");
-			}
-			
-		}
-		
+		root = new Pane(); 
 		scene = new Scene(root, Settings.SCENE_WIDTH, Settings.SCENE_HEIGHT, Color.LIGHTGREEN); 
 		primaryStage.setTitle("DukesOfTheRealm"); 
 		primaryStage.setScene(scene); 
 		primaryStage.show(); 
 		
+		// create castle
+		tabOfCastle = Build(5,5);
+		printAllCastle(tabOfCastle, root);
 		
+		
+		loadGame();
+		
+		gameLoop = new AnimationTimer() {
+			@Override
+			public void handle(long now) {
+				// update money of castle
+				tabOfCastle.forEach(castle -> RunACastle.updateRevenu(castle));
+				tabOfCastle.forEach(castle -> RunACastle.updateTresor(castle)); // update visuellement a faire
+				
+				tabOfCastle.forEach(castle -> castle.getRectCastle().setOnMouseClicked(e -> {
+					createPrintInfos();
+					printInfos(castle);
+					selectedCastle = castle;
+				}));
+				
+				// upgrade status of castle (solution tempo : voir le changement du tresor)
+				tabOfText.forEach(text -> text.setOnMouseClicked(e -> { 
+					RunACastle.updateNiveau(selectedCastle); 
+					status.setText(" ");
+					upgrade.setText(" ");
+					printInfos(selectedCastle);
+				}));
+				
+				if(status != NULL) {
+					status.setText(selectedCastle.getName() + 
+					"\nNiveau : " + selectedCastle.getNiveau() +
+					"\nRevenu : " + selectedCastle.getRevenu() +
+					"\nTroupes : " + selectedCastle.getTabTroupes().size() +
+					"\nTresor : " + selectedCastle.getTresor());
+				}
+				
+			}
+
+		};
+		gameLoop.start();
 	}
+	
+	private void loadGame() {
+		input = new Input(scene);
+		input.addListeners();
+	}
+	
+	
+	private void createPrintInfos() {
+		Rectangle r = new Rectangle(10,10,200,100);
+		r.setArcWidth(40);
+		r.setArcHeight(40);
+		r.setFill(Color.WHITE);
+		root.getChildren().add(r);
+	}
+	
+	// Affichage des informations du chateau
+	private void printInfos(Castle c) {
+		status = new Text(c.getName() + 
+				"\nNiveau : " + c.getNiveau() +
+				"\nRevenu : " + c.getRevenu() +
+				"\nTroupes : " + c.getTabTroupes().size() +
+				"\nTresor : " + c.getTresor()); // + prod
+		status.setLayoutX(30);
+		status.setLayoutY(30);
+		tabOfText.add(status);
+		root.getChildren().add(status);
+		
+		if(c.getName() == "Player") {
+			upgrade = new Text("Améliorer");
+			upgrade.setLayoutX(130);
+			upgrade.setLayoutY(45);
+			tabOfText.add(upgrade);
+			root.getChildren().add(upgrade);
+		}
+	}
+		
 	
 	private ArrayList<Castle> Build(int nbDuc, int nbBaron){
 		ArrayList<Castle> tabOfCastle = new ArrayList<Castle>();
@@ -56,19 +128,8 @@ public class Main extends Application {
 	
 	private void printAllCastle(ArrayList<Castle> tabOfCastle, Pane root) {
 		for(int i=0; i<tabOfCastle.size(); i++) {
-			//Castle
-			int x = tabOfCastle.get(i).getCastle().getCornerLT().getX();
-			int y = tabOfCastle.get(i).getCastle().getCornerLT().getY();
-			double width = Coordonnee.distance(tabOfCastle.get(i).getCastle().getCornerLT(), tabOfCastle.get(i).getCastle().getCornerRT());
-			double height = Coordonnee.distance(tabOfCastle.get(i).getCastle().getCornerLT(), tabOfCastle.get(i).getCastle().getCornerLB());
-			//Door
-			int Dx = tabOfCastle.get(i).getCastleDoor().getCornerLT().getX();
-			int Dy = tabOfCastle.get(i).getCastleDoor().getCornerLT().getY();
-			double Dwidth = Coordonnee.distance(tabOfCastle.get(i).getCastleDoor().getCornerLT(), tabOfCastle.get(i).getCastleDoor().getCornerRT());
-			double Dheight = Coordonnee.distance(tabOfCastle.get(i).getCastleDoor().getCornerLT(), tabOfCastle.get(i).getCastleDoor().getCornerLB());
-			// Draw rectangle
-			Rectangle castle = new Rectangle(x, y, width, height);	
-			Rectangle door = new Rectangle(Dx, Dy, Dwidth, Dheight);
+			Rectangle castle = tabOfCastle.get(i).getRectCastle();	
+			Rectangle door = tabOfCastle.get(i).getRectDoor();	
 			int r = tabOfCastle.get(i).getColor().r;
 			int g = tabOfCastle.get(i).getColor().g;
 			int b = tabOfCastle.get(i).getColor().b;
@@ -79,12 +140,8 @@ public class Main extends Application {
 		}
 		
 	}
-	// jusque la
 	
 	public static void main(String[] args) {
-		
-		
-		// A enlever
 		Application.launch(args); 
 	}
 	
