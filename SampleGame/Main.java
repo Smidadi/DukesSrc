@@ -17,11 +17,14 @@ public class Main extends Application {
 	private Scene scene;
 	private Input input;
 	private AnimationTimer gameLoop;
+	
 	private ArrayList<Castle> tabOfCastle = new ArrayList<>();
 	private ArrayList<Text> tabOfText = new ArrayList<>();
+	private ArrayList<String> tabOfProduction = new ArrayList<>();
 	
 	private Text status = NULL;
-	private Text upgrade;
+	
+	private Text upgrade = new Text(" ");
 	
 	Pane root;
 	
@@ -37,39 +40,46 @@ public class Main extends Application {
 		primaryStage.show(); 
 		
 		// create castle
-		tabOfCastle = Build(5,5);
-		printAllCastle(tabOfCastle, root);
-		
+		tabOfCastle = Build(1,5);
+		printAllCastle(tabOfCastle, root);		
 		
 		loadGame();
 		
 		gameLoop = new AnimationTimer() {
 			@Override
 			public void handle(long now) {
-				// update money of castle
+				// Ameliore le revenu + tresor du chateau
 				tabOfCastle.forEach(castle -> RunACastle.updateRevenu(castle));
 				tabOfCastle.forEach(castle -> RunACastle.updateTresor(castle)); // update visuellement a faire
 				
 				tabOfCastle.forEach(castle -> castle.getRectCastle().setOnMouseClicked(e -> {
+					tabOfText.clear();
 					createPrintInfos();
 					printInfos(castle);
 					selectedCastle = castle;
 				}));
 				
-				// upgrade status of castle (solution tempo : voir le changement du tresor)
+				// Ameliore le niveau du chateau
 				tabOfText.forEach(text -> text.setOnMouseClicked(e -> { 
+					//tabOfProduction.add(text.getText());
 					RunACastle.updateNiveau(selectedCastle); 
 					status.setText(" ");
-					upgrade.setText(" ");
 					printInfos(selectedCastle);
 				}));
 				
 				if(status != NULL) {
+					if(selectedCastle.getTresor() < 1000 * selectedCastle.getNiveau()) {
+						upgrade.setText(" ");
+					}
+					else if(selectedCastle.getTresor() >= 1000 * selectedCastle.getNiveau() && selectedCastle.getName() == "Player"){
+						upgrade.setText("Améliorer");
+					}
 					status.setText(selectedCastle.getName() + 
 					"\nNiveau : " + selectedCastle.getNiveau() +
 					"\nRevenu : " + selectedCastle.getRevenu() +
 					"\nTroupes : " + selectedCastle.getTabTroupes().size() +
-					"\nTresor : " + selectedCastle.getTresor());
+					"\nTresor : " + selectedCastle.getTresor() + " florins" +
+					"\nProduction : " + tabOfProduction);
 				}
 				
 			}
@@ -83,9 +93,9 @@ public class Main extends Application {
 		input.addListeners();
 	}
 	
-	
+	// Creation du rectangle contenant les informations du chateau
 	private void createPrintInfos() {
-		Rectangle r = new Rectangle(10,10,200,100);
+		Rectangle r = new Rectangle(10,10,200,120);
 		r.setArcWidth(40);
 		r.setArcHeight(40);
 		r.setFill(Color.WHITE);
@@ -98,21 +108,31 @@ public class Main extends Application {
 				"\nNiveau : " + c.getNiveau() +
 				"\nRevenu : " + c.getRevenu() +
 				"\nTroupes : " + c.getTabTroupes().size() +
-				"\nTresor : " + c.getTresor()); // + prod
+				"\nTresor : " + c.getTresor() + " florins" +
+				"\nProduction : " + tabOfProduction); 
 		status.setLayoutX(30);
 		status.setLayoutY(30);
-		tabOfText.add(status);
 		root.getChildren().add(status);
 		
-		if(c.getName() == "Player") {
-			upgrade = new Text("Améliorer");
+		boolean check = checkText();
+		if(check == false) {
+			upgrade = new Text();
 			upgrade.setLayoutX(130);
 			upgrade.setLayoutY(45);
 			tabOfText.add(upgrade);
 			root.getChildren().add(upgrade);
 		}
 	}
-		
+	
+	// Verifie si le text "Ameliorer" est dans le tableau pour le recreer
+	private boolean checkText() {
+		for(Text t : tabOfText) {
+			if(t == upgrade) {
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	private ArrayList<Castle> Build(int nbDuc, int nbBaron){
 		ArrayList<Castle> tabOfCastle = new ArrayList<Castle>();
