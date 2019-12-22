@@ -64,60 +64,34 @@ public class CastleStruct  {
 	/* ----- GETTER ----- */
 	/* ----- SETTER ----- */
 
+	
 	public Coordonnee getCenter() {
 		return center;
 	}
-
-
-
 	public void setCenter(Coordonnee center) {
 		this.center = center;
 	}
-
-
-
 	public Coordonnee getCornerLT() {
 		return cornerLT;
 	}
-
-
-
 	public void setCornerLT(Coordonnee cornerLT) {
 		this.cornerLT = cornerLT;
 	}
-
-
-
 	public Coordonnee getCornerLB() {
 		return cornerLB;
 	}
-
-
-
 	public void setCornerLB(Coordonnee cornerLB) {
 		this.cornerLB = cornerLB;
 	}
-
-
-
 	public Coordonnee getCornerRT() {
 		return cornerRT;
 	}
-
-
-
 	public void setCornerRT(Coordonnee cornerRT) {
 		this.cornerRT = cornerRT;
 	}
-
-
-
 	public Coordonnee getCornerRB() {
 		return cornerRB;
 	}
-
-
-
 	public void setCornerRB(Coordonnee cornerRB) {
 		this.cornerRB = cornerRB;
 	}	
