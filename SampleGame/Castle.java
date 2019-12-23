@@ -33,7 +33,7 @@ public class Castle {
 			}
 			this.niveau = 1;
 			this.tresor = 0;
-			//this.tabTroupes = Troupes.createTroupes(4,2,2); // Temporary 			
+			this.tabTroupes = Troupes.createTroupes(this.name,4,2,2); // Temporary 			
 			this.Castle = new CastleStruct(type,tabOfCastle);
 			this.CastleDoor = new CastleDoor(this.Castle.getCenter(),type);
 			this.color = new TeamColor();

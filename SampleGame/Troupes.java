@@ -16,7 +16,7 @@ public class Troupes {
 	protected TeamColor Color;
 	
 	
-	public static ArrayList<Troupes> createTroupes( ArrayList<Castle> tabOfCastle, String CastleName, int p, int c, int o) {
+	public static ArrayList<Troupes> createTroupes(String CastleName, int p, int c, int o) {
 		ArrayList<Troupes> tab = new ArrayList<Troupes>();
 		
 		for(int i = 0; i < p; i++) {
