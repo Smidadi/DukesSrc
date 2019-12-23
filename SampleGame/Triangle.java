@@ -12,27 +12,15 @@ public class Triangle extends GeometricForm {
 			switch(position) {
 			case 1:
 				this.s1.setX(door.getX()-10);
-				this.s1.setY(door.getY());
-				this.s2.setX(s1.getX() + 5);
-				this.s2.setY(s1.getY() + 9);
-				this.s3.setX(s1.getX() - 5);
-				this.s3.setY(s1.getY() + 9);			
+				this.s1.setY(door.getY());			
 				break;
 			case 2:
 				this.s1.setX(door.getX());
-				this.s1.setY(door.getY());
-				this.s2.setX(s1.getX() + 5);
-				this.s2.setY(s1.getY() + 9);
-				this.s3.setX(s1.getX() - 5);
-				this.s3.setY(s1.getY() + 9);				
+				this.s1.setY(door.getY());				
 				break;
 			case 3:
 				this.s1.setX(door.getX()+10);
-				this.s1.setY(door.getY());
-				this.s2.setX(s1.getX() + 5);
-				this.s2.setY(s1.getY() + 9);
-				this.s3.setX(s1.getX() - 5);
-				this.s3.setY(s1.getY() + 9);	
+				this.s1.setY(door.getY());	
 				break;
 			default:
 				break;
@@ -42,31 +30,23 @@ public class Triangle extends GeometricForm {
 			case 1:
 				this.s1.setX(door.getX());
 				this.s1.setY(door.getY() - 15);
-				this.s2.setX(s1.getX() + 5);
-				this.s2.setY(s1.getY() + 9);
-				this.s3.setX(s1.getX() - 5);
-				this.s3.setY(s1.getY() + 9);	
 				break;
 			case 2:
 				this.s1.setX(door.getX());
 				this.s1.setY(door.getY() - 5);
-				this.s2.setX(s1.getX() + 5);
-				this.s2.setY(s1.getY() + 9);
-				this.s3.setX(s1.getX() - 5);
-				this.s3.setY(s1.getY() + 9);	
 				break;
 			case 3:
 				this.s1.setX(door.getX());
-				this.s1.setY(door.getY() + 5);
-				this.s2.setX(s1.getX() + 5);
-				this.s2.setY(s1.getY() + 9);
-				this.s3.setX(s1.getX() - 5);
-				this.s3.setY(s1.getY() + 9);	
+				this.s1.setY(door.getY() + 5);	
 				break;
 			default:
 				break;
 			}
 		}
+		this.s2.setX(s1.getX() + 5);
+		this.s2.setY(s1.getY() + 10);
+		this.s3.setX(s1.getX() - 5);
+		this.s3.setY(s1.getY() + 10);
 		this.color = color;
 	}
 
