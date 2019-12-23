@@ -14,31 +14,26 @@ public class Troupes {
 	protected int degat;
 	protected GeometricForm shape;
 	protected TeamColor Color;
-	protected OST ost;
+	
 	
 	public static ArrayList<Troupes> createTroupes( ArrayList<Castle> tabOfCastle, String CastleName, int p, int c, int o) {
 		ArrayList<Troupes> tab = new ArrayList<Troupes>();
 		
 		for(int i = 0; i < p; i++) {
-			tab.add(new Piquier(tabOfCastle, CastleName));
+			tab.add(new Piquier(CastleName));
 		}
 		
 		for(int i = 0; i < c; i++) {
-			tab.add(new Chevalier(tabOfCastle, CastleName));
+			tab.add(new Chevalier(CastleName));
 		}
 		
 		for(int i = 0; i < o; i++) {
-			tab.add(new Onagre(tabOfCastle, CastleName));
+			tab.add(new Onagre(CastleName));
 		}
 		
 		return tab;
 	}
 	
-	public void sendTroupes(ArrayList<Troupes> tabTroupes) {
-		ArrayList<Troupes> troupesToSend = new ArrayList<Troupes>();
-		// A voir avec l'interaction a la souris ou au clavier de la selection des troupes
-	}
-
 	public void getDamage(ArrayList<Troupes> tab) {	// Fonction recursive : inflige degats a une troupe
 		// Choisir un random pour la troupe a eliminer		
 		Random r = new Random();

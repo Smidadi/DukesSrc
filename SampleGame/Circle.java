@@ -1,22 +1,52 @@
 package SampleGame;
 
-import java.util.ArrayList;
 
 public class Circle extends GeometricForm {
 	private int x;
 	private int y;
 	private int radius;
+	private TeamColor color;
 	
-	 Circle(ArrayList<Castle> tabOfCastle,String owner){
-		 Coordonnee door;
-		 for(int i=0; i<tabOfCastle.size(); i++) {
-			if(tabOfCastle.get(i).getName() == owner) {
-				door = tabOfCastle.get(i).getCastleDoor().getCenter();
+	 Circle(CastleDoor CastleDoor, TeamColor color,  int position){
+		Coordonnee door = CastleDoor.getCenter();
+		char direction = CastleDoor.getDirection();
+		if(direction == 'N' || direction == 'S') {
+			switch(position) {
+			case 1:
+				this.x = door.getX()-10;
+				this.y = door.getY();
+				break;
+			case 2:
 				this.x = door.getX();
 				this.y = door.getY();
-				this.radius = 5;
+				break;
+			case 3:
+				this.x = door.getX()+10;
+				this.y = door.getY();
+				break;
+			default:
+				break;
 			}
-		 }
+		}else{
+			switch(position) {
+			case 1:
+				this.x = door.getX();
+				this.y = door.getY()-10;
+				break;
+			case 2:
+				this.x = door.getX();
+				this.y = door.getY();
+				break;
+			case 3:
+				this.x = door.getX();
+				this.y = door.getY()+10;
+				break;
+			default:
+				break;
+			}
+		}
+		this.radius = 5;
+		this.color = color;
 	 }
 
 	
@@ -42,5 +72,10 @@ public class Circle extends GeometricForm {
 	public void setRadius(int radius) {
 		this.radius = radius;
 	}	 
-	
+	public TeamColor getColor() {
+		return color;
+	}
+	public void setColor(TeamColor color) {
+		this.color = color;
+	}
 }

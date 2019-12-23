@@ -1,23 +1,73 @@
 package SampleGame;
 
-import java.util.ArrayList;
 
 public class Triangle extends GeometricForm {
 	private Coordonnee s1, s2, s3;
+	private TeamColor color;
 	
-	Triangle(ArrayList<Castle> tabOfCastle, String owner){
-		Coordonnee door;
-		 for(int i=0; i<tabOfCastle.size(); i++) {
-			if(tabOfCastle.get(i).getName() == owner) {
-				door = tabOfCastle.get(i).getCastleDoor().getCenter();
+	Triangle(CastleDoor CastleDoor, TeamColor color,  int position){
+		Coordonnee door = CastleDoor.getCenter();
+		char direction = CastleDoor.getDirection();
+		if(direction == 'N' || direction == 'S') {
+			switch(position) {
+			case 1:
+				this.s1.setX(door.getX()-10);
+				this.s1.setY(door.getY());
+				this.s2.setX(s1.getX() + 5);
+				this.s2.setY(s1.getY() + 9);
+				this.s3.setX(s1.getX() - 5);
+				this.s3.setY(s1.getY() + 9);			
+				break;
+			case 2:
 				this.s1.setX(door.getX());
 				this.s1.setY(door.getY());
-				this.s2.setX(s1.getX() - 5);
+				this.s2.setX(s1.getX() + 5);
 				this.s2.setY(s1.getY() + 9);
-				this.s3.setX(s1.getX() + 5);
-				this.s3.setY(s1.getY() + 9);
+				this.s3.setX(s1.getX() - 5);
+				this.s3.setY(s1.getY() + 9);				
+				break;
+			case 3:
+				this.s1.setX(door.getX()+10);
+				this.s1.setY(door.getY());
+				this.s2.setX(s1.getX() + 5);
+				this.s2.setY(s1.getY() + 9);
+				this.s3.setX(s1.getX() - 5);
+				this.s3.setY(s1.getY() + 9);	
+				break;
+			default:
+				break;
 			}
-		 }
+		}else{
+			switch(position) {
+			case 1:
+				this.s1.setX(door.getX());
+				this.s1.setY(door.getY() - 15);
+				this.s2.setX(s1.getX() + 5);
+				this.s2.setY(s1.getY() + 9);
+				this.s3.setX(s1.getX() - 5);
+				this.s3.setY(s1.getY() + 9);	
+				break;
+			case 2:
+				this.s1.setX(door.getX());
+				this.s1.setY(door.getY() - 5);
+				this.s2.setX(s1.getX() + 5);
+				this.s2.setY(s1.getY() + 9);
+				this.s3.setX(s1.getX() - 5);
+				this.s3.setY(s1.getY() + 9);	
+				break;
+			case 3:
+				this.s1.setX(door.getX());
+				this.s1.setY(door.getY() + 5);
+				this.s2.setX(s1.getX() + 5);
+				this.s2.setY(s1.getY() + 9);
+				this.s3.setX(s1.getX() - 5);
+				this.s3.setY(s1.getY() + 9);	
+				break;
+			default:
+				break;
+			}
+		}
+		this.color = color;
 	}
 
 	
@@ -43,5 +93,10 @@ public class Triangle extends GeometricForm {
 	public void setS3(Coordonnee s3) {
 		this.s3 = s3;
 	}
-	
+	public TeamColor getColor() {
+		return color;
+	}
+	public void setColor(TeamColor color) {
+		this.color = color;
+	}
 }

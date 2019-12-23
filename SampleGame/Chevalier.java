@@ -1,10 +1,10 @@
 package SampleGame;
 
-import java.util.ArrayList;
+
 
 public class Chevalier extends Troupes {
 	
-	Chevalier(ArrayList<Castle> tabOfCastle, String CastleName) {
+	Chevalier( String CastleName) {
 		this.name = "Chevalier";
 		this.Owner = CastleName;
 		this.cout = 500;
@@ -12,7 +12,6 @@ public class Chevalier extends Troupes {
 		this.vitesse = 6;
 		this.vie = 3;
 		this.degat = 5;
-		this.shape = new Circle(tabOfCastle, CastleName);
 	}
 
 	@Override

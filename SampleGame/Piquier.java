@@ -1,10 +1,9 @@
 package SampleGame;
 
-import java.util.ArrayList;
 
 public class Piquier extends Troupes {
 	
-	Piquier(ArrayList<Castle> tabOfCastle, String CastleName) {
+	Piquier(String CastleName) {
 		this.name = "Piquier";
 		this.Owner = CastleName;
 		this.cout = 100;
@@ -12,7 +11,6 @@ public class Piquier extends Troupes {
 		this.vitesse = 2;
 		this.vie = 1;
 		this.degat = 1;
-		this.shape = new Triangle(tabOfCastle, CastleName);
 	}
 
 	

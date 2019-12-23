@@ -12,8 +12,8 @@ public class Castle {
 	private int tresor;	
 	private int revenu;
 	// private int production;  type : troops/amelioration + nb tours restant 
-	// ORdre de déplacement = target + troops 
 	private ArrayList<Troupes> tabTroupes = new ArrayList<Troupes>();
+	protected OST ost;
 	private CastleStruct Castle;
 	private CastleDoor CastleDoor;
 	private TeamColor color;
