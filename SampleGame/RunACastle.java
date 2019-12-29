@@ -41,12 +41,15 @@ public class RunACastle {	// w : 1500 ; h : 1000 pour la map
 	}
 	
 	static void updateNiveau(Castle c) {
+		c.setNiveau(c.getNiveau()+1);
+	}
+	
+	static void reduceTresor(Castle c) {
 		int u = 1000 * c.getNiveau();
 		if(c.getTresor() < u) {
 			System.out.println("Amélioration impossible");
 		}
 		else {
-			c.setNiveau(c.getNiveau()+1);
 			c.setTresor(c.getTresor() - u);
 		}
 	}

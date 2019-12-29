@@ -35,11 +35,14 @@ public class Main extends Application {
 	private Text upgradeTroupe = NULL;
 	private Text reduceTroupe = NULL;
 	private Text validate = NULL;
+	private Text product = NULL;
 	
 	// Troupes a envoyer dans l'OST
 	private int p = 0;
 	private int c = 0;
 	private int o = 0;
+	
+	private int countTour = 0;
 	
 	Rectangle createInfos;
 	
@@ -88,10 +91,11 @@ public class Main extends Application {
 				tabOfText.forEach(text -> text.setOnMouseClicked(e -> { 
 					// Ameliore le niveau du chateau
 					if(text == upgrade) {
-						//tabOfProduction.add(text.getText());
-						RunACastle.updateNiveau(selectedCastle); 
-						status.setText(" ");
-						printInfos(selectedCastle);
+						if(!tabOfProduction.contains("Améliorer")) {
+							RunACastle.reduceTresor(selectedCastle);
+							tabOfProduction.add(text.getText());
+							status.setText(" ");
+						}
 					}
 					// Cree le texte du choix de la cible et du bouton annuler
 					if(text == sendTroupes && targetText == NULL && cancel == NULL) {
@@ -140,7 +144,7 @@ public class Main extends Application {
 					if(selectedCastle.getTresor() < 1000 * selectedCastle.getNiveau()) {
 						upgrade.setText(" ");
 					}
-					else if(selectedCastle.getTresor() >= 1000 * selectedCastle.getNiveau() && selectedCastle.getName() == "Player"){
+					else if(selectedCastle.getTresor() >= 1000 * selectedCastle.getNiveau() && selectedCastle.getName() == "Player" && !tabOfProduction.contains("Améliorer")){
 						upgrade.setText("Améliorer");
 					}
 					status.setText(selectedCastle.getName() + 
@@ -148,13 +152,25 @@ public class Main extends Application {
 					"\nRevenu : " + selectedCastle.getRevenu() +
 					"\nTroupes : " + selectedCastle.getTabTroupes().size() +
 					"\nTresor : " + selectedCastle.getTresor() + " florins" +
-					"\nProduction : " + tabOfProduction +
+					"\nProduction : " + tabOfProduction.size() +
 					"\n_________________");
 				}
 				
 				if(targetCastle != NULLL && troupesText == NULL) {
 					createTroupes();
 					createInfos.setHeight(250);
+				}
+				
+				if(!tabOfProduction.isEmpty()) {
+					if(tabOfProduction.get(0) == "Améliorer" && countTour == (100 + 50*selectedCastle.getNiveau())) {
+						RunACastle.updateNiveau(selectedCastle); 
+						countTour = 0;
+						tabOfProduction.remove(0);
+						
+					}
+					else {
+						countTour++;
+					}
 				}
 				
 			}
@@ -225,7 +241,7 @@ public class Main extends Application {
 		// Verifie si Ameliorer est dans tabOfText pour eviter la superposition du texte
 		if(checkText(upgrade) == false) {
 			upgrade = new Text();
-			upgrade.setLayoutX(130);
+			upgrade.setLayoutX(140);
 			upgrade.setLayoutY(45);
 			tabOfText.add(upgrade);
 			root.getChildren().add(upgrade);
@@ -236,6 +252,14 @@ public class Main extends Application {
 			sendTroupes = new Text("Envoyer des troupes");
 			sendTroupes.setLayoutX(30);
 			sendTroupes.setLayoutY(150);
+			tabOfText.add(sendTroupes);
+			root.getChildren().add(sendTroupes);
+		}
+		
+		if(checkText(product) == false && c.getName() == "Player") {
+			sendTroupes = new Text("Produire");
+			sendTroupes.setLayoutX(140);
+			sendTroupes.setLayoutY(110);
 			tabOfText.add(sendTroupes);
 			root.getChildren().add(sendTroupes);
 		}
