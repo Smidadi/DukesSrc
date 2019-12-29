@@ -3,16 +3,16 @@ package SampleGame;
 import java.util.ArrayList;
 
 public class OST {
-	private ArrayList<Troupes> ostUnites;
+	private int ostUnites[];
 	private int MaxSpeed;
 	private String TargetName;
 	
 	OST(){
-		this.ostUnites = new ArrayList<Troupes>();
+		this.ostUnites = new int[3];
 		this.MaxSpeed = 0;
 	}
 	
-	void addInOST(Troupes Troops) {
+	static void addInOST(int tab[]) {
 		
 	}
 
@@ -21,15 +21,17 @@ public class OST {
 	/* ----- GETTER ----- */
 	/* ----- SETTER ----- */
 	
-	public ArrayList<Troupes> getOstUnites() {
-		return ostUnites;
-	}
-	public void setOstUnites(ArrayList<Troupes> ostUnites) {
-		this.ostUnites = ostUnites;
-	}
 	public int getMaxSpeed() {
 		return MaxSpeed;
 	}
+	public int[] getOstUnites() {
+		return ostUnites;
+	}
+
+	public void setOstUnites(int[] ostUnites) {
+		this.ostUnites = ostUnites;
+	}
+
 	public void setMaxSpeed(int maxSpeed) {
 		MaxSpeed = maxSpeed;
 	}

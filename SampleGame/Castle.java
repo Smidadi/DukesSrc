@@ -26,17 +26,18 @@ public class Castle {
 		int nb = tabOfCastle.size();
 		if(type == "Duc" || type == "Player") {
 			if(type == "Player") {
-				this.name = type;
-			}
-			else {
-				this.name = "Duc " + Integer.toString(nb);
+                this.name = type;
+                this.color = new TeamColor(220,20,60);
+            }
+            else {
+                this.name = "Duc " + Integer.toString(nb);
+                this.color = new TeamColor();
 			}
 			this.niveau = 1;
 			this.tresor = 0;
 			this.tabTroupes = Troupes.createTroupes(this.name,4,2,2); // Temporary 			
 			this.Castle = new CastleStruct(type,tabOfCastle);
 			this.CastleDoor = new CastleDoor(this.Castle.getCenter(),type);
-			this.color = new TeamColor();
 		}
 		
 		if(type == "Baron") {
