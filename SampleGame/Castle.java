@@ -13,6 +13,7 @@ public class Castle {
 	private int revenu;
 	// private int production;  type : troops/amelioration + nb tours restant 
 	private ArrayList<Troupes> tabTroupes = new ArrayList<Troupes>();
+	private ArrayList<String> tabOfProduction = new ArrayList<String>();
 	protected OST ost;
 	private CastleStruct Castle;
 	private CastleDoor CastleDoor;
@@ -139,5 +140,11 @@ public class Castle {
 	}
 	public void setRectDoor(Rectangle rectDoor) {
 		this.rectDoor = rectDoor;
+	}
+	public ArrayList<String> getTabOfProduction() {
+		return tabOfProduction;
+	}
+	public void setTabOfProduction(ArrayList<String> tabOfProduction) {
+		this.tabOfProduction = tabOfProduction;
 	}
 }
