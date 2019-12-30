@@ -133,12 +133,15 @@ public class Main extends Application {
 					}
 					// Gere la production des troupes
 					if(text == piquier && selectedCastle.getTresor() >= 100) {
+						selectedCastle.setTresor(selectedCastle.getTresor() - 100);
 						tabOfProduction.add("Piquier");
 					}
 					if(text == chevalier && selectedCastle.getTresor() >= 500) {
+						selectedCastle.setTresor(selectedCastle.getTresor() - 500);
 						tabOfProduction.add("Chevalier");
 					}
 					if(text == onagre && selectedCastle.getTresor() >= 1000) {
+						selectedCastle.setTresor(selectedCastle.getTresor() - 1000);
 						tabOfProduction.add("Onagre");
 					}
 					// Gere annulation du dernier element de la liste
