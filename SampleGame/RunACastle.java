@@ -52,8 +52,22 @@ public class RunACastle {	// w : 1500 ; h : 1000 pour la map
 		else {
 			c.setTresor(c.getTresor() - u);
 		}
-	}
+	}	
 	
+	static void removeProduction(Castle c, ArrayList<String> p) {
+		if(p.get(0) == "Piquier") {
+			c.setTresor(c.getTresor() + new Piquier(c.getName()).getCout());
+		}
+		else if(p.get(0) =="Chevalier") {
+			c.setTresor(c.getTresor() + new Chevalier(c.getName()).getCout());
+		}
+		else if(p.get(0) == "Onagre") {
+			c.setTresor(c.getTresor() + new Onagre(c.getName()).getCout());
+		}
+		else if(p.get(0) == "Améliorer") {
+			c.setTresor(c.getTresor() + 1000*c.getNiveau());
+		}
+	}
 	
 
 	/* ----- GETTER ----- */

@@ -61,6 +61,8 @@ public class Main extends Application {
 	private int countTourProd = 0;
 	private int countSec = 0;
 	
+	private int lastCout = 0;
+	
 	Rectangle createInfos;
 	Rectangle createProduct;
 	
@@ -115,6 +117,7 @@ public class Main extends Application {
 					if(text == upgrade) {
 						if(!tabOfProduction.contains("Améliorer")) {
 							RunACastle.reduceTresor(selectedCastle);
+							lastCout = 1000 * selectedCastle.getNiveau();
 							tabOfProduction.add(text.getText());
 							status.setText(" ");
 						}
@@ -128,16 +131,19 @@ public class Main extends Application {
 					if(text == product) {
 						createProduction();
 					}
-					if(text == piquier) {
+					// Gere la production des troupes
+					if(text == piquier && selectedCastle.getTresor() >= 100) {
 						tabOfProduction.add("Piquier");
 					}
-					if(text == chevalier) {
+					if(text == chevalier && selectedCastle.getTresor() >= 500) {
 						tabOfProduction.add("Chevalier");
 					}
-					if(text == onagre) {
-						tabOfProduction.add("onagre");
+					if(text == onagre && selectedCastle.getTresor() >= 1000) {
+						tabOfProduction.add("Onagre");
 					}
-					if(text == remove) {
+					// Gere annulation du dernier element de la liste
+					if(text == remove && !tabOfProduction.isEmpty()) {
+						RunACastle.removeProduction(selectedCastle, tabOfProduction);
 						tabOfProduction.remove(tabOfProduction.size() - 1);
 					}
 					// Annulation de l'envoi de troupes
@@ -212,7 +218,9 @@ public class Main extends Application {
 					status.setText(selectedCastle.getName() + 
 					"\nNiveau : " + selectedCastle.getNiveau() +
 					"\nRevenu : " + selectedCastle.getRevenu() +
-					"\nTroupes : " + selectedCastle.getTabTroupes().size() +
+					"\nTroupes : " + RunACastle.countTroupes("Piquier", selectedCastle.getTabTroupes()) + "P | " + 
+					RunACastle.countTroupes("Chevalier", selectedCastle.getTabTroupes()) + "C | " + 
+					RunACastle.countTroupes("Onagre", selectedCastle.getTabTroupes()) + "O" +
 					"\nTresor : " + selectedCastle.getTresor() + " florins" +
 					"\nProduction : " + tabOfProduction.size() +
 					upLine.getText());
@@ -231,6 +239,24 @@ public class Main extends Application {
 				if(!tabOfProduction.isEmpty()) {
 					if(tabOfProduction.get(0) == "Améliorer" && countTourProd == (100 + 50*selectedCastle.getNiveau())) {
 						RunACastle.updateNiveau(selectedCastle); 
+						countTourProd = 0;
+						tabOfProduction.remove(0);
+					}
+					
+					else if(tabOfProduction.get(0) == "Piquier" && countTourProd == 5) {
+						selectedCastle.getTabTroupes().add(new Piquier(selectedCastle.getName()));
+						countTourProd = 0;
+						tabOfProduction.remove(0);
+					}
+					
+					else if(tabOfProduction.get(0) == "Chevalier" && countTourProd == 20) {
+						selectedCastle.getTabTroupes().add(new Chevalier(selectedCastle.getName()));
+						countTourProd = 0;
+						tabOfProduction.remove(0);
+					}
+					
+					else if(tabOfProduction.get(0) == "Onagre" && countTourProd == 50) {
+						selectedCastle.getTabTroupes().add(new Onagre(selectedCastle.getName()));
 						countTourProd = 0;
 						tabOfProduction.remove(0);
 					}
@@ -351,13 +377,7 @@ public class Main extends Application {
 	
 	// Affichage des informations du chateau
 	private void printInfos(Castle c) {
-		status = new Text(c.getName() + 
-				"\nNiveau : " + c.getNiveau() +
-				"\nRevenu : " + c.getRevenu() +
-				"\nTroupes : " + c.getTabTroupes().size() +
-				"\nTresor : " + c.getTresor() + " florins" +
-				"\nProduction : " + tabOfProduction +
-				"\n_________________"); 
+		status = new Text(" "); 
 		status.setLayoutX(30);
 		status.setLayoutY(30);
 		root.getChildren().add(status);
