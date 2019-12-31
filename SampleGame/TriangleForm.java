@@ -2,13 +2,16 @@ package SampleGame;
 
 
 public class TriangleForm extends GeometricForm {
-	private Coordonnee s1, s2, s3;
+	private Coordonnee s1 = new Coordonnee(0,0); 
+	private Coordonnee s2 = new Coordonnee(0,0);
+	private Coordonnee s3 = new Coordonnee(0,0);
 	private TeamColor color;
 	private String type = "triangle";
 	
 	TriangleForm(CastleDoor CastleDoor, TeamColor color,  int position){
 		Coordonnee door = CastleDoor.getCenter();
 		char direction = CastleDoor.getDirection();
+		System.out.println("X : " + door.getX() + " Y : " + door.getY());
 		if(direction == 'N' || direction == 'S') {
 			switch(position) {
 			case 1:

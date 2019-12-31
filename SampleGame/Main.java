@@ -241,28 +241,30 @@ public class Main extends Application {
 							}
 							else {
 								// Ajoute les troupes a l'OST
-								if(text == validate) {
+								if(text == validate && p != 0 && c != 0 && o != 0) {
 									// 0 : onagre | 1 : piquier | 2 : chevalier
 									int tab[] = new int[3];
 									tab[0] = o;
 									tab[1] = p;
 									tab[2] = c;
-									player.setTabTroupes(RunACastle.removeOST(player, tab));
-									OST ost = new OST(targetCastle.getName(),tab, "player", tabOfCastle);
+									//player.setTabTroupes(RunACastle.removeOST(player, tab));
+									OST ost = new OST(targetCastle.getName(),tab, "Player", tabOfCastle);
 									ArrayList<GeometricForm> tabOfGeometricForm = GeometricForm.tabOfGeometricForm(ost, tabOfCastle);
 									System.out.println(tabOfGeometricForm.size());
 									printUnites(tabOfGeometricForm);
-									System.out.println("Ajout des troupes à l'OST reussi");
+									System.out.println("Ajout des troupes ï¿½ l'OST reussi");
 									// Reinitialisation des variables troupes
 									p = 0;
 									c = 0;
 									o = 0;
 								}
 								// Enleve augmentation et diminution
-								up.setText(" ");
-								up = NULL;
-								down.setText(" ");
-								down = NULL;
+								if(up != NULL && down != NULL) {
+									up.setText(" ");
+									up = NULL;
+									down.setText(" ");
+									down = NULL;
+								}
 								// Enleve le texte des troupes
 								piquier.setText(" ");
 								piquier = NULL;
@@ -576,6 +578,7 @@ public class Main extends Application {
 					Rectangle onagre = new Rectangle(tabOfGeometricForm.get(i).getX(),tabOfGeometricForm.get(i).getY(),(double) tabOfGeometricForm.get(i).getWidth(),(double) tabOfGeometricForm.get(i).getHeight());
 					onagre.setFill(Color.rgb(r, g, b));
 					root.getChildren().add(onagre); 
+					break;
 				case "triangle":
 					System.out.println(tabOfGeometricForm.get(i).getType());
 					Polygon piquier = new Polygon();
@@ -585,11 +588,13 @@ public class Main extends Application {
 						    (double) tabOfGeometricForm.get(i).getS3().getX(), (double) tabOfGeometricForm.get(i).getS3().getY()});
 					piquier.setFill(Color.rgb(r, g, b));
 					root.getChildren().add(piquier); 
+					break;
 				case "circle":
 					System.out.println(tabOfGeometricForm.get(i).getType());
 					Circle chevalier = new Circle((double) tabOfGeometricForm.get(i).getX(),(double) tabOfGeometricForm.get(i).getY(),(double) tabOfGeometricForm.get(i).getRadius());
 					chevalier.setFill(Color.rgb(r, g, b));
 					root.getChildren().add(chevalier); 
+					break;
 				default:
 					System.out.println("erreur affichage troupe : type Unknow");
 					break;
