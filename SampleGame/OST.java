@@ -3,17 +3,53 @@ package SampleGame;
 import java.util.ArrayList;
 
 public class OST {
-	private int ostUnites[];
+	private ArrayList<Troupes> ostUnites;
 	private int MaxSpeed;
 	private String TargetName;
+	private TeamColor TeamColor;
+	private String owner;
 	
-	OST(){
-		this.ostUnites = new int[3];
-		this.MaxSpeed = 0;
-	}
 	
-	static void addInOST(int tab[]) {
-		
+	OST(String TargetName, int tab[], String owner, ArrayList<Castle> tabOfCastle) {
+		for(int i=0; i <tabOfCastle.size(); i++) {
+			if(tabOfCastle.get(i).getName() == owner) {
+				this.TeamColor = tabOfCastle.get(i).getColor();
+			}
+		}
+		this.owner = owner;
+		this.ostUnites = new  ArrayList<Troupes>();
+		this.TargetName = TargetName;
+		this.MaxSpeed = 6;
+		for(int i = 0; i < 3; i++) {
+			if(tab[i]!= 0) {
+				switch (i) {
+					case 0:
+						this.MaxSpeed = 1;
+						while(tab[i] > 0) {
+							this.ostUnites.add(new Onagre(owner));
+							tab[i]--;
+						}
+						break;
+					case 1:
+						if(this.MaxSpeed == 6) {
+							this.MaxSpeed = 2 ;
+						}
+						while(tab[i] > 0) {
+							this.ostUnites.add(new Piquier(owner));
+							tab[i]--;
+						}
+						break;
+					case 2:
+						while(tab[i] > 0) {
+							this.ostUnites.add(new Chevalier(owner));
+							tab[i]--;
+						}
+						break;
+					default: 
+						break;
+				}
+			}
+		}
 	}
 
 
@@ -24,21 +60,33 @@ public class OST {
 	public int getMaxSpeed() {
 		return MaxSpeed;
 	}
-	public int[] getOstUnites() {
+	public ArrayList<Troupes> getOstUnites() {
 		return ostUnites;
 	}
 
-	public void setOstUnites(int[] ostUnites) {
+	public void setOstUnites(ArrayList<Troupes> ostUnites) {
 		this.ostUnites = ostUnites;
 	}
 
 	public void setMaxSpeed(int maxSpeed) {
-		MaxSpeed = maxSpeed;
+		this.MaxSpeed = maxSpeed;
 	}
 	public String getTargetName() {
 		return TargetName;
 	}
 	public void setTargetName(String targetName) {
-		TargetName = targetName;
+		this.TargetName = targetName;
+	}
+	public TeamColor getTeamColor() {
+		return TeamColor;
+	}
+	public void setTeamColor(TeamColor TeamColor) {
+		this.TeamColor = TeamColor;
+	}
+	public void setOwner(String owner) {
+		this.owner = owner;
+	}
+	public String getOwner() {
+		return owner;
 	}
 }

@@ -9,6 +9,8 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.Pane; 
 import javafx.scene.paint.Color; 
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import javafx.stage.Stage; 
 
@@ -21,9 +23,7 @@ public class Main extends Application {
 	
 	private ArrayList<Castle> tabOfCastle = new ArrayList<>();
 	private ArrayList<Text> tabOfText = new ArrayList<>();
-	// 0 : piquier | 1 : chevalier | 2 : onagre
-	private int ostUnites[] = new int[3];
-	
+		
 	// Barre d'informations du chateau
 	private Text status = NULL;
 	// (appuyer) pour ameliorer pour le niveau
@@ -72,9 +72,7 @@ public class Main extends Application {
 	Rectangle createProduct;
 	
 	Pane root;
-	
-	OST ost = new OST();
-	
+		
 	Castle selectedCastle;
 	Castle targetCastle = NULLL;
 	Castle player;
@@ -244,12 +242,17 @@ public class Main extends Application {
 							else {
 								// Ajoute les troupes a l'OST
 								if(text == validate) {
-									ost.setTargetName(targetCastle.getName());
-									ostUnites[0] = o;
-									ostUnites[1] = p;
-									ostUnites[2] = c;
-									ost.setOstUnites(ostUnites);
-									player.setTabTroupes(RunACastle.removeOST(player, ostUnites));
+									// 0 : onagre | 1 : piquier | 2 : chevalier
+									int tab[] = new int[3];
+									tab[0] = o;
+									tab[1] = p;
+									tab[2] = c;
+									player.setTabTroupes(RunACastle.removeOST(player, tab));
+									OST ost = new OST(targetCastle.getName(),tab, "player", tabOfCastle);
+									ArrayList<GeometricForm> tabOfGeometricForm = GeometricForm.tabOfGeometricForm(ost, tabOfCastle);
+									System.out.println(tabOfGeometricForm.size());
+									printUnites(tabOfGeometricForm);
+									System.out.println("Ajout des troupes à l'OST reussi");
 									// Reinitialisation des variables troupes
 									p = 0;
 									c = 0;
@@ -560,7 +563,38 @@ public class Main extends Application {
 			root.getChildren().add(castle); 
 			root.getChildren().add(door); 
 		}
-		
+	}
+	
+	private void printUnites(ArrayList<GeometricForm> tabOfGeometricForm) {
+		int r = tabOfGeometricForm.get(0).getColor().r;
+		int g = tabOfGeometricForm.get(0).getColor().g;
+		int b = tabOfGeometricForm.get(0).getColor().b;
+		for(int i=0; i < tabOfGeometricForm.size(); i++) {
+			switch(tabOfGeometricForm.get(i).getType()){
+				case "rectangle":
+					System.out.println(tabOfGeometricForm.get(i).getType());
+					Rectangle onagre = new Rectangle(tabOfGeometricForm.get(i).getX(),tabOfGeometricForm.get(i).getY(),(double) tabOfGeometricForm.get(i).getWidth(),(double) tabOfGeometricForm.get(i).getHeight());
+					onagre.setFill(Color.rgb(r, g, b));
+					root.getChildren().add(onagre); 
+				case "triangle":
+					System.out.println(tabOfGeometricForm.get(i).getType());
+					Polygon piquier = new Polygon();
+					piquier.getPoints().addAll(new Double[]{
+						    (double) tabOfGeometricForm.get(i).getS1().getX(), (double) tabOfGeometricForm.get(i).getS1().getY(),
+						    (double) tabOfGeometricForm.get(i).getS2().getX(), (double) tabOfGeometricForm.get(i).getS2().getY(),
+						    (double) tabOfGeometricForm.get(i).getS3().getX(), (double) tabOfGeometricForm.get(i).getS3().getY()});
+					piquier.setFill(Color.rgb(r, g, b));
+					root.getChildren().add(piquier); 
+				case "circle":
+					System.out.println(tabOfGeometricForm.get(i).getType());
+					Circle chevalier = new Circle((double) tabOfGeometricForm.get(i).getX(),(double) tabOfGeometricForm.get(i).getY(),(double) tabOfGeometricForm.get(i).getRadius());
+					chevalier.setFill(Color.rgb(r, g, b));
+					root.getChildren().add(chevalier); 
+				default:
+					System.out.println("erreur affichage troupe : type Unknow");
+					break;
+			}
+		}
 	}
 	
 	public static void main(String[] args) {
