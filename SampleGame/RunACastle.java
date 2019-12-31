@@ -85,8 +85,23 @@ public class RunACastle {	// w : 1500 ; h : 1000 pour la map
 			return 0;
 		}
 	}
-
-	/* ----- GETTER ----- */
-	/* ----- SETTER ----- */
-
+	// o p c
+	static ArrayList<Troupes> removeOST(Castle c, int ost[]) {
+		for(int i = 0; i < ost[0]; i++) {
+			if(c.getTabTroupes().get(i).getName() == "Onagre") {
+				c.getTabTroupes().remove(i);
+			}
+		}
+		for(int i = 0; i < ost[1]; i++) {
+			if(c.getTabTroupes().get(i).getName() == "Piquier") {
+				c.getTabTroupes().remove(i);
+			}
+		}
+		for(int i = 0; i < ost[2]; i++) {
+			if(c.getTabTroupes().get(i).getName() == "Chevalier") {
+				c.getTabTroupes().remove(i);
+			}
+		}
+		return c.getTabTroupes();
+	}
 }
