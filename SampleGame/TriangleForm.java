@@ -11,7 +11,6 @@ public class TriangleForm extends GeometricForm {
 	TriangleForm(CastleDoor CastleDoor, TeamColor color,  int position){
 		Coordonnee door = CastleDoor.getCenter();
 		char direction = CastleDoor.getDirection();
-		System.out.println("X : " + door.getX() + " Y : " + door.getY());
 		if(direction == 'N' || direction == 'S') {
 			switch(position) {
 			case 1:
