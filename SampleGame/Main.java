@@ -23,6 +23,7 @@ public class Main extends Application {
 	
 	private ArrayList<Castle> tabOfCastle = new ArrayList<>();
 	private ArrayList<Text> tabOfText = new ArrayList<>();
+	private ArrayList<OST> tabOfOST = new ArrayList<>();
 		
 	// Barre d'informations du chateau
 	private Text status = NULL;
@@ -56,6 +57,7 @@ public class Main extends Application {
 	private Text upLine = new Text("\n_________________");
 	
 	private String troupeToChange;
+	private Text troupeToColor = NULL;
 	
 	// Troupes a envoyer dans l'OST
 	private int p = 0;
@@ -158,14 +160,23 @@ public class Main extends Application {
 							if((text == piquier || text == chevalier || text == onagre) && up == NULL && down == NULL) {
 								createButtonUpDown();
 							}
+							if(troupeToColor != NULL) {
+								troupeToColor.setFill(Color.BLACK);
+							}
 							if(text == piquier) {
 								troupeToChange = "Piquier";
+								troupeToColor = piquier;
 							}
 							else if(text == chevalier) {
 								troupeToChange = "Chevalier";
+								troupeToColor = chevalier;
 							}
 							else if(text == onagre) {
 								troupeToChange = "Onagre";
+								troupeToColor = onagre;
+							}
+							if(troupeToColor != NULL) {
+								troupeToColor.setFill(Color.DARKTURQUOISE);
 							}
 							// Augmentation du nombre de troupes
 							if(text == up) {
@@ -248,10 +259,13 @@ public class Main extends Application {
 									tab[1] = p;
 									tab[2] = c;
 									OST ost = new OST(targetCastle.getName(),tab, "Player", tabOfCastle);
+									// Affichage des ost
 									ArrayList<GeometricForm> tabOfGeometricForm = GeometricForm.tabOfGeometricForm(ost, tabOfCastle);
-									player.setTabTroupes(RunACastle.removeOST(player, tab));
-									printUnites(tabOfGeometricForm);
-									System.out.println("Ajout des troupes � l'OST reussi");
+									player.setTabTroupes(Troupes.createTroupes(player.getName(), RunACastle.countTroupes("Piquier", player.getTabTroupes()) - p, RunACastle.countTroupes("Chevalier", player.getTabTroupes()) - c,RunACastle.countTroupes("Onagre", player.getTabTroupes()) - o));									
+									printUnites(ost, tabOfGeometricForm);
+									OST.distanceCastles(tabOfCastle, ost, targetCastle);
+									ost.setInMovment(true);
+									tabOfOST.add(ost);
 									// Reinitialisation des variables troupes
 									p = 0;
 									c = 0;
@@ -265,12 +279,14 @@ public class Main extends Application {
 									down = NULL;
 								}
 								// Enleve le texte des troupes
-								piquier.setText(" ");
-								piquier = NULL;
-								chevalier.setText(" ");
-								chevalier = NULL;
-								onagre.setText(" ");
-								onagre = NULL;
+								if(targetCastle != NULLL) {
+									piquier.setText(" ");
+									piquier = NULL;
+									chevalier.setText(" ");
+									chevalier = NULL;
+									onagre.setText(" ");
+									onagre = NULL;
+								}
 								// Enleve le texte chateau cible
 								targetText.setText(" ");
 								targetText = NULL;
@@ -362,7 +378,13 @@ public class Main extends Application {
 						product.setText("> Produire <");
 					}
 					countTourProd = 0;
-				}
+				}	
+				
+				tabOfOST.forEach(ost -> {
+					if(ost.getInMovment() == true) {
+						OST.move(ost);
+					}
+				});
 				
 				// Compte les secondes du jeu
 				if(countSec == 60) {
@@ -566,32 +588,35 @@ public class Main extends Application {
 		}
 	}
 	
-	private void printUnites(ArrayList<GeometricForm> tabOfGeometricForm) {
+	private void printUnites(OST ost, ArrayList<GeometricForm> tabOfGeometricForm) {
+		ArrayList<Rectangle> rTab = new ArrayList<>();
+		ArrayList<Circle> cTab = new ArrayList<>();
+		ArrayList<Polygon> pTab = new ArrayList<>();
 		int r = tabOfGeometricForm.get(0).getColor().r;
 		int g = tabOfGeometricForm.get(0).getColor().g;
 		int b = tabOfGeometricForm.get(0).getColor().b;
 		for(int i=0; i < tabOfGeometricForm.size(); i++) {
 			switch(tabOfGeometricForm.get(i).getType()){
 				case "rectangle":
-					System.out.println(tabOfGeometricForm.get(i).getType());
 					Rectangle onagre = new Rectangle(tabOfGeometricForm.get(i).getX(),tabOfGeometricForm.get(i).getY(),(double) tabOfGeometricForm.get(i).getWidth(),(double) tabOfGeometricForm.get(i).getHeight());
 					onagre.setFill(Color.rgb(r, g, b));
+					rTab.add(onagre);
 					root.getChildren().add(onagre); 
 					break;
 				case "triangle":
-					System.out.println(tabOfGeometricForm.get(i).getType());
 					Polygon piquier = new Polygon();
 					piquier.getPoints().addAll(new Double[]{
 						    (double) tabOfGeometricForm.get(i).getS1().getX(), (double) tabOfGeometricForm.get(i).getS1().getY(),
 						    (double) tabOfGeometricForm.get(i).getS2().getX(), (double) tabOfGeometricForm.get(i).getS2().getY(),
 						    (double) tabOfGeometricForm.get(i).getS3().getX(), (double) tabOfGeometricForm.get(i).getS3().getY()});
 					piquier.setFill(Color.rgb(r, g, b));
+					pTab.add(piquier);
 					root.getChildren().add(piquier); 
 					break;
 				case "circle":
-					System.out.println(tabOfGeometricForm.get(i).getType());
 					Circle chevalier = new Circle((double) tabOfGeometricForm.get(i).getX(),(double) tabOfGeometricForm.get(i).getY(),(double) tabOfGeometricForm.get(i).getRadius());
 					chevalier.setFill(Color.rgb(r, g, b));
+					cTab.add(chevalier);
 					root.getChildren().add(chevalier); 
 					break;
 				default:
@@ -599,6 +624,9 @@ public class Main extends Application {
 					break;
 			}
 		}
+		ost.setCircle(cTab);
+		ost.setPolygon(pTab);
+		ost.setRectangle(rTab);
 	}
 	
 	public static void main(String[] args) {

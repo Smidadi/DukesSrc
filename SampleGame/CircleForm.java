@@ -1,6 +1,5 @@
 package SampleGame;
 
-
 public class CircleForm extends GeometricForm {
 	private int x;
 	private int y;
@@ -48,13 +47,16 @@ public class CircleForm extends GeometricForm {
 		}
 		this.radius = 5;
 		this.color = color;
-	 }
-
-	
+	 }	 
 	 
 	/* ----- GETTER ----- */
 	/* ----- SETTER ----- */
 	 
+	@Override
+	public String toString() {
+		return type;
+	}
+
 	public int getX() {
 			return x;
 	}

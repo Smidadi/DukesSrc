@@ -56,6 +56,11 @@ class RectangleForm extends GeometricForm {
 	/* ----- GETTER ----- */
 	/* ----- SETTER ----- */
 	
+	@Override
+	public String toString() {
+		return type;
+	}
+	
 	public int getWidth() {
 		return width;
 	}

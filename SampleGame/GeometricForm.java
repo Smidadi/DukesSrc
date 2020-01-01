@@ -32,10 +32,9 @@ public abstract class GeometricForm {
 				}
 			}
 		}
-		System.out.println("fin creation" + tabOfGeometricForm.size());
 		return tabOfGeometricForm;
 	}
-	
+
 	/* ----- GETTER ----- */
 	/* ----- SETTER ----- */
 	

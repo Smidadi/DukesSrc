@@ -57,10 +57,16 @@ public class TriangleForm extends GeometricForm {
 	/* ----- GETTER ----- */
 	/* ----- SETTER ----- */
 	
+	@Override
+	public String toString() {
+		return type;
+	}
+
 	
 	public Coordonnee getS1() {
 		return s1;
 	}
+	
 	public void setS1(Coordonnee s1) {
 		this.s1 = s1;
 	}
