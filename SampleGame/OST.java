@@ -112,14 +112,37 @@ public class OST {
 				moveC(ost, "RIGHT", ost.getCircle().get(i));
 			}
 			// UP OR DOWN
-			if(ost.getCircle().get(i).getCenterX() == ost.getX() && ost.getCircle().get(i).getCenterY() != ost.getY()) {
+			if(ost.getCircle().get(i).getCenterX() == ost.getX()) {
 				// UP
-				if(player.getCastle().getCenter().getY() > ost.getY()) {
+				if(player.getCastle().getCenter().getY() > ost.getY() && ost.getCircle().get(i).getCenterY() != ost.getY()) {
 					moveC(ost, "UP", ost.getCircle().get(i));
 				}
 				// DOWN
 				else if(player.getCastle().getCenter().getY() < ost.getY() && ost.getCircle().get(i).getCenterY() != ost.getY()) {
 					moveC(ost, "DOWN", ost.getCircle().get(i));
+				}
+			}
+		}
+		// POLYGON
+		for(int i = 0; i < ost.getPolygon().size(); i++) {
+			ObservableList<Double> pos = ost.getPolygon().get(i).getPoints();
+			// LEFT
+			if(player.getCastle().getCenter().getX() > ost.getX() && pos.get(0) != ost.getX()) {
+				moveP(ost, "LEFT", ost.getPolygon().get(i));
+			}
+			// RIGHT
+			else if(player.getCastle().getCenter().getX() < ost.getX() && pos.get(0) != ost.getX()) {
+				moveP(ost, "RIGHT", ost.getPolygon().get(i));
+			}
+			// UP OR DOWN
+			if(pos.get(0) == ost.getX()) {
+				// UP
+				if(player.getCastle().getCenter().getY() > ost.getY() && pos.get(1) != ost.getY()) {
+					moveP(ost, "UP", ost.getPolygon().get(i));
+				}
+				// DOWN
+				else if(player.getCastle().getCenter().getY() < ost.getY() && pos.get(1) != ost.getY()) {
+					moveP(ost, "DOWN", ost.getPolygon().get(i));
 				}
 			}
 		}
@@ -199,62 +222,53 @@ public class OST {
 		}
 	}
 	
-	
-	/*static void moveR(OST ost, Rectangle r, Castle targetCastle, String direction) {
-		if(direction == "left" && ost.getX() < r.getX()) {
-			r.setX(r.getX() - ost.getMaxSpeed());
-		}
-		else if(direction == "right" && ost.getX() > r.getX()) {
-			r.setX(r.getX() + ost.getMaxSpeed());
-		}
-		else {
-			if(ost.getY() < r.getY()) {
-				r.setY(r.getY() - ost.getMaxSpeed());
-			}
-			else if(ost.getY() > r.getY()) {
-				r.setY(r.getY() + ost.getMaxSpeed());
-			}
-		}
-	}
-	
-	static void moveC(OST ost, Circle c, Castle targetCastle) { 
-		if(c.getCenterX() > ost.getX()) {
-			if()
-		}
-			//c.setCenterX(c.getCenterX() - ost.getMaxSpeed());
-		else if(ost.getX() > c.getCenterX()) {
-			c.setCenterX(c.getCenterX() + ost.getMaxSpeed());
-		}
-		else {
-			if(ost.getY() < c.getCenterY()) {
-				c.setCenterY(c.getCenterY() - ost.getMaxSpeed());
-			}
-			else if(ost.getY() > c.getCenterY()) {
-				c.setCenterY(c.getCenterY() + ost.getMaxSpeed());
-			}
-		}
-	}*/
-	
-	static void moveP(OST ost, Polygon p, Castle targetCastle) {
+	static void moveP(OST ost, String dir, Polygon p) {
 		ObservableList<Double> pos = p.getPoints();
-		if(ost.getX() < pos.get(0)) {
-			pos.set(0, pos.get(0) - ost.getMaxSpeed());
-			pos.set(2, pos.get(2) - ost.getMaxSpeed());
-			pos.set(4, pos.get(4) - ost.getMaxSpeed());
-			//p.setLayoutX(pos.get(0));
+		//System.out.println("Ciblex : " + ost.getX() + " | Px : " + pos.get(0));
+		
+		if(dir == "LEFT") {
+			if(pos.get(0) < ost.getX()) {
+				pos.set(0, (double) ost.getX());
+				pos.set(2, (double) ost.getX() - Coordonnee.distance(pos.get(0), pos.get(2)));
+				pos.set(4, (double) ost.getX() + Coordonnee.distance(pos.get(0), pos.get(4)));
+			}
+			else {
+				pos.set(0, pos.get(0) - ost.getMaxSpeed());
+				pos.set(2, pos.get(2) - ost.getMaxSpeed());
+				pos.set(4, pos.get(4) - ost.getMaxSpeed());
+			}
 		}
-		else if(ost.getX() > pos.get(0)) {
-			pos.set(0, pos.get(0) + ost.getMaxSpeed());
-			pos.set(2, pos.get(2) + ost.getMaxSpeed());
-			pos.set(4, pos.get(4) + ost.getMaxSpeed());
+		else if(dir == "RIGHT") {
+			if(pos.get(0) > ost.getX()) {
+				pos.set(0, (double) ost.getX());
+				pos.set(2, (double) ost.getX() - Coordonnee.distance(pos.get(0), pos.get(2)));
+				pos.set(4, (double) ost.getX() + Coordonnee.distance(pos.get(0), pos.get(4)));
+			}
+			else {
+				pos.set(0, pos.get(0) + ost.getMaxSpeed());
+				pos.set(2, pos.get(2) + ost.getMaxSpeed());
+				pos.set(4, pos.get(4) + ost.getMaxSpeed());
+			}
 		}
-		else {
-			if(ost.getY() < pos.get(1)) {
+		else if(dir == "UP") {
+			if(pos.get(1) < ost.getY()) {
+				pos.set(1, (double) ost.getY());
+				pos.set(3, (double) ost.getY() - Coordonnee.distance(pos.get(1), pos.get(3)));
+				pos.set(5, (double) ost.getY() + Coordonnee.distance(pos.get(1), pos.get(5)));
+			}
+			else {
 				pos.set(1, pos.get(1) - ost.getMaxSpeed());
 				pos.set(3, pos.get(3) - ost.getMaxSpeed());
 				pos.set(5, pos.get(5) - ost.getMaxSpeed());
 			}
-			else if(ost.getY() > pos.get(1)) {
+		}
+		else if(dir == "DOWN") {
+			if(pos.get(1) > ost.getY()) {
+				pos.set(1, (double) ost.getY());
+				pos.set(3, (double) ost.getY() - Coordonnee.distance(pos.get(1), pos.get(3)));
+				pos.set(5, (double) ost.getY() + Coordonnee.distance(pos.get(1), pos.get(5)));
+			}
+			else {
 				pos.set(1, pos.get(1) + ost.getMaxSpeed());
 				pos.set(3, pos.get(3) + ost.getMaxSpeed());
 				pos.set(5, pos.get(5) + ost.getMaxSpeed());

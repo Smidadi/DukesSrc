@@ -32,6 +32,10 @@ public class Coordonnee {
 	public static int distance(int x1, int x2) {
 		return (int) Math.sqrt((x1-x2)*(x1-x2));
 	}
+	
+	public static double distance(double x1, double x2) {
+		return (double) Math.sqrt((x1-x2)*(x1-x2));
+	}
 
 	@Override
 	public String toString() {

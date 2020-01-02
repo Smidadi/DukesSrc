@@ -89,7 +89,7 @@ public class Main extends Application {
 		primaryStage.show(); 
 		
 		// create castle
-		tabOfCastle = Build(1,5);
+		tabOfCastle = Build(1,8);
 		player = tabOfCastle.get(0);
 		printAllCastle(tabOfCastle, root);		
 		
