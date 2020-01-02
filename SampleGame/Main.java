@@ -77,6 +77,7 @@ public class Main extends Application {
 		
 	Castle selectedCastle;
 	Castle targetCastle = NULLL;
+	Castle target;
 	Castle player;
 	
 	@Override 
@@ -116,6 +117,7 @@ public class Main extends Application {
 					// Choix de la cible du chateau
 					if(targetText != NULL && targetCastle == NULLL) {
 						targetCastle = castle;
+						target = castle;
 						targetText.setText("Cible : " + targetCastle.getName());
 					}
 					else if(targetText == NULL && inProduction == NULL) {
@@ -390,12 +392,11 @@ public class Main extends Application {
 				tabOfOST.forEach(ost -> {
 					if(ost.getInMovment() == true && ost.getOwner() == player.getName()) {
 						OST.move(root, ost, player, targetCastle);
-					}
-						OST.move(root, ost, player, targetCastle);
 						if(ost.getCanAttack() == true) {
-							Troupes.attackACastle(ost.getOstUnites(), targetCastle.getTabTroupes());
+							Troupes.attackACastle(ost.getOstUnites(), target.getTabTroupes());
 						}
-                    });
+					}
+                });
 				
 				// Compte les secondes du jeu
 				if(countSec == 60) {

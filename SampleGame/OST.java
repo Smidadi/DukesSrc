@@ -131,7 +131,7 @@ public class OST {
 			if(ost.getCircle().get(i).getCenterX() == ost.getX() && ost.getCircle().get(i).getCenterY() == ost.getY()) {
 				ost.setCanAttack(true);
 				root.getChildren().remove(ost.getCircle().get(i));
-				ost.getCircle().remove(ost.getCircle().get(i));
+				//ost.getCircle().remove(ost.getCircle().get(i));
 			}
 			
 		}
@@ -160,7 +160,7 @@ public class OST {
 			if(pos.get(0) == ost.getX() && pos.get(1) == ost.getY()) {
 				ost.setCanAttack(true);
 				root.getChildren().remove(ost.getPolygon().get(i));
-				ost.getPolygon().remove(ost.getPolygon().get(i));
+				//ost.getPolygon().remove(ost.getPolygon().get(i));
 			}
 		}
 	}

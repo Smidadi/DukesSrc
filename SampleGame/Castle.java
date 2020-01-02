@@ -45,7 +45,7 @@ public class Castle {
 			this.name = "Baron " + Integer.toString(nb);
 			this.niveau = 1 + (int) Math.random() * 5;
 			this.tresor = 500 + (int) Math.random() * 1001;	// 500 - 1500			
-			//this.tabTroupes = Troupes.createTroupes(1 + (int) Math.random() * 5, 1 + (int) Math.random() * 5, 1 + (int) Math.random() * 5); // temporaire
+			this.tabTroupes = Troupes.createTroupes(this.name,2,2,2); // temporaire
 			this.Castle = new CastleStruct(type,tabOfCastle);
 			this.CastleDoor = new CastleDoor(this.Castle.getCenter(),type);
 			this.color = new TeamColor(128,128,128); //grey 
