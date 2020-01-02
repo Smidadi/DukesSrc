@@ -89,6 +89,7 @@ public class RunACastle {	// w : 1500 ; h : 1000 pour la map
 			return 0;
 		}
 	}
+	
 	// o p c
 	static ArrayList<Troupes> removeOST(Castle c, int ost[]) {
 		for(int i = 0; i < c.getTabTroupes().size(); i++) {
@@ -107,5 +108,18 @@ public class RunACastle {	// w : 1500 ; h : 1000 pour la map
 		}
 		System.out.println(c.getTabTroupes());
 		return c.getTabTroupes();
+	}
+	
+	static void changeOwner(ArrayList<Castle> tabOfCastle, Castle attacker, Castle defenser, ArrayList<Troupes> troopOfattacker) {
+		for(int i = 0; i<tabOfCastle.size(); i++) {
+			if(defenser.getName() == tabOfCastle.get(i).getName()) {
+				tabOfCastle.get(i).setName(attacker.getName());
+				tabOfCastle.get(i).getTabOfProduction().clear();
+				tabOfCastle.get(i).setColor(attacker.getColor());
+				for(int k = 0; k<troopOfattacker.size(); k++) {
+					tabOfCastle.get(i).getTabTroupes().add(troopOfattacker.get(k));
+				}
+			}
+		}
 	}
 }

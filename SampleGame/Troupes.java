@@ -58,16 +58,21 @@ public class Troupes {
 		return false;
 	}		
 		
-	public static void attackACastle(ArrayList<Troupes> attacker, ArrayList<Troupes> defenser) {	// Fonction recursive : attaque un chateau ennemi avec la troupe envoye par le chateau attaquant
-		if(defenser.size() == 0) {
-			//change owner + color + remove prod
+	public static Boolean attackACastle(ArrayList<Castle> tabOfCastle, Castle attacker, Castle defenser, ArrayList<Troupes> troopOfattacker, ArrayList<Troupes> troopOfdefenser) {	// Fonction recursive : attaque un chateau ennemi avec la troupe envoye par le chateau attaquant
+		if(troopOfdefenser.size() == 0) {
+			RunACastle.changeOwner(tabOfCastle, attacker, defenser, troopOfattacker);
+			return true;
 		}else {
-			for(int i=0; i<attacker.size(); i++) {
-				if(doDamage(attacker.get(i), defenser) == true) {
-					//change owner + color + remove prod
-					return;
+			for(int i=0; i<troopOfattacker.size(); i++) {
+				if(doDamage(troopOfattacker.get(i), troopOfdefenser) == true) {
+					troopOfattacker.remove(i);
+					RunACastle.changeOwner(tabOfCastle, attacker, defenser, troopOfattacker);
+					return true;
+				}else {
+					troopOfattacker.remove(i);
 				}
 			}
+			return false;
 		}
 	}
 

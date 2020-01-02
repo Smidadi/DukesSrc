@@ -393,7 +393,12 @@ public class Main extends Application {
 					if(ost.getInMovment() == true && ost.getOwner() == player.getName()) {
 						OST.move(root, ost, player, targetCastle);
 						if(ost.getCanAttack() == true) {
-							Troupes.attackACastle(ost.getOstUnites(), target.getTabTroupes());
+							if(Troupes.attackACastle(tabOfCastle, player, targetCastle, ost.getOstUnites(), target.getTabTroupes()) == true) {
+								int r = player.getColor().r;
+								int g = player.getColor().g;
+								int b = player.getColor().b;
+								targetCastle.getRectCastle().setFill(Color.rgb(r, g, b));
+							};
 						}
 					}
                 });
