@@ -3,7 +3,7 @@ package SampleGame;
 import java.util.ArrayList;
 
 public class RunACastle {	// w : 1500 ; h : 1000 pour la map
-			
+	
 	static public int countTroupes(String t, ArrayList<Troupes> tab) {
 		int cpt = 0;
 		switch(t) {
