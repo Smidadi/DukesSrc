@@ -98,7 +98,7 @@ public class Main extends Application {
 			public void handle(long now) {
 				// Ameliore le revenu + tresor du chateau
 				tabOfCastle.forEach(castle -> RunACastle.updateRevenu(castle));
-				if(countSec == 30) {
+				//if(countSec == 30) {
 					tabOfCastle.forEach(castle -> {
 						if(castle.getType() == "Baron") {
 							RunACastle.updateTresorBaron(castle);
@@ -107,7 +107,7 @@ public class Main extends Application {
 							RunACastle.updateTresor(castle); 
 						}
 					});
-				}
+				//}
 				
 				// Affiche les infos du chateau lors que l'on clique dessus
 				tabOfCastle.forEach(castle -> castle.getRectCastle().setOnMouseClicked(e -> {
@@ -397,6 +397,7 @@ public class Main extends Application {
 								int g = selectedCastle.getColor().g;
 								int b = selectedCastle.getColor().b;
 								target.getRectCastle().setFill(Color.rgb(r, g, b));
+								
 							}
 						}
 					}

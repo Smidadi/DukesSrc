@@ -9,13 +9,18 @@ public class Castle {
 	private String name;
 	private String owner;
 	private String type;
+	
 	private int niveau;
+	
 	private int tresor;	
 	private int revenu;
-	// private int production;  type : troops/amelioration + nb tours restant 
+	
 	private ArrayList<Troupes> tabTroupes = new ArrayList<Troupes>();
-	private ArrayList<String> tabOfProduction = new ArrayList<String>();
 	protected OST ost;
+	
+	private ArrayList<String> tabOfProduction = new ArrayList<String>();
+	private int TimeOfProduction;
+	
 	private CastleStruct Castle;
 	private CastleDoor CastleDoor;
 	private TeamColor color;
@@ -156,4 +161,11 @@ public class Castle {
 	public void setOwner(String owner) {
 		this.owner = owner;
 	}
+	public int getTimeOfProduction() {
+		return TimeOfProduction;
+	}
+	public void setTimeOfProduction(int timeOfProduction) {
+		TimeOfProduction = timeOfProduction;
+	}
+	
 }
