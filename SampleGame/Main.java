@@ -389,7 +389,6 @@ public class Main extends Application {
 				}	
 				
 				tabOfOST.forEach(ost -> {
-<<<<<<< HEAD
 					if(ost.getInMovment() == true && ost.getOwner() == selectedCastle.getName()) {
 						OST.move(root, ost, selectedCastle, target);
 						if(ost.getCanAttack() == true) {
@@ -397,20 +396,21 @@ public class Main extends Application {
 								int r = selectedCastle.getColor().r;
 								int g = selectedCastle.getColor().g;
 								int b = selectedCastle.getColor().b;
-=======
-					if(ost.getInMovment() == true && ost.getOwner() == player.getName()) {
-						OST.move(root, ost, player, target);
-						if(ost.getCanAttack() == true) {
-							if(Troupes.attackACastle(tabOfCastle, player, target, ost.getOstUnites(), target.getTabTroupes()) == true) {
-								int r = player.getColor().r;
-								int g = player.getColor().g;
-								int b = player.getColor().b;
->>>>>>> a65db2d15e7c14c1aeb1feb56710d3b7f55d3f44
-								target.getRectCastle().setFill(Color.rgb(r, g, b));
-							};
+							}
 						}
 					}
-                });
+					if(ost.getInMovment() == true && ost.getOwner() == selectedCastle.getName()) {
+						OST.move(root, ost, selectedCastle, target);
+						if(ost.getCanAttack() == true) {
+							if(Troupes.attackACastle(tabOfCastle, selectedCastle, target, ost.getOstUnites(), target.getTabTroupes()) == true) {
+								int r = selectedCastle.getColor().r;
+								int g = selectedCastle.getColor().g;
+								int b = selectedCastle.getColor().b;
+								target.getRectCastle().setFill(Color.rgb(r, g, b));
+							}
+						}
+					}
+				});
 				
 				// Compte les secondes du jeu
 				if(countSec == 60) {
