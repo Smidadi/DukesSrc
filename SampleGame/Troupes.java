@@ -15,19 +15,19 @@ public class Troupes {
 	protected TeamColor Color;
 	
 	
-	public static ArrayList<Troupes> createTroupes(String CastleName, int p, int c, int o) {
+	public static ArrayList<Troupes> createTroupes(String owner, int p, int c, int o) {
 		ArrayList<Troupes> tab = new ArrayList<Troupes>();
 		
 		for(int i = 0; i < p; i++) {
-			tab.add(new Piquier(CastleName));
+			tab.add(new Piquier(owner));
 		}
 		
 		for(int i = 0; i < c; i++) {
-			tab.add(new Chevalier(CastleName));
+			tab.add(new Chevalier(owner));
 		}
 		
 		for(int i = 0; i < o; i++) {
-			tab.add(new Onagre(CastleName));
+			tab.add(new Onagre(owner));
 		}
 		
 		return tab;
@@ -59,7 +59,7 @@ public class Troupes {
 	}		
 		
 	public static Boolean attackACastle(ArrayList<Castle> tabOfCastle, Castle attacker, Castle defenser, ArrayList<Troupes> troopOfattacker, ArrayList<Troupes> troopOfdefenser) {	
-		if(attacker.getName() == defenser.getName()) {
+		if(attacker.getOwner() == defenser.getOwner()) {
 			RunACastle.addReinforcement(tabOfCastle, attacker, defenser, troopOfattacker);
 		}
 		if(troopOfdefenser.size() == 0) {

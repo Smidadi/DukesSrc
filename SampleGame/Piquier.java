@@ -3,9 +3,9 @@ package SampleGame;
 
 public class Piquier extends Troupes {
 	
-	Piquier(String CastleName) {
+	Piquier(String owner) {
 		this.name = "Piquier";
-		this.Owner = CastleName;
+		this.Owner = owner;
 		this.cout = 100;
 		this.temps = 5;
 		this.vitesse = 2;

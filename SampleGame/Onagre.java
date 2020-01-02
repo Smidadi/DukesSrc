@@ -3,9 +3,9 @@ package SampleGame;
 
 public class Onagre extends Troupes {
 
-	Onagre( String CastleName) {
+	Onagre( String owner) {
 		this.name = "Onagre";
-		this.Owner = CastleName;
+		this.Owner = owner;
 		this.cout = 1000;
 		this.temps = 50;
 		this.vitesse = 1;

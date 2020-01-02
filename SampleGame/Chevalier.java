@@ -4,9 +4,9 @@ package SampleGame;
 
 public class Chevalier extends Troupes {
 	
-	Chevalier( String CastleName) {
+	Chevalier( String owner) {
 		this.name = "Chevalier";
-		this.Owner = CastleName;
+		this.Owner = owner;
 		this.cout = 500;
 		this.temps = 20;
 		this.vitesse = 6;

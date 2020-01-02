@@ -8,7 +8,7 @@ public abstract class GeometricForm {
 	static ArrayList<GeometricForm> tabOfGeometricForm( OST ost, ArrayList<Castle> tabOfCastle) {
 		ArrayList<GeometricForm> tabOfGeometricForm = new ArrayList<GeometricForm>();
 		for(int i=0; i<tabOfCastle.size(); i++) {
-			if(tabOfCastle.get(i).getName() == ost.getOwner()) {
+			if(tabOfCastle.get(i).getOwner() == ost.getOwner()) {
 				int pos = 1;
 				for(int k=0; k<ost.getOstUnites().size(); k++) {
 					switch (ost.getOstUnites().get(k).getName()) {

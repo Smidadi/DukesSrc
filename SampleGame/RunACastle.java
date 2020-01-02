@@ -4,26 +4,26 @@ import java.util.ArrayList;
 
 public class RunACastle {	// w : 1500 ; h : 1000 pour la map
 	
-	static public int countTroupes(String t, ArrayList<Troupes> tab) {
+	static public int countTroupes(String typeUnit, ArrayList<Troupes> tab) {
 		int cpt = 0;
-		switch(t) {
+		switch(typeUnit) {
 		case "Piquier" :
 			for(int i = 0; i < tab.size(); i++) {
-				if(tab.get(i).getName() == t) {
+				if(tab.get(i).getName() == typeUnit) {
 					cpt++;
 				}
 			}
 			return cpt;
 		case "Chevalier" :
 			for(int i = 0; i < tab.size(); i++) {
-				if(tab.get(i).getName() == t) {
+				if(tab.get(i).getName() == typeUnit) {
 					cpt++;
 				}
 			}
 			return cpt;
 		case "Onagre" :
 			for(int i = 0; i < tab.size(); i++) {
-				if(tab.get(i).getName() == t) {
+				if(tab.get(i).getName() == typeUnit) {
 					cpt++;
 				}
 			}
@@ -123,7 +123,8 @@ public class RunACastle {	// w : 1500 ; h : 1000 pour la map
 				}				
 			}
 		}
-	}
+	} 
+	
 	
 	static void addReinforcement(ArrayList<Castle> tabOfCastle, Castle attacker, Castle defenser, ArrayList<Troupes> troopOfattacker) {
 		for(int i = 0; i<tabOfCastle.size(); i++) {
