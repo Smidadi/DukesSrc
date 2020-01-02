@@ -389,6 +389,7 @@ public class Main extends Application {
 				}	
 				
 				tabOfOST.forEach(ost -> {
+<<<<<<< HEAD
 					if(ost.getInMovment() == true && ost.getOwner() == selectedCastle.getName()) {
 						OST.move(root, ost, selectedCastle, target);
 						if(ost.getCanAttack() == true) {
@@ -396,6 +397,15 @@ public class Main extends Application {
 								int r = selectedCastle.getColor().r;
 								int g = selectedCastle.getColor().g;
 								int b = selectedCastle.getColor().b;
+=======
+					if(ost.getInMovment() == true && ost.getOwner() == player.getName()) {
+						OST.move(root, ost, player, target);
+						if(ost.getCanAttack() == true) {
+							if(Troupes.attackACastle(tabOfCastle, player, target, ost.getOstUnites(), target.getTabTroupes()) == true) {
+								int r = player.getColor().r;
+								int g = player.getColor().g;
+								int b = player.getColor().b;
+>>>>>>> a65db2d15e7c14c1aeb1feb56710d3b7f55d3f44
 								target.getRectCastle().setFill(Color.rgb(r, g, b));
 							};
 						}
@@ -579,12 +589,12 @@ public class Main extends Application {
 	
 	private ArrayList<Castle> Build(int nbDuc, int nbBaron){
 		ArrayList<Castle> tabOfCastle = new ArrayList<Castle>();
-		tabOfCastle.add(new Castle("Player", tabOfCastle));
+		tabOfCastle.add(new Castle("Player", tabOfCastle, 0));
 		for(int i=0 ; i<nbDuc; i++) {
-			tabOfCastle.add(new Castle("Duc", tabOfCastle));
+			tabOfCastle.add(new Castle("Duc", tabOfCastle, i+1));
 		}
 		for(int i=0 ; i<nbBaron; i++) {
-			tabOfCastle.add(new Castle("Baron", tabOfCastle));
+			tabOfCastle.add(new Castle("Baron", tabOfCastle, i+1));
 		}
 		return tabOfCastle;
 	}
