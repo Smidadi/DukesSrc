@@ -7,6 +7,7 @@ import javafx.scene.shape.Rectangle;
 public class Castle {
 	
 	private String name;
+	private String owner;
 	private String type;
 	private int niveau;
 	private int tresor;	
@@ -23,15 +24,16 @@ public class Castle {
 	private Rectangle rectDoor;
 	
 	
-	Castle(String type, ArrayList<Castle> tabOfCastle) {
-		int nb = tabOfCastle.size();
+	Castle(String type, ArrayList<Castle> tabOfCastle, int nb) {
 		if(type == "Duc" || type == "Player") {
 			if(type == "Player") {
                 this.name = type;
+                this.owner = type;
                 this.color = new TeamColor(220,20,60);
             }
             else {
                 this.name = "Duc " + Integer.toString(nb);
+                this.owner = "Duc " + Integer.toString(nb);
                 this.color = new TeamColor();
 			}
 			this.niveau = 1;
@@ -43,6 +45,7 @@ public class Castle {
 		
 		if(type == "Baron") {
 			this.name = "Baron " + Integer.toString(nb);
+			this.owner = "Duc " + Integer.toString(nb);
 			this.niveau = 1 + (int) Math.random() * 5;
 			this.tresor = 500 + (int) Math.random() * 1001;	// 500 - 1500			
 			this.tabTroupes = Troupes.createTroupes(this.name,2,2,2); // temporaire
@@ -146,5 +149,11 @@ public class Castle {
 	}
 	public void setTabOfProduction(ArrayList<String> tabOfProduction) {
 		this.tabOfProduction = tabOfProduction;
+	}
+	public String getOwner() {
+		return owner;
+	}
+	public void setOwner(String owner) {
+		this.owner = owner;
 	}
 }
