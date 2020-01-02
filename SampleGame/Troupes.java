@@ -1,7 +1,6 @@
 package SampleGame;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Troupes {
 	
@@ -34,74 +33,45 @@ public class Troupes {
 		return tab;
 	}
 	
-	public void getDamage(ArrayList<Troupes> tab) {	// Fonction recursive : inflige degats a une troupe
-		// Choisir un random pour la troupe a eliminer		
-		Random r = new Random();
-		int rand = r.nextInt(tab.size());
-		Troupes troupe_to_attack = tab.get(rand);
-		
-		
-		// Preserver les valeurs de depart
-		int d = 0;
-		int v = troupe_to_attack.vie;
-		
-		// Degat inflige a la cible
-		troupe_to_attack.vie = troupe_to_attack.vie - this.degat;
-		
-		// Verification d'une cible morte ou non
-		if(troupe_to_attack.vie < 0) {
-			d = v - this.degat;
-			if(d < 0) {
-				d = -d;
-			}
-			tab.remove(troupe_to_attack);
-		}
-		
-		// Verification de toutes les troupes mortes
-		if(tab.isEmpty()) {
-			tab.clear();
-			d = 0;
-			// case winner
-		}
-		
-		// Appel recursif si degat en trop
-		if(d != 0 && !tab.isEmpty()) {
-			troupe_to_attack.degat = d;
-			troupe_to_attack.getDamage(tab);
-		}
-	}		
-	
 	public static void addToCastle(ArrayList<Troupes> tabTroupes, ArrayList<Troupes> troupesSend) {	// Ajout de la troupe envoyee a la troupe du chateau selectionne
 		for(int i = 0; i < troupesSend.size(); i++) {
 			tabTroupes.add(troupesSend.get(i));
 		}
 	}
 	
-	public static void attackACastle(ArrayList<Troupes> tabTroupes, ArrayList<Troupes> troupesSend) {	// Fonction recursive : attaque un chateau ennemi avec la troupe envoye par le chateau attaquant
-		// Choisir un random pour la troupe qui attaque		
-		Random r = new Random();
-		int rand = r.nextInt(troupesSend.size());
-		Troupes troupe_wich_attack = troupesSend.get(rand);	
+	public static Boolean doDamage(Troupes soldier, ArrayList<Troupes> defenser) {	// Fonction recursive : inflige des degats a une unité
+		// Choisir une unité aléatoire à attaquer	
+		int i = (int) (Math.random() * defenser.size());
 		
-		// Appel de la fonction attaquer
-		troupe_wich_attack.getDamage(tabTroupes);
-		troupesSend.remove(troupe_wich_attack);
+		while(soldier.degat != 0) {
+			if(defenser.isEmpty()) {
+				return true;
+			}
+			Troupes defenserUnderAttack = defenser.get(i);
+			defenserUnderAttack.vie = defenserUnderAttack.vie - 1;
+			soldier.degat = soldier.degat - 1;
+			if(defenserUnderAttack.vie == 0) {
+				defenser.remove(defenserUnderAttack);
+				i = (int) (Math.random() * defenser.size());
+			}
+		}
+		return false;
+	}		
 		
-		attackACastle(tabTroupes, troupesSend);
-		
-		// REGLER DANS CLASSE SUPP TABTROUPES VIDE
-		
-		// PENSER A UNE FONCTION SEDEFEND() POUR IA : isattack() dans classe supp
-		// creer fonction enMouvement(tab) avec troupes ï¿½ emmener
+	public static void attackACastle(ArrayList<Troupes> attacker, ArrayList<Troupes> defenser) {	// Fonction recursive : attaque un chateau ennemi avec la troupe envoye par le chateau attaquant
+		if(defenser.size() == 0) {
+			//change owner + color + remove prod
+		}else {
+			for(int i=0; i<attacker.size(); i++) {
+				if(doDamage(attacker.get(i), defenser) == true) {
+					//change owner + color + remove prod
+					return;
+				}
+			}
+		}
 	}
-	
-	public void defendHimself(ArrayList<Troupes> tabTroupes, ArrayList<Troupes> enemyTroupes) {	// Appel ï¿½ attackACastle avec une troupe ennemie comme attaquant
-		attackACastle(tabTroupes, enemyTroupes);
-	}
-	
-	static void printTroops(){
-		
-	}
+
+
 
 	/* ----- GETTER ----- */
 	/* ----- SETTER ----- */

@@ -14,8 +14,8 @@ public class Coordonnee {
 	
 
 	public Coordonnee() {
-		this.x = (int) (Settings.DOORSIZE + Settings.DUCSIZE + Math.random()* (Settings.SCENE_WIDTH - 2* (Settings.DOORSIZE + Settings.DUCSIZE)));
-		this.y = (int) (Settings.DOORSIZE + Settings.DUCSIZE + Math.random()* (Settings.SCENE_HEIGHT - 2* (Settings.DOORSIZE + Settings.DUCSIZE)));		
+		this.x = (int) (Settings.DOORSIZE + Settings.DUCSIZE + Math.random() * (Settings.SCENE_WIDTH - 2* (Settings.DOORSIZE + Settings.DUCSIZE)));
+		this.y = (int) (Settings.DOORSIZE + Settings.DUCSIZE + Math.random() * (Settings.SCENE_HEIGHT - 2* (Settings.DOORSIZE + Settings.DUCSIZE)));		
 	}
 
 	public Coordonnee(int dx, int dy) {
