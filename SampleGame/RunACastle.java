@@ -36,6 +36,10 @@ public class RunACastle {	// w : 1500 ; h : 1000 pour la map
 		c.setRevenu(c.getNiveau() * 10);
 	}
 	
+	static void updateTresorBaron(Castle c) {
+		c.setTresor(c.getTresor() + (int) (c.getRevenu() * 0.1));
+	}
+	
 	static void updateTresor(Castle c) {
 		c.setTresor(c.getTresor() + c.getRevenu());
 	}

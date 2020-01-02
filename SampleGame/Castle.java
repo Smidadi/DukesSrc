@@ -36,7 +36,7 @@ public class Castle {
 			}
 			this.niveau = 1;
 			this.tresor = 0;
-			this.tabTroupes = Troupes.createTroupes(this.name,4,2,2); // Temporary 			
+			this.tabTroupes = Troupes.createTroupes(this.name,4,6,8); // Temporary 			
 			this.Castle = new CastleStruct(type,tabOfCastle);
 			this.CastleDoor = new CastleDoor(this.Castle.getCenter(),type);
 		}
@@ -108,8 +108,8 @@ public class Castle {
 	public int getTresor() {
 		return tresor;
 	}
-	public void setTresor(int tresor) {
-		this.tresor = tresor;
+	public void setTresor(int d) {
+		this.tresor = d;
 	}
 	public int getRevenu() {
 		return revenu;

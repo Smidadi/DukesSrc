@@ -3,9 +3,11 @@ package SampleGame;
 import java.util.ArrayList;
 
 import javafx.collections.ObservableList;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
 public class OST {
 	private ArrayList<Troupes> ostUnites;
@@ -77,7 +79,7 @@ public class OST {
 		}
 	}
 	
-	public static void move(OST ost, Castle player, Castle targetCastle) {
+	public static void move(Pane root, OST ost, Castle player, Castle targetCastle) {
 		// RECTANGLE
 		for(int i = 0; i < ost.getRectangle().size(); i++) {
 			// LEFT
@@ -101,7 +103,8 @@ public class OST {
 			}
 			if(ost.getRectangle().get(i).getX() == ost.getX() && ost.getRectangle().get(i).getY() == ost.getY()) {
 				ost.setCanAttack(true);
-				ost.getRectangle().remove(ost.getRectangle().get(i));
+				root.getChildren().remove(ost.getRectangle().get(i));
+				//ost.getRectangle().remove(ost.getRectangle().get(i));
 			}
 		}
 		// CIRCLE
@@ -127,7 +130,10 @@ public class OST {
 			}
 			if(ost.getCircle().get(i).getCenterX() == ost.getX() && ost.getCircle().get(i).getCenterY() == ost.getY()) {
 				ost.setCanAttack(true);
+				root.getChildren().remove(ost.getCircle().get(i));
+				ost.getCircle().remove(ost.getCircle().get(i));
 			}
+			
 		}
 		// POLYGON
 		for(int i = 0; i < ost.getPolygon().size(); i++) {
@@ -153,6 +159,8 @@ public class OST {
 			}
 			if(pos.get(0) == ost.getX() && pos.get(1) == ost.getY()) {
 				ost.setCanAttack(true);
+				root.getChildren().remove(ost.getPolygon().get(i));
+				ost.getPolygon().remove(ost.getPolygon().get(i));
 			}
 		}
 	}
