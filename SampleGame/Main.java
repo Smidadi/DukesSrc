@@ -381,12 +381,12 @@ public class Main extends Application {
 				}	
 				
 				tabOfOST.forEach(ost -> {
-					if(ost.getInMovment() == true) {
+					if(ost.getInMovment() == true && ost.getOwner() == player.getName()) {
 						OST.move(ost, player, targetCastle);
-						if(ost.getCanAttack()) {
-							
+						if(ost.getCanAttack() == true) {
+							Troupes.attackACastle(ost.getOstUnites(), targetCastle.getTabTroupes());
 						}
-					}
+                    } 
 				});
 				
 				// Compte les secondes du jeu
