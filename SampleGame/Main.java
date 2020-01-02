@@ -128,7 +128,7 @@ public class Main extends Application {
 				// Interaction avec les zones de texte
 				tabOfText.forEach(text -> text.setOnMouseClicked(e -> { 
 					// Ameliore le niveau du chateau
-					if(selectedCastle.getName() == "Player") {
+					if(selectedCastle.getOwner() == "Player") {
 						if(text == upgrade) {
 							if(!selectedCastle.getTabOfProduction().contains("Améliorer")) {
 								RunACastle.reduceTresor(selectedCastle);
@@ -323,7 +323,7 @@ public class Main extends Application {
 					if(selectedCastle.getTresor() < 1000 * selectedCastle.getNiveau()) {
 						upgrade.setText(" ");
 					}
-					else if(selectedCastle.getTresor() >= 1000 * selectedCastle.getNiveau() && selectedCastle.getName() == "Player" && !selectedCastle.getTabOfProduction().contains("Améliorer")){
+					else if(selectedCastle.getTresor() >= 1000 * selectedCastle.getNiveau() && selectedCastle.getOwner() == "Player" && !selectedCastle.getTabOfProduction().contains("Améliorer")){
 						upgrade.setText("> Améliorer <\n" + 1000 * selectedCastle.getNiveau() +" florins");
 					}
 					status.setText(selectedCastle.getName() + 
@@ -335,7 +335,7 @@ public class Main extends Application {
 					"\nTresor : " + selectedCastle.getTresor() + " florins\n" +
 					upLine.getText());
 					
-					if(selectedCastle.getName() == "Player") {
+					if(selectedCastle.getOwner() == "Player") {
 						allProduction.setText("Production : " + selectedCastle.getTabOfProduction().size());
 						if(inProduction != NULL) {
 							inProduction.setText("Que voulez-vous produire ?" +
@@ -389,17 +389,7 @@ public class Main extends Application {
 				}	
 				
 				tabOfOST.forEach(ost -> {
-					if(ost.getInMovment() == true && ost.getOwner() == selectedCastle.getName()) {
-						OST.move(root, ost, selectedCastle, target);
-						if(ost.getCanAttack() == true) {
-							if(Troupes.attackACastle(tabOfCastle, selectedCastle, target, ost.getOstUnites(), target.getTabTroupes()) == true) {
-								int r = selectedCastle.getColor().r;
-								int g = selectedCastle.getColor().g;
-								int b = selectedCastle.getColor().b;
-							}
-						}
-					}
-					if(ost.getInMovment() == true && ost.getOwner() == selectedCastle.getName()) {
+					if(ost.getInMovment() == true /*&& ost.getOwner() == selectedCastle.getOwner()*/) {
 						OST.move(root, ost, selectedCastle, target);
 						if(ost.getCanAttack() == true) {
 							if(Troupes.attackACastle(tabOfCastle, selectedCastle, target, ost.getOstUnites(), target.getTabTroupes()) == true) {
@@ -562,7 +552,7 @@ public class Main extends Application {
 		}
 		
 		// Verifie si Envoyer des troupes est dans tabOfText pour eviter la superposition du texte
-		if(!tabOfText.contains(sendTroupes) && c.getName() == "Player") {
+		if(!tabOfText.contains(sendTroupes) && c.getOwner() == "Player") {
 			sendTroupes = new Text("> Envoyer des troupes <");
 			sendTroupes.setLayoutX(30);
 			sendTroupes.setLayoutY(150);
@@ -571,7 +561,7 @@ public class Main extends Application {
 		}
 		
 		// Verifie si Produire est dans tabOfText pour eviter la superposition du texte
-		if(!tabOfText.contains(product) && c.getName() == "Player") {
+		if(!tabOfText.contains(product) && c.getOwner() == "Player") {
 			product = new Text("> Produire <");
 			product.setLayoutX(140);
 			product.setLayoutY(110);
@@ -579,7 +569,7 @@ public class Main extends Application {
 			root.getChildren().add(product);
 		}
 		
-		if(c.getName() == "Player") {
+		if(c.getOwner() == "Player") {
 			allProduction = new Text("Production : " + c.getTabOfProduction().size());
 			allProduction.setLayoutX(30);
 			allProduction.setLayoutY(110);
