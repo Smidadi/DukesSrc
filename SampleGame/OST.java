@@ -24,6 +24,7 @@ public class OST {
 	private int dy;
 	
 	private boolean inMovment;
+	private boolean canAttack;
 	
 	OST(String TargetName, int tab[], String owner, ArrayList<Castle> tabOfCastle) {
 		for(int i=0; i <tabOfCastle.size(); i++) {
@@ -100,6 +101,9 @@ public class OST {
 					moveR(ost, "DOWN", ost.getRectangle().get(i));
 				}
 			}
+			if(ost.getRectangle().get(i).getX() == ost.getX() && ost.getRectangle().get(i).getY() == ost.getY()) {
+				ost.setCanAttack(true);
+			}
 		}
 		// CIRCLE
 		for(int i = 0; i < ost.getCircle().size(); i++) {
@@ -121,6 +125,9 @@ public class OST {
 				else if(player.getCastle().getCenter().getY() < ost.getY() && ost.getCircle().get(i).getCenterY() != ost.getY()) {
 					moveC(ost, "DOWN", ost.getCircle().get(i));
 				}
+			}
+			if(ost.getCircle().get(i).getCenterX() == ost.getX() && ost.getCircle().get(i).getCenterY() == ost.getY()) {
+				ost.setCanAttack(true);
 			}
 		}
 		// POLYGON
@@ -145,134 +152,152 @@ public class OST {
 					moveP(ost, "DOWN", ost.getPolygon().get(i));
 				}
 			}
+			if(pos.get(0) == ost.getX() && pos.get(1) == ost.getY()) {
+				ost.setCanAttack(true);
+			}
 		}
 	}
 	
 	static void moveR(OST ost, String dir, Rectangle r) {
 		//System.out.println("Ciblex : " + ost.getX() + " | Rx : " + r.getX());
 		//System.out.println("Cibley : " + ost.getY() + " | Ry : " + r.getY());
-		if(dir == "LEFT") {
+		switch(dir) {
+		case "LEFT" :
 			if(r.getX() < ost.getX()) {
 				r.setX(ost.getX());
 			}
 			else {
 				r.setX(r.getX() - ost.getMaxSpeed());
 			}
-		}
-		else if(dir == "RIGHT") {
+			break;
+		case "RIGHT" :
 			if(r.getX() > ost.getX()) {
 				r.setX(ost.getX());
 			}
 			else {
 				r.setX(r.getX() + ost.getMaxSpeed());
 			}
-		}
-		else if(dir == "UP") {
+			break;
+		case "UP" :
 			if(r.getY() < ost.getY()) {
 				r.setY(ost.getY());
 			}
 			else {
 				r.setY(r.getY() - ost.getMaxSpeed());
 			}
-		}
-		else if(dir == "DOWN") {
+			break;
+		case "DOWN" :
 			if(r.getY() > ost.getY()) {
 				r.setY(ost.getY());
 			}
 			else {
 				r.setY(r.getY() + ost.getMaxSpeed());
 			}
+			break;
+		default:
+			break;
 		}
 	}
 	
 	static void moveC(OST ost, String dir, Circle c) {
 		//System.out.println("Ciblex : " + ost.getX() + " | Rx : " + c.getCenterX());
 		//System.out.println("Cibley : " + ost.getY() + " | Ry : " + c.getCenterY());
-		if(dir == "LEFT") {
+		switch(dir) {
+		case "LEFT" :
 			if(c.getCenterX() < ost.getX()) {
 				c.setCenterX(ost.getX());
 			}
 			else {
 				c.setCenterX(c.getCenterX() - ost.getMaxSpeed());
 			}
-		}
-		else if(dir == "RIGHT") {
+			break;
+		case "RIGHT" :
 			if(c.getCenterX() > ost.getX()) {
 				c.setCenterX(ost.getX());
 			}
 			else {
 				c.setCenterX(c.getCenterX() + ost.getMaxSpeed());
 			}
-		}
-		else if(dir == "UP") {
+			break;
+		case "UP" :
 			if(c.getCenterY() < ost.getY()) {
 				c.setCenterY(ost.getY());
 			}
 			else {
 				c.setCenterY(c.getCenterY() - ost.getMaxSpeed());
 			}
-		}
-		else if(dir == "DOWN") {
+			break;
+		case "DOWN" :
 			if(c.getCenterY() > ost.getY()) {
 				c.setCenterY(ost.getY());
 			}
 			else {
 				c.setCenterY(c.getCenterY() + ost.getMaxSpeed());
 			}
+			break;
+		default:
+			break;
 		}
 	}
 	
 	static void moveP(OST ost, String dir, Polygon p) {
 		ObservableList<Double> pos = p.getPoints();
 		//System.out.println("Ciblex : " + ost.getX() + " | Px : " + pos.get(0));
-		
-		if(dir == "LEFT") {
+		switch(dir) {
+		case "LEFT" :
 			if(pos.get(0) < ost.getX()) {
-				pos.set(0, (double) ost.getX());
+				
 				pos.set(2, (double) ost.getX() - Coordonnee.distance(pos.get(0), pos.get(2)));
 				pos.set(4, (double) ost.getX() + Coordonnee.distance(pos.get(0), pos.get(4)));
+				pos.set(0, (double) ost.getX());
 			}
 			else {
 				pos.set(0, pos.get(0) - ost.getMaxSpeed());
 				pos.set(2, pos.get(2) - ost.getMaxSpeed());
 				pos.set(4, pos.get(4) - ost.getMaxSpeed());
 			}
-		}
-		else if(dir == "RIGHT") {
+			break;
+		case "RIGHT" :
 			if(pos.get(0) > ost.getX()) {
-				pos.set(0, (double) ost.getX());
+				
 				pos.set(2, (double) ost.getX() - Coordonnee.distance(pos.get(0), pos.get(2)));
 				pos.set(4, (double) ost.getX() + Coordonnee.distance(pos.get(0), pos.get(4)));
+				pos.set(0, (double) ost.getX());
 			}
 			else {
 				pos.set(0, pos.get(0) + ost.getMaxSpeed());
 				pos.set(2, pos.get(2) + ost.getMaxSpeed());
 				pos.set(4, pos.get(4) + ost.getMaxSpeed());
 			}
-		}
-		else if(dir == "UP") {
+			break;
+		case "UP" :
 			if(pos.get(1) < ost.getY()) {
-				pos.set(1, (double) ost.getY());
+				
 				pos.set(3, (double) ost.getY() - Coordonnee.distance(pos.get(1), pos.get(3)));
 				pos.set(5, (double) ost.getY() + Coordonnee.distance(pos.get(1), pos.get(5)));
+				pos.set(1, (double) ost.getY());
 			}
 			else {
 				pos.set(1, pos.get(1) - ost.getMaxSpeed());
 				pos.set(3, pos.get(3) - ost.getMaxSpeed());
 				pos.set(5, pos.get(5) - ost.getMaxSpeed());
 			}
-		}
-		else if(dir == "DOWN") {
+			break;
+		case "DOWN" :
 			if(pos.get(1) > ost.getY()) {
-				pos.set(1, (double) ost.getY());
+				
 				pos.set(3, (double) ost.getY() - Coordonnee.distance(pos.get(1), pos.get(3)));
 				pos.set(5, (double) ost.getY() + Coordonnee.distance(pos.get(1), pos.get(5)));
+				pos.set(1, (double) ost.getY());
 			}
 			else {
 				pos.set(1, pos.get(1) + ost.getMaxSpeed());
 				pos.set(3, pos.get(3) + ost.getMaxSpeed());
 				pos.set(5, pos.get(5) + ost.getMaxSpeed());
 			}
+			break;
+		default:
+			break;
 		}
 	}
 
@@ -359,5 +384,11 @@ public class OST {
 	}
 	public void setInMovment(boolean inMovment) {
 		this.inMovment = inMovment;
+	}
+	public boolean getCanAttack() {
+		return canAttack;
+	}
+	public void setCanAttack(boolean canAttack) {
+		this.canAttack = canAttack;
 	}
 }

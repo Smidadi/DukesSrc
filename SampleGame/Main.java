@@ -383,6 +383,9 @@ public class Main extends Application {
 				tabOfOST.forEach(ost -> {
 					if(ost.getInMovment() == true) {
 						OST.move(ost, player, targetCastle);
+						if(ost.getCanAttack()) {
+							
+						}
 					}
 				});
 				
