@@ -389,17 +389,13 @@ public class Main extends Application {
 				
 				tabOfOST.forEach(ost -> {
 					if(ost.getInMovment() == true && ost.getOwner() == player.getName()) {
-<<<<<<< HEAD
 						OST.move(root, ost, player, targetCastle);
 					}
-=======
-						OST.move(ost, player, targetCastle);
+						OST.move(root, ost, player, targetCastle);
 						if(ost.getCanAttack() == true) {
 							Troupes.attackACastle(ost.getOstUnites(), targetCastle.getTabTroupes());
 						}
-                    } 
->>>>>>> ea3d5fb73ded33302455fa5bab1963bbf23874c2
-				});
+                    });
 				
 				// Compte les secondes du jeu
 				if(countSec == 60) {
@@ -408,7 +404,6 @@ public class Main extends Application {
 				}
 				countSec++;
 			}
-
 		};
 		gameLoop.start();
 	}
