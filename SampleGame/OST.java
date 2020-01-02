@@ -71,10 +71,8 @@ public class OST {
 	public static void distanceCastles(ArrayList<Castle> tabOfCastle, OST ost, Castle targetCastle) {
 		for(int i = 0; i < tabOfCastle.size(); i++) {
 			if(tabOfCastle.get(i).getName() == ost.owner) {
-				ost.dx = tabOfCastle.get(i).getCastle().getCenter().getX() - targetCastle.getCastle().getCenter().getX();
-				ost.dy = tabOfCastle.get(i).getCastle().getCenter().getY() - targetCastle.getCastle().getCenter().getY();
-				ost.x = targetCastle.getCastle().getCenter().getX();
-				ost.y = targetCastle.getCastle().getCenter().getY();
+				ost.x = targetCastle.getCastleDoor().getCenter().getX();
+				ost.y = targetCastle.getCastleDoor().getCenter().getY();
 			}
 		}
 	}
@@ -103,6 +101,7 @@ public class OST {
 			}
 			if(ost.getRectangle().get(i).getX() == ost.getX() && ost.getRectangle().get(i).getY() == ost.getY()) {
 				ost.setCanAttack(true);
+				ost.getRectangle().remove(ost.getRectangle().get(i));
 			}
 		}
 		// CIRCLE
@@ -246,10 +245,10 @@ public class OST {
 		switch(dir) {
 		case "LEFT" :
 			if(pos.get(0) < ost.getX()) {
-				
-				pos.set(2, (double) ost.getX() - Coordonnee.distance(pos.get(0), pos.get(2)));
-				pos.set(4, (double) ost.getX() + Coordonnee.distance(pos.get(0), pos.get(4)));
 				pos.set(0, (double) ost.getX());
+				pos.set(2, (double) ost.getX() - Coordonnee.distance(pos.get(0), pos.get(2)));
+				pos.set(4, (double) ost.getX() + Coordonnee.distance(pos.get(0), pos.get(4)) + 2);
+
 			}
 			else {
 				pos.set(0, pos.get(0) - ost.getMaxSpeed());
@@ -259,10 +258,9 @@ public class OST {
 			break;
 		case "RIGHT" :
 			if(pos.get(0) > ost.getX()) {
-				
-				pos.set(2, (double) ost.getX() - Coordonnee.distance(pos.get(0), pos.get(2)));
-				pos.set(4, (double) ost.getX() + Coordonnee.distance(pos.get(0), pos.get(4)));
 				pos.set(0, (double) ost.getX());
+				pos.set(2, (double) ost.getX() - Coordonnee.distance(pos.get(0), pos.get(2)) + 2);
+				pos.set(4, (double) ost.getX() + Coordonnee.distance(pos.get(0), pos.get(4)));
 			}
 			else {
 				pos.set(0, pos.get(0) + ost.getMaxSpeed());
@@ -272,10 +270,9 @@ public class OST {
 			break;
 		case "UP" :
 			if(pos.get(1) < ost.getY()) {
-				
-				pos.set(3, (double) ost.getY() - Coordonnee.distance(pos.get(1), pos.get(3)));
-				pos.set(5, (double) ost.getY() + Coordonnee.distance(pos.get(1), pos.get(5)));
 				pos.set(1, (double) ost.getY());
+				pos.set(3, (double) ost.getY() - Coordonnee.distance(pos.get(1), pos.get(3)));
+				pos.set(5, (double) ost.getY() + Coordonnee.distance(pos.get(1), pos.get(5)));				
 			}
 			else {
 				pos.set(1, pos.get(1) - ost.getMaxSpeed());
@@ -285,10 +282,9 @@ public class OST {
 			break;
 		case "DOWN" :
 			if(pos.get(1) > ost.getY()) {
-				
-				pos.set(3, (double) ost.getY() - Coordonnee.distance(pos.get(1), pos.get(3)));
-				pos.set(5, (double) ost.getY() + Coordonnee.distance(pos.get(1), pos.get(5)));
 				pos.set(1, (double) ost.getY());
+				pos.set(3, (double) ost.getY() - Coordonnee.distance(pos.get(1), pos.get(3)));
+				pos.set(5, (double) ost.getY() + Coordonnee.distance(pos.get(1), pos.get(5)));				
 			}
 			else {
 				pos.set(1, pos.get(1) + ost.getMaxSpeed());
