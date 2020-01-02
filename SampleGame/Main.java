@@ -266,7 +266,7 @@ public class Main extends Application {
 									tab[0] = o;
 									tab[1] = p;
 									tab[2] = c;
-									OST ost = new OST(targetCastle.getName(),tab, "Player", tabOfCastle);
+									OST ost = new OST(targetCastle, tab, selectedCastle, tabOfCastle);
 									// Affichage des ost
 									ArrayList<GeometricForm> tabOfGeometricForm = GeometricForm.tabOfGeometricForm(ost, tabOfCastle);
 									selectedCastle.setTabTroupes(Troupes.createTroupes(selectedCastle.getName(), RunACastle.countTroupes("Piquier", selectedCastle.getTabTroupes()) - p, RunACastle.countTroupes("Chevalier", selectedCastle.getTabTroupes()) - c,RunACastle.countTroupes("Onagre", selectedCastle.getTabTroupes()) - o));									
@@ -390,7 +390,7 @@ public class Main extends Application {
 				
 				tabOfOST.forEach(ost -> {
 					if(ost.getInMovment() == true /*&& ost.getOwner() == selectedCastle.getOwner()*/) {
-						OST.move(root, ost, selectedCastle, target);
+						OST.move(root, ost, ost.getOwner(), ost.getTarget());
 						if(ost.getCanAttack() == true) {
 							if(Troupes.attackACastle(tabOfCastle, selectedCastle, target, ost.getOstUnites(), target.getTabTroupes()) == true) {
 								int r = selectedCastle.getColor().r;

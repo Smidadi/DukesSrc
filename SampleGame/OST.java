@@ -12,9 +12,9 @@ import javafx.util.Duration;
 public class OST {
 	private ArrayList<Troupes> ostUnites;
 	private int MaxSpeed;
-	private String TargetName;
+	private Castle Target;
 	private TeamColor TeamColor;
-	private String owner;
+	private Castle owner;
 	
 	private ArrayList<Rectangle> rectangle = new ArrayList<>();
 	private ArrayList<Circle> circle = new ArrayList<>();
@@ -28,15 +28,15 @@ public class OST {
 	private boolean inMovment;
 	private boolean canAttack;
 	
-	OST(String TargetName, int tab[], String owner, ArrayList<Castle> tabOfCastle) {
+	OST(Castle Target, int tab[], Castle owner, ArrayList<Castle> tabOfCastle) {
 		for(int i=0; i <tabOfCastle.size(); i++) {
-			if(tabOfCastle.get(i).getName() == owner) {
+			if(tabOfCastle.get(i).getName() == owner.getName()) {
 				this.TeamColor = tabOfCastle.get(i).getColor();
 			}
 		}
 		this.owner = owner;
 		this.ostUnites = new  ArrayList<Troupes>();
-		this.TargetName = TargetName;
+		this.Target = Target;
 		this.MaxSpeed = 6;
 		for(int i = 0; i < 3; i++) {
 			if(tab[i]!= 0) {
@@ -44,7 +44,7 @@ public class OST {
 					case 0:
 						this.MaxSpeed = 1;
 						while(tab[i] > 0) {
-							this.ostUnites.add(new Onagre(owner));
+							this.ostUnites.add(new Onagre(owner.getName()));
 							tab[i]--;
 						}
 						break;
@@ -53,13 +53,13 @@ public class OST {
 							this.MaxSpeed = 2 ;
 						}
 						while(tab[i] > 0) {
-							this.ostUnites.add(new Piquier(owner));
+							this.ostUnites.add(new Piquier(owner.getName()));
 							tab[i]--;
 						}
 						break;
 					case 2:
 						while(tab[i] > 0) {
-							this.ostUnites.add(new Chevalier(owner));
+							this.ostUnites.add(new Chevalier(owner.getName()));
 							tab[i]--;
 						}
 						break;
@@ -72,7 +72,7 @@ public class OST {
 	
 	public static void distanceCastles(ArrayList<Castle> tabOfCastle, OST ost, Castle targetCastle) {
 		for(int i = 0; i < tabOfCastle.size(); i++) {
-			if(tabOfCastle.get(i).getName() == ost.owner) {
+			if(tabOfCastle.get(i).getName() == ost.owner.getName()) {
 				ost.x = targetCastle.getCastleDoor().getCenter().getX();
 				ost.y = targetCastle.getCastleDoor().getCenter().getY();
 			}
@@ -102,9 +102,8 @@ public class OST {
 				}
 			}
 			if(ost.getRectangle().get(i).getX() == ost.getX() && ost.getRectangle().get(i).getY() == ost.getY()) {
-				ost.setCanAttack(true);
 				root.getChildren().remove(ost.getRectangle().get(i));
-				//ost.getRectangle().remove(ost.getRectangle().get(i));
+				ost.getRectangle().remove(ost.getRectangle().get(i));
 			}
 		}
 		// CIRCLE
@@ -129,9 +128,8 @@ public class OST {
 				}
 			}
 			if(ost.getCircle().get(i).getCenterX() == ost.getX() && ost.getCircle().get(i).getCenterY() == ost.getY()) {
-				ost.setCanAttack(true);
 				root.getChildren().remove(ost.getCircle().get(i));
-				//ost.getCircle().remove(ost.getCircle().get(i));
+				ost.getCircle().remove(ost.getCircle().get(i));
 			}
 			
 		}
@@ -158,10 +156,13 @@ public class OST {
 				}
 			}
 			if(pos.get(0) == ost.getX() && pos.get(1) == ost.getY()) {
-				ost.setCanAttack(true);
 				root.getChildren().remove(ost.getPolygon().get(i));
-				//ost.getPolygon().remove(ost.getPolygon().get(i));
+				ost.getPolygon().remove(ost.getPolygon().get(i));
 			}
+		}
+		
+		if(ost.getRectangle().isEmpty() && ost.getCircle().isEmpty() && ost.getPolygon().isEmpty()) {
+			ost.setCanAttack(true);
 		}
 	}
 	
@@ -323,11 +324,11 @@ public class OST {
 	public void setMaxSpeed(int maxSpeed) {
 		this.MaxSpeed = maxSpeed;
 	}
-	public String getTargetName() {
-		return TargetName;
+	public Castle getTarget() {
+		return Target;
 	}
-	public void setTargetName(String targetName) {
-		this.TargetName = targetName;
+	public void setTarget(Castle target) {
+		this.Target = target;
 	}
 	public TeamColor getTeamColor() {
 		return TeamColor;
@@ -335,10 +336,10 @@ public class OST {
 	public void setTeamColor(TeamColor TeamColor) {
 		this.TeamColor = TeamColor;
 	}
-	public void setOwner(String owner) {
+	public void setOwner(Castle owner) {
 		this.owner = owner;
 	}
-	public String getOwner() {
+	public Castle getOwner() {
 		return owner;
 	}
 	public ArrayList<Rectangle> getRectangle() {
