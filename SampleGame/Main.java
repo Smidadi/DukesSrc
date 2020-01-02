@@ -89,7 +89,7 @@ public class Main extends Application {
 		primaryStage.show(); 
 		
 		// create castle
-		tabOfCastle = Build(1,8);
+		tabOfCastle = Build(1,5);
 		player = tabOfCastle.get(0);
 		printAllCastle(tabOfCastle, root);		
 		
@@ -100,9 +100,16 @@ public class Main extends Application {
 			public void handle(long now) {
 				// Ameliore le revenu + tresor du chateau
 				tabOfCastle.forEach(castle -> RunACastle.updateRevenu(castle));
-				//if(countSec == 30) {
-					tabOfCastle.forEach(castle -> RunACastle.updateTresor(castle)); 
-				//}
+				if(countSec == 30) {
+					tabOfCastle.forEach(castle -> {
+						if(castle.getType() == "Baron") {
+							RunACastle.updateTresorBaron(castle);
+						}
+						else {
+							RunACastle.updateTresor(castle); 
+						}
+					});
+				}
 				
 				// Affiche les infos du chateau lors que l'on clique dessus
 				tabOfCastle.forEach(castle -> castle.getRectCastle().setOnMouseClicked(e -> {
@@ -381,11 +388,8 @@ public class Main extends Application {
 				}	
 				
 				tabOfOST.forEach(ost -> {
-					if(ost.getInMovment() == true) {
-						OST.move(ost, player, targetCastle);
-						if(ost.getCanAttack()) {
-							
-						}
+					if(ost.getInMovment() == true && ost.getOwner() == player.getName()) {
+						OST.move(root, ost, player, targetCastle);
 					}
 				});
 				
