@@ -382,7 +382,7 @@ public class Main extends Application {
 				
 				tabOfOST.forEach(ost -> {
 					if(ost.getInMovment() == true) {
-						OST.move(ost);
+						OST.move(ost, player, targetCastle);
 					}
 				});
 				

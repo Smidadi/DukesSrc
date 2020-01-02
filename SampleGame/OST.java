@@ -78,23 +78,133 @@ public class OST {
 		}
 	}
 	
-	public static void move(OST ost) {
+	public static void move(OST ost, Castle player, Castle targetCastle) {
+		// RECTANGLE
 		for(int i = 0; i < ost.getRectangle().size(); i++) {
-			moveR(ost, ost.getRectangle().get(i));
+			// LEFT
+			if(player.getCastle().getCenter().getX() > ost.getX() && ost.getRectangle().get(i).getX() != ost.getX()) {
+				moveR(ost, "LEFT", ost.getRectangle().get(i));
+			}
+			// RIGHT
+			else if(player.getCastle().getCenter().getX() < ost.getX() && ost.getRectangle().get(i).getX() != ost.getX()) {
+				moveR(ost, "RIGHT", ost.getRectangle().get(i));
+			}
+			// UP OR DOWN
+			else if(ost.getRectangle().get(i).getX() == ost.getX()) {
+				// UP
+				if(player.getCastle().getCenter().getY() > ost.getY() && ost.getRectangle().get(i).getY() != ost.getY()) {
+					moveR(ost, "UP", ost.getRectangle().get(i));
+				}
+				// DOWN
+				else if(player.getCastle().getCenter().getY() < ost.getY() && ost.getRectangle().get(i).getY() != ost.getY()) {
+					moveR(ost, "DOWN", ost.getRectangle().get(i));
+				}
+			}
 		}
+		// CIRCLE
 		for(int i = 0; i < ost.getCircle().size(); i++) {
-			moveC(ost, ost.getCircle().get(i));
-		}
-		for(int i = 0; i < ost.getPolygon().size(); i++) {
-			moveP(ost, ost.getPolygon().get(i));
+			// LEFT
+			if(player.getCastle().getCenter().getX() > ost.getX() && ost.getCircle().get(i).getCenterX() != ost.getX()) {
+				moveC(ost, "LEFT", ost.getCircle().get(i));
+			}
+			// RIGHT
+			else if(player.getCastle().getCenter().getX() < ost.getX() && ost.getCircle().get(i).getCenterX() != ost.getX()) {
+				moveC(ost, "RIGHT", ost.getCircle().get(i));
+			}
+			// UP OR DOWN
+			if(ost.getCircle().get(i).getCenterX() == ost.getX() && ost.getCircle().get(i).getCenterY() != ost.getY()) {
+				// UP
+				if(player.getCastle().getCenter().getY() > ost.getY()) {
+					moveC(ost, "UP", ost.getCircle().get(i));
+				}
+				// DOWN
+				else if(player.getCastle().getCenter().getY() < ost.getY() && ost.getCircle().get(i).getCenterY() != ost.getY()) {
+					moveC(ost, "DOWN", ost.getCircle().get(i));
+				}
+			}
 		}
 	}
 	
-	static void moveR(OST ost ,Rectangle r) {
-		if(ost.getX() < r.getX()) {
+	static void moveR(OST ost, String dir, Rectangle r) {
+		//System.out.println("Ciblex : " + ost.getX() + " | Rx : " + r.getX());
+		//System.out.println("Cibley : " + ost.getY() + " | Ry : " + r.getY());
+		if(dir == "LEFT") {
+			if(r.getX() < ost.getX()) {
+				r.setX(ost.getX());
+			}
+			else {
+				r.setX(r.getX() - ost.getMaxSpeed());
+			}
+		}
+		else if(dir == "RIGHT") {
+			if(r.getX() > ost.getX()) {
+				r.setX(ost.getX());
+			}
+			else {
+				r.setX(r.getX() + ost.getMaxSpeed());
+			}
+		}
+		else if(dir == "UP") {
+			if(r.getY() < ost.getY()) {
+				r.setY(ost.getY());
+			}
+			else {
+				r.setY(r.getY() - ost.getMaxSpeed());
+			}
+		}
+		else if(dir == "DOWN") {
+			if(r.getY() > ost.getY()) {
+				r.setY(ost.getY());
+			}
+			else {
+				r.setY(r.getY() + ost.getMaxSpeed());
+			}
+		}
+	}
+	
+	static void moveC(OST ost, String dir, Circle c) {
+		//System.out.println("Ciblex : " + ost.getX() + " | Rx : " + c.getCenterX());
+		//System.out.println("Cibley : " + ost.getY() + " | Ry : " + c.getCenterY());
+		if(dir == "LEFT") {
+			if(c.getCenterX() < ost.getX()) {
+				c.setCenterX(ost.getX());
+			}
+			else {
+				c.setCenterX(c.getCenterX() - ost.getMaxSpeed());
+			}
+		}
+		else if(dir == "RIGHT") {
+			if(c.getCenterX() > ost.getX()) {
+				c.setCenterX(ost.getX());
+			}
+			else {
+				c.setCenterX(c.getCenterX() + ost.getMaxSpeed());
+			}
+		}
+		else if(dir == "UP") {
+			if(c.getCenterY() < ost.getY()) {
+				c.setCenterY(ost.getY());
+			}
+			else {
+				c.setCenterY(c.getCenterY() - ost.getMaxSpeed());
+			}
+		}
+		else if(dir == "DOWN") {
+			if(c.getCenterY() > ost.getY()) {
+				c.setCenterY(ost.getY());
+			}
+			else {
+				c.setCenterY(c.getCenterY() + ost.getMaxSpeed());
+			}
+		}
+	}
+	
+	
+	/*static void moveR(OST ost, Rectangle r, Castle targetCastle, String direction) {
+		if(direction == "left" && ost.getX() < r.getX()) {
 			r.setX(r.getX() - ost.getMaxSpeed());
 		}
-		else if(ost.getX() > r.getX()) {
+		else if(direction == "right" && ost.getX() > r.getX()) {
 			r.setX(r.getX() + ost.getMaxSpeed());
 		}
 		else {
@@ -107,10 +217,11 @@ public class OST {
 		}
 	}
 	
-	static void moveC(OST ost, Circle c) {
-		if(ost.getX() < c.getCenterX()) {
-			c.setCenterX(c.getCenterX() - ost.getMaxSpeed());
+	static void moveC(OST ost, Circle c, Castle targetCastle) { 
+		if(c.getCenterX() > ost.getX()) {
+			if()
 		}
+			//c.setCenterX(c.getCenterX() - ost.getMaxSpeed());
 		else if(ost.getX() > c.getCenterX()) {
 			c.setCenterX(c.getCenterX() + ost.getMaxSpeed());
 		}
@@ -122,10 +233,33 @@ public class OST {
 				c.setCenterY(c.getCenterY() + ost.getMaxSpeed());
 			}
 		}
-	}
+	}*/
 	
-	static void moveP(OST ost, Polygon p) {
-		
+	static void moveP(OST ost, Polygon p, Castle targetCastle) {
+		ObservableList<Double> pos = p.getPoints();
+		if(ost.getX() < pos.get(0)) {
+			pos.set(0, pos.get(0) - ost.getMaxSpeed());
+			pos.set(2, pos.get(2) - ost.getMaxSpeed());
+			pos.set(4, pos.get(4) - ost.getMaxSpeed());
+			//p.setLayoutX(pos.get(0));
+		}
+		else if(ost.getX() > pos.get(0)) {
+			pos.set(0, pos.get(0) + ost.getMaxSpeed());
+			pos.set(2, pos.get(2) + ost.getMaxSpeed());
+			pos.set(4, pos.get(4) + ost.getMaxSpeed());
+		}
+		else {
+			if(ost.getY() < pos.get(1)) {
+				pos.set(1, pos.get(1) - ost.getMaxSpeed());
+				pos.set(3, pos.get(3) - ost.getMaxSpeed());
+				pos.set(5, pos.get(5) - ost.getMaxSpeed());
+			}
+			else if(ost.getY() > pos.get(1)) {
+				pos.set(1, pos.get(1) + ost.getMaxSpeed());
+				pos.set(3, pos.get(3) + ost.getMaxSpeed());
+				pos.set(5, pos.get(5) + ost.getMaxSpeed());
+			}
+		}
 	}
 
 	
