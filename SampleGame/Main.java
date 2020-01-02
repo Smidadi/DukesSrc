@@ -68,7 +68,6 @@ public class Main extends Application {
 	private int countTourProd = 0;
 	private int countSec = 0;
 	
-	private int lastCout = 0;
 	
 	Rectangle createInfos;
 	Rectangle createProduct;
@@ -78,7 +77,6 @@ public class Main extends Application {
 	Castle selectedCastle;
 	Castle targetCastle = NULLL;
 	Castle target;
-	Castle player;
 	
 	@Override 
 	public void start(Stage primaryStage) throws Exception { 
@@ -91,7 +89,6 @@ public class Main extends Application {
 		
 		// create castle
 		tabOfCastle = Build(1,5);
-		player = tabOfCastle.get(0);
 		printAllCastle(tabOfCastle, root);		
 		
 		loadGame();
@@ -131,12 +128,11 @@ public class Main extends Application {
 				// Interaction avec les zones de texte
 				tabOfText.forEach(text -> text.setOnMouseClicked(e -> { 
 					// Ameliore le niveau du chateau
-					if(selectedCastle == player) {
+					if(selectedCastle.getName() == "Player") {
 						if(text == upgrade) {
-							if(!player.getTabOfProduction().contains("Améliorer")) {
-								RunACastle.reduceTresor(player);
-								lastCout = 1000 * player.getNiveau();
-								player.getTabOfProduction().add("Améliorer");
+							if(!selectedCastle.getTabOfProduction().contains("Améliorer")) {
+								RunACastle.reduceTresor(selectedCastle);
+								selectedCastle.getTabOfProduction().add("Améliorer");
 							}
 							upgrade.setText(" ");
 						}
@@ -151,17 +147,20 @@ public class Main extends Application {
 						}
 						// Gere la production des troupes
 						if(inProduction != NULL) {
-							if(text == piquier && player.getTresor() >= 100 && player.getTabOfProduction().size() < 7) {
-								player.setTresor(player.getTresor() - 100);
-								player.getTabOfProduction().add("Piquier");
+							if(text == piquier && selectedCastle.getTresor() >= 100 && selectedCastle.getTabOfProduction().size() < 7) {
+								selectedCastle.setTresor(selectedCastle.getTresor() - 100);
+								//selectedCastle.setTimeOfProduction(new Piquier(selectedCastle.getName()).getTemps());
+								selectedCastle.getTabOfProduction().add("Piquier");
 							}
-							if(text == chevalier && player.getTresor() >= 500 && player.getTabOfProduction().size() < 7) {
-								player.setTresor(player.getTresor() - 500);
-								player.getTabOfProduction().add("Chevalier");
+							if(text == chevalier && selectedCastle.getTresor() >= 500 && selectedCastle.getTabOfProduction().size() < 7) {
+								selectedCastle.setTresor(selectedCastle.getTresor() - 500);
+								//selectedCastle.setTimeOfProduction(new Chevalier(selectedCastle.getName()).getTemps());
+								selectedCastle.getTabOfProduction().add("Chevalier");
 							}
-							if(text == onagre && player.getTresor() >= 1000 && player.getTabOfProduction().size() < 7) {
-								player.setTresor(player.getTresor() - 1000);
-								player.getTabOfProduction().add("Onagre");
+							if(text == onagre && selectedCastle.getTresor() >= 1000 && selectedCastle.getTabOfProduction().size() < 7) {
+								selectedCastle.setTresor(selectedCastle.getTresor() - 1000);
+								//selectedCastle.setTimeOfProduction(new Onagre(selectedCastle.getName()).getTemps());
+								selectedCastle.getTabOfProduction().add("Onagre");
 							}
 						}
 						// Gere le cote hors production de troupes
@@ -191,21 +190,21 @@ public class Main extends Application {
 							if(text == up) {
 								switch (troupeToChange) {
 								case "Piquier" :
-									if(p != RunACastle.countTroupes("Piquier", player.getTabTroupes())) {
+									if(p != RunACastle.countTroupes("Piquier", selectedCastle.getTabTroupes())) {
 										p++;
-										piquier.setText("> Piquier < : " + p + " / " + RunACastle.countTroupes("Piquier", player.getTabTroupes()));
+										piquier.setText("> Piquier < : " + p + " / " + RunACastle.countTroupes("Piquier", selectedCastle.getTabTroupes()));
 									}
 									break;
 								case "Chevalier" :
-									if(c != RunACastle.countTroupes("Chevalier", player.getTabTroupes())) {
+									if(c != RunACastle.countTroupes("Chevalier", selectedCastle.getTabTroupes())) {
 										c++;
-										chevalier.setText("> Chevalier < : " + c + " / " + RunACastle.countTroupes("Chevalier", player.getTabTroupes()));
+										chevalier.setText("> Chevalier < : " + c + " / " + RunACastle.countTroupes("Chevalier", selectedCastle.getTabTroupes()));
 									}
 									break;
 								case "Onagre" :
-									if(o != RunACastle.countTroupes("Onagre", player.getTabTroupes())) {
+									if(o != RunACastle.countTroupes("Onagre", selectedCastle.getTabTroupes())) {
 										o++;
-										onagre.setText("> Onagre < : " + o + " / " + RunACastle.countTroupes("Onagre", player.getTabTroupes()));
+										onagre.setText("> Onagre < : " + o + " / " + RunACastle.countTroupes("Onagre", selectedCastle.getTabTroupes()));
 									}
 									break;
 								}
@@ -215,19 +214,19 @@ public class Main extends Application {
 								case "Piquier" :
 									if(p != 0) {
 										p--;
-										piquier.setText("> Piquier < : " + p + " / " + RunACastle.countTroupes("Piquier", player.getTabTroupes()));
+										piquier.setText("> Piquier < : " + p + " / " + RunACastle.countTroupes("Piquier", selectedCastle.getTabTroupes()));
 									}
 									break;
 								case "Chevalier" :
 									if(c != 0) {
 										c--;
-										chevalier.setText("> Chevalier < : " + c + " / " + RunACastle.countTroupes("Chevalier", player.getTabTroupes()));
+										chevalier.setText("> Chevalier < : " + c + " / " + RunACastle.countTroupes("Chevalier", selectedCastle.getTabTroupes()));
 									}
 									break;
 								case "Onagre" :
 									if(o != 0) {
 										o--;
-										onagre.setText("> Onagre < : " + o + " / " + RunACastle.countTroupes("Onagre", player.getTabTroupes()));
+										onagre.setText("> Onagre < : " + o + " / " + RunACastle.countTroupes("Onagre", selectedCastle.getTabTroupes()));
 									}
 									break;
 								}
@@ -235,9 +234,9 @@ public class Main extends Application {
 						}
 						
 						// Gere annulation du dernier element de la liste
-						if(text == remove && !player.getTabOfProduction().isEmpty()) {
-							RunACastle.removeProduction(player, player.getTabOfProduction());
-							player.getTabOfProduction().remove(player.getTabOfProduction().size() - 1);
+						if(text == remove && !selectedCastle.getTabOfProduction().isEmpty()) {
+							RunACastle.removeProduction(selectedCastle, selectedCastle.getTabOfProduction());
+							selectedCastle.getTabOfProduction().remove(selectedCastle.getTabOfProduction().size() - 1);
 							product.setText("> Produire <");
 						}
 						// Annulation de l'envoi de troupes
@@ -270,7 +269,7 @@ public class Main extends Application {
 									OST ost = new OST(targetCastle.getName(),tab, "Player", tabOfCastle);
 									// Affichage des ost
 									ArrayList<GeometricForm> tabOfGeometricForm = GeometricForm.tabOfGeometricForm(ost, tabOfCastle);
-									player.setTabTroupes(Troupes.createTroupes(player.getName(), RunACastle.countTroupes("Piquier", player.getTabTroupes()) - p, RunACastle.countTroupes("Chevalier", player.getTabTroupes()) - c,RunACastle.countTroupes("Onagre", player.getTabTroupes()) - o));									
+									selectedCastle.setTabTroupes(Troupes.createTroupes(selectedCastle.getName(), RunACastle.countTroupes("Piquier", selectedCastle.getTabTroupes()) - p, RunACastle.countTroupes("Chevalier", selectedCastle.getTabTroupes()) - c,RunACastle.countTroupes("Onagre", selectedCastle.getTabTroupes()) - o));									
 									printUnites(ost, tabOfGeometricForm);
 									OST.distanceCastles(tabOfCastle, ost, targetCastle);
 									ost.setInMovment(true);
@@ -324,7 +323,7 @@ public class Main extends Application {
 					if(selectedCastle.getTresor() < 1000 * selectedCastle.getNiveau()) {
 						upgrade.setText(" ");
 					}
-					else if(selectedCastle.getTresor() >= 1000 * selectedCastle.getNiveau() && selectedCastle == player && !player.getTabOfProduction().contains("Améliorer")){
+					else if(selectedCastle.getTresor() >= 1000 * selectedCastle.getNiveau() && selectedCastle.getName() == "Player" && !selectedCastle.getTabOfProduction().contains("Améliorer")){
 						upgrade.setText("> Améliorer <\n" + 1000 * selectedCastle.getNiveau() +" florins");
 					}
 					status.setText(selectedCastle.getName() + 
@@ -336,12 +335,12 @@ public class Main extends Application {
 					"\nTresor : " + selectedCastle.getTresor() + " florins\n" +
 					upLine.getText());
 					
-					if(selectedCastle == player) {
-						allProduction.setText("Production : " + player.getTabOfProduction().size());
+					if(selectedCastle.getName() == "Player") {
+						allProduction.setText("Production : " + selectedCastle.getTabOfProduction().size());
 						if(inProduction != NULL) {
 							inProduction.setText("Que voulez-vous produire ?" +
 												 "\nNombre de production maximale possible : 7" + 
-												 "\n\n\nEn production : " + player.getTabOfProduction());
+												 "\n\n\nEn production : " + selectedCastle.getTabOfProduction());
 						}
 					}
 				}
@@ -351,36 +350,36 @@ public class Main extends Application {
 					createTroupes();
 				}
 				
-				if(!player.getTabOfProduction().isEmpty()) {
-					product.setText("> Produire <\n" + (RunACastle.recoverCost(player, player.getTabOfProduction()) - countTourProd) + "s");
-					if(player.getTabOfProduction().get(0) == "Améliorer" && countTourProd == (100 + 50*player.getNiveau())) {
-						RunACastle.updateNiveau(player); 
-						countTourProd = 0;
-						player.getTabOfProduction().remove(0);
-					}
-					
-					else if(player.getTabOfProduction().get(0) == "Piquier" && countTourProd == 5) {
-						player.getTabTroupes().add(new Piquier(player.getName()));
-						countTourProd = 0;
-						player.getTabOfProduction().remove(0);
-					}
-					
-					else if(player.getTabOfProduction().get(0) == "Chevalier" && countTourProd == 20) {
-						player.getTabTroupes().add(new Chevalier(player.getName()));
-						countTourProd = 0;
-						player.getTabOfProduction().remove(0);
-					}
-					
-					else if(player.getTabOfProduction().get(0) == "Onagre" && countTourProd == 50) {
-						player.getTabTroupes().add(new Onagre(player.getName()));
-						countTourProd = 0;
-						player.getTabOfProduction().remove(0);
-					}
-					
+				if(selectedCastle != NULLL && !selectedCastle.getTabOfProduction().isEmpty()) {
 					if(countSec == 60) {
 						countTourProd++;
+						//product.setText("> Produire <\n" + (selectedCastle.getTimeOfProduction() - 1) + "s");
 					}
-
+					//selectedCastle.setTimeOfProduction(selectedCastle.getTimeOfProduction() - countTourProd);
+					if(selectedCastle.getTabOfProduction().get(0) == "Améliorer" && countTourProd == (100 + 50*selectedCastle.getNiveau())) {
+						RunACastle.updateNiveau(selectedCastle); 
+						countTourProd = 0;
+						selectedCastle.getTabOfProduction().remove(0);
+					}
+					
+					else if(selectedCastle.getTabOfProduction().get(0) == "Piquier" && countTourProd == 5) {
+						selectedCastle.getTabTroupes().add(new Piquier(selectedCastle.getName()));
+						countTourProd = 0;
+						selectedCastle.getTabOfProduction().remove(0);
+					}
+					
+					else if(selectedCastle.getTabOfProduction().get(0) == "Chevalier" && countTourProd == 20) {
+						selectedCastle.getTabTroupes().add(new Chevalier(selectedCastle.getName()));
+						countTourProd = 0;
+						selectedCastle.getTabOfProduction().remove(0);
+					}
+					
+					else if(selectedCastle.getTabOfProduction().get(0) == "Onagre" && countTourProd == 50) {
+						selectedCastle.getTabTroupes().add(new Onagre(selectedCastle.getName()));
+						countTourProd = 0;
+						selectedCastle.getTabOfProduction().remove(0);
+					}
+					
 				}
 				else {
 					if(product != NULL) {
@@ -390,14 +389,14 @@ public class Main extends Application {
 				}	
 				
 				tabOfOST.forEach(ost -> {
-					if(ost.getInMovment() == true && ost.getOwner() == player.getName()) {
-						OST.move(root, ost, player, targetCastle);
+					if(ost.getInMovment() == true && ost.getOwner() == selectedCastle.getName()) {
+						OST.move(root, ost, selectedCastle, target);
 						if(ost.getCanAttack() == true) {
-							if(Troupes.attackACastle(tabOfCastle, player, targetCastle, ost.getOstUnites(), target.getTabTroupes()) == true) {
-								int r = player.getColor().r;
-								int g = player.getColor().g;
-								int b = player.getColor().b;
-								targetCastle.getRectCastle().setFill(Color.rgb(r, g, b));
+							if(Troupes.attackACastle(tabOfCastle, selectedCastle, target, ost.getOstUnites(), target.getTabTroupes()) == true) {
+								int r = selectedCastle.getColor().r;
+								int g = selectedCastle.getColor().g;
+								int b = selectedCastle.getColor().b;
+								target.getRectCastle().setFill(Color.rgb(r, g, b));
 							};
 						}
 					}
@@ -510,9 +509,9 @@ public class Main extends Application {
 	
 	// Affiche les troupes disponibles et à envoyer
 	private void createTroupes() {		
-		piquier = new Text("> Piquier < : " + p + " / " + RunACastle.countTroupes("Piquier", player.getTabTroupes()));
-		chevalier = new Text("> Chevalier < : " + c + " / " + RunACastle.countTroupes("Chevalier", player.getTabTroupes()));
-		onagre = new Text("> Onagre < : " + o + " / " + RunACastle.countTroupes("Onagre", player.getTabTroupes()));
+		piquier = new Text("> Piquier < : " + p + " / " + RunACastle.countTroupes("Piquier", selectedCastle.getTabTroupes()));
+		chevalier = new Text("> Chevalier < : " + c + " / " + RunACastle.countTroupes("Chevalier", selectedCastle.getTabTroupes()));
+		onagre = new Text("> Onagre < : " + o + " / " + RunACastle.countTroupes("Onagre", selectedCastle.getTabTroupes()));
 		
 		piquier.setLayoutX(30);
 		piquier.setLayoutY(190);
