@@ -61,6 +61,7 @@ public class Troupes {
 	public static Boolean attackACastle(ArrayList<Castle> tabOfCastle, Castle attacker, Castle defenser, ArrayList<Troupes> troopOfattacker, ArrayList<Troupes> troopOfdefenser) {	
 		if(attacker.getOwner() == defenser.getOwner()) {
 			RunACastle.addReinforcement(tabOfCastle, attacker, defenser, troopOfattacker);
+			return false;
 		}
 		if(troopOfdefenser.size() == 0) {
 			RunACastle.changeOwner(tabOfCastle, attacker, defenser, troopOfattacker);

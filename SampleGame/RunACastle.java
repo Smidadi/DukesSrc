@@ -90,25 +90,6 @@ public class RunACastle {	// w : 1500 ; h : 1000 pour la map
 		}
 	}
 	
-	// o p c
-	static ArrayList<Troupes> removeOST(Castle c, int ost[]) {
-		for(int i = 0; i < c.getTabTroupes().size(); i++) {
-			if(c.getTabTroupes().get(i).getName() == "Onagre" && ost[0] != 0) {
-				c.getTabTroupes().remove(i);
-				ost[0]--;
-			}
-			if(c.getTabTroupes().get(i).getName() == "Piquier" && ost[1] != 0) {
-				c.getTabTroupes().remove(i);
-				ost[1]--;
-			}
-			if(c.getTabTroupes().get(i).getName() == "Chevalier" && ost[2] != 0) {
-				c.getTabTroupes().remove(i);
-				ost[2]--;
-			}
-		}
-		System.out.println(c.getTabTroupes());
-		return c.getTabTroupes();
-	}
 	
 	static void changeOwner(ArrayList<Castle> tabOfCastle, Castle attacker, Castle defenser, ArrayList<Troupes> troopOfattacker) {
 		for(int i = 0; i<tabOfCastle.size(); i++) {			
@@ -128,9 +109,10 @@ public class RunACastle {	// w : 1500 ; h : 1000 pour la map
 	
 	static void addReinforcement(ArrayList<Castle> tabOfCastle, Castle attacker, Castle defenser, ArrayList<Troupes> troopOfattacker) {
 		for(int i = 0; i<tabOfCastle.size(); i++) {
-			if(defenser.getOwner() == tabOfCastle.get(i).getOwner()) {
+			if(defenser.getName() == tabOfCastle.get(i).getName()) {
 				for(int k = 0; k<troopOfattacker.size(); k++) {
 					tabOfCastle.get(i).getTabTroupes().add(troopOfattacker.get(k));
+					troopOfattacker.remove(k);
 				}
 			}
 		}
