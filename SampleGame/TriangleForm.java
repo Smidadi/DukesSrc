@@ -15,15 +15,15 @@ public class TriangleForm extends GeometricForm {
 			switch(position) {
 			case 1:
 				this.s1.setX(door.getX()-10);
-				this.s1.setY(door.getY());			
+				this.s1.setY(door.getY()-5);			
 				break;
 			case 2:
 				this.s1.setX(door.getX());
-				this.s1.setY(door.getY());				
+				this.s1.setY(door.getY()-5);				
 				break;
 			case 3:
 				this.s1.setX(door.getX()+10);
-				this.s1.setY(door.getY());	
+				this.s1.setY(door.getY()-5);	
 				break;
 			default:
 				break;

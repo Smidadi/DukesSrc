@@ -16,15 +16,15 @@ class RectangleForm extends GeometricForm {
 			switch(position) {
 			case 1:
 				this.x = door.getX()-15;
-				this.y = door.getY();
+				this.y = door.getY()-5;
 				break;
 			case 2:
 				this.x = door.getX()-5;
-				this.y = door.getY();
+				this.y = door.getY()-5;
 				break;
 			case 3:
 				this.x = door.getX()+5;
-				this.y = door.getY();
+				this.y = door.getY()-5;
 				break;
 			default:
 				break;
@@ -32,15 +32,15 @@ class RectangleForm extends GeometricForm {
 		}else{
 			switch(position) {
 			case 1:
-				this.x = door.getX();
+				this.x = door.getX()-5;
 				this.y = door.getY()-15;
 				break;
 			case 2:
-				this.x = door.getX();
+				this.x = door.getX()-5;
 				this.y = door.getY()-5;
 				break;
 			case 3:
-				this.x = door.getX();
+				this.x = door.getX()-5;
 				this.y = door.getY()+5;
 				break;
 			default:
