@@ -150,19 +150,6 @@ public class Main extends Application {
 						}
 						// Gere la production des troupes
 						if(inProduction != NULL) {
-<<<<<<< HEAD
-							if(text == piquier && selectedCastle.getTresor() >= 100 && selectedCastle.getTabOfProduction().size() < 7) {
-								selectedCastle.setTresor(selectedCastle.getTresor() - 100);
-								selectedCastle.getTabOfProduction().add("Piquier");
-							}
-							if(text == chevalier && selectedCastle.getTresor() >= 500 && selectedCastle.getTabOfProduction().size() < 7) {
-								selectedCastle.setTresor(selectedCastle.getTresor() - 500);
-								selectedCastle.getTabOfProduction().add("Chevalier");
-							}
-							if(text == onagre && selectedCastle.getTresor() >= 1000 && selectedCastle.getTabOfProduction().size() < 7) {
-								selectedCastle.setTresor(selectedCastle.getTresor() - 1000);
-								selectedCastle.getTabOfProduction().add("Onagre");
-=======
 							if(text == piquier && selectedCastle.getTresor() >= selectedCastle.getProductionLine().getCostOfPiquier() 
 									&& selectedCastle.getProductionLine().getTabOfProduction().size() < 7) {
 								selectedCastle.setTresor(selectedCastle.getTresor() - selectedCastle.getProductionLine().getCostOfPiquier());
@@ -177,7 +164,6 @@ public class Main extends Application {
 									&& selectedCastle.getProductionLine().getTabOfProduction().size() < 7) {
 								selectedCastle.setTresor(selectedCastle.getTresor() - selectedCastle.getProductionLine().getCostOfOnagre());
 								selectedCastle.getProductionLine().getTabOfProduction().add("Onagre");
->>>>>>> 8664d0d1458e27d4f9c50f9df7243c92992434f2
 							}
 						}
 						
@@ -377,39 +363,6 @@ public class Main extends Application {
 				}
 				
 				tabOfCastle.forEach(castle -> {
-<<<<<<< HEAD
-					if(!castle.getTabOfProduction().isEmpty()) {
-						if(!RunACastle.checkTimeOfProduction(castle)) {
-							if(countSec == 60) {
-								castle.setTimeOfProduction(castle.getTimeOfProduction() - 1);
-							}
-							else if(castle.getTabOfProduction().get(0) == "Améliorer" && castle.getTimeOfProduction() == 0) {
-								RunACastle.updateNiveau(castle); 
-								castle.getTabOfProduction().remove(0);
-								RunACastle.getTimeOfProduction(castle);
-							}
-							else if(castle.getTabOfProduction().get(0) == "Piquier" && castle.getTimeOfProduction() == 0) {
-								castle.getTabTroupes().add(new Piquier(castle.getOwner()));
-								castle.getTabOfProduction().remove(0);
-								RunACastle.getTimeOfProduction(castle);
-							}
-							
-							else if(castle.getTabOfProduction().get(0) == "Chevalier" && castle.getTimeOfProduction() == 0) {
-								castle.getTabTroupes().add(new Chevalier(castle.getOwner()));
-								castle.getTabOfProduction().remove(0);
-								RunACastle.getTimeOfProduction(castle);
-							}
-							
-							else if(castle.getTabOfProduction().get(0) == "Onagre" && castle.getTimeOfProduction() == 0) {
-								castle.getTabTroupes().add(new Onagre(castle.getOwner()));
-								castle.getTabOfProduction().remove(0);
-								RunACastle.getTimeOfProduction(castle);
-							}
-						}
-						else {
-							RunACastle.getTimeOfProduction(castle);
-						}						
-=======
 					if(!castle.getProductionLine().getTabOfProduction().isEmpty()) {
 						if(countSec == 60) {
 							castle.getProductionLine().setTimeLeft(castle.getProductionLine().getTimeLeft() - 1);
@@ -418,9 +371,6 @@ public class Main extends Application {
 							RunACastle.CollectProduction(castle);
 							Production.updateProduction(castle);
 						}
-	
-						
->>>>>>> 8664d0d1458e27d4f9c50f9df7243c92992434f2
 					}
 					else if(castle.getProductionLine().getTabOfProduction().isEmpty() && product != NULL){
 						product.setText("> Produire <");
@@ -632,15 +582,9 @@ public class Main extends Application {
 		}
 		
 		if(c.getOwner() == "Player") {
-<<<<<<< HEAD
-			allProduction = new Text("Production : " + c.getTabOfProduction().size());
-			allProduction.setLayoutX(Settings.INFORMATIONSCASTLEXY * 3);
-			allProduction.setLayoutY(Settings.INFORMATIONSHEIGHT - 40);
-=======
 			allProduction = new Text("Production : " + c.getProductionLine().getTabOfProduction().size());
 			allProduction.setLayoutX(30);
 			allProduction.setLayoutY(110);
->>>>>>> 8664d0d1458e27d4f9c50f9df7243c92992434f2
 			root.getChildren().add(allProduction);
 		}
 	}
