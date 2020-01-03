@@ -29,28 +29,28 @@ public class Castle {
 	private Rectangle rectDoor;
 	
 	
-	Castle(String type, ArrayList<Castle> tabOfCastle, int nb) {
+	Castle(String type, ArrayList<Castle> tabOfCastle, int nb, String tabOfCastleName[]) {
 		if(type == "Duc" || type == "Player") {
 			if(type == "Player") {
-                this.name = type;
+                this.name = tabOfCastleName[tabOfCastle.size()];
                 this.owner = type;
                 this.color = new TeamColor(220,20,60);
             }
             else {
-                this.name = "Duc " + Integer.toString(nb);
+                this.name = tabOfCastleName[tabOfCastle.size()];
                 this.owner = "Duc " + Integer.toString(nb);
                 this.color = new TeamColor();
 			}
 			this.niveau = 1;
 			this.tresor = 0;
-			this.tabTroupes = Troupes.createTroupes(this.name,4,6,8); // Temporary 			
+			this.tabTroupes = Troupes.createTroupes(this.name,6,6,6); // Temporary 			
 			this.Castle = new CastleStruct(type,tabOfCastle);
 			this.CastleDoor = new CastleDoor(this.Castle.getCenter(),type);
 		}
 		
 		if(type == "Baron") {
-			this.name = "Baron " + Integer.toString(nb);
-			this.owner = "Duc " + Integer.toString(nb);
+			this.name = tabOfCastleName[tabOfCastle.size()];
+			this.owner = "Baron " + Integer.toString(nb);
 			this.niveau = 1 + (int) Math.random() * 5;
 			this.tresor = 500 + (int) Math.random() * 1001;	// 500 - 1500			
 			this.tabTroupes = Troupes.createTroupes(this.name,2,2,2); // temporaire

@@ -15,7 +15,7 @@ class RectangleForm extends GeometricForm {
 		if(direction == 'N' || direction == 'S') {
 			switch(position) {
 			case 1:
-				this.x = door.getX()-15;
+				this.x = door.getX()-20;
 				this.y = door.getY()-5;
 				break;
 			case 2:
@@ -23,7 +23,7 @@ class RectangleForm extends GeometricForm {
 				this.y = door.getY()-5;
 				break;
 			case 3:
-				this.x = door.getX()+5;
+				this.x = door.getX()+10;
 				this.y = door.getY()-5;
 				break;
 			default:
@@ -33,7 +33,7 @@ class RectangleForm extends GeometricForm {
 			switch(position) {
 			case 1:
 				this.x = door.getX()-5;
-				this.y = door.getY()-15;
+				this.y = door.getY()-20;
 				break;
 			case 2:
 				this.x = door.getX()-5;
@@ -41,7 +41,7 @@ class RectangleForm extends GeometricForm {
 				break;
 			case 3:
 				this.x = door.getX()-5;
-				this.y = door.getY()+5;
+				this.y = door.getY()+10;
 				break;
 			default:
 				break;

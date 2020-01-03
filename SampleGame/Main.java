@@ -21,6 +21,8 @@ public class Main extends Application {
 	private Input input;
 	private AnimationTimer gameLoop;
 	
+	
+	
 	private ArrayList<Castle> tabOfCastle = new ArrayList<>();
 	private ArrayList<Text> tabOfText = new ArrayList<>();
 	private ArrayList<OST> tabOfOST = new ArrayList<>();
@@ -88,7 +90,7 @@ public class Main extends Application {
 		primaryStage.show(); 
 		
 		// create castle
-		tabOfCastle = Build(1,5);
+		tabOfCastle = Build(9,10,Settings.tabOfCastleName); //max 20 chateaux !!!
 		printAllCastle(tabOfCastle, root);		
 		
 		loadGame();
@@ -392,12 +394,11 @@ public class Main extends Application {
 					if(ost.getInMovment() == true /*&& ost.getOwner() == selectedCastle.getOwner()*/) {
 						OST.move(root, ost, ost.getOwner(), ost.getTarget());
 						if(ost.getCanAttack() == true) {
-							if(Troupes.attackACastle(tabOfCastle, selectedCastle, target, ost.getOstUnites(), target.getTabTroupes()) == true) {
-								int r = selectedCastle.getColor().r;
-								int g = selectedCastle.getColor().g;
-								int b = selectedCastle.getColor().b;
-								target.getRectCastle().setFill(Color.rgb(r, g, b));
-								
+							if(Troupes.attackACastle(tabOfCastle, ost.getOwner(), ost.getTarget(), ost.getOstUnites(), ost.getTarget().getTabTroupes()) == true) {
+								int r = ost.getOwner().getColor().r;
+								int g = ost.getOwner().getColor().g;
+								int b = ost.getOwner().getColor().b;
+								ost.getTarget().getRectCastle().setFill(Color.rgb(r, g, b));
 							}
 						}
 					}
@@ -578,14 +579,14 @@ public class Main extends Application {
 		}
 	}
 	
-	private ArrayList<Castle> Build(int nbDuc, int nbBaron){
+	private ArrayList<Castle> Build(int nbDuc, int nbBaron, String tabOfCastleName[]){ //max 20 chateaux !!!
 		ArrayList<Castle> tabOfCastle = new ArrayList<Castle>();
-		tabOfCastle.add(new Castle("Player", tabOfCastle, 0));
+		tabOfCastle.add(new Castle("Player", tabOfCastle, 0, tabOfCastleName));
 		for(int i=0 ; i<nbDuc; i++) {
-			tabOfCastle.add(new Castle("Duc", tabOfCastle, i+1));
+			tabOfCastle.add(new Castle("Duc", tabOfCastle, i+1, tabOfCastleName));
 		}
 		for(int i=0 ; i<nbBaron; i++) {
-			tabOfCastle.add(new Castle("Baron", tabOfCastle, i+1));
+			tabOfCastle.add(new Castle("Baron", tabOfCastle, i+1, tabOfCastleName));
 		}
 		return tabOfCastle;
 	}
