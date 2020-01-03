@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.Pane; 
 import javafx.scene.paint.Color; 
 import javafx.scene.shape.Rectangle;
@@ -19,14 +18,12 @@ public class Main extends Application {
 	private static final Castle NULLL = null;
 	private Scene scene;
 	private Input input;
-	private AnimationTimer gameLoop;
-	
-	
+	private AnimationTimer gameLoop, gamePause;
 	
 	private ArrayList<Castle> tabOfCastle = new ArrayList<>();
 	private ArrayList<Text> tabOfText = new ArrayList<>();
 	private ArrayList<OST> tabOfOST = new ArrayList<>();
-		
+	
 	// Barre d'informations du chateau
 	private Text status = NULL;
 	// (appuyer) pour ameliorer pour le niveau
@@ -53,9 +50,9 @@ public class Main extends Application {
 	// Augmenter / diminuer nombre de troupse a envoyer
 	private Text up = NULL;
 	private Text down = NULL;
-	
+	// Saut de ligne
 	private Text upLine = new Text("\n_________________");
-	
+	// Gere la couleur de la troupe selectionnee
 	private String troupeToChange;
 	private Text troupeToColor = NULL;
 	
@@ -64,20 +61,21 @@ public class Main extends Application {
 	private int c = 0;
 	private int o = 0;
 	
-	private int countTour = 0;
+	// Timer du jeu 
 	private int countSec = 0;
 	
-	
+	// Panneaux d'informations
 	Rectangle createInfos;
 	Rectangle createProduct;
 	
-	Pane root;
-		
+	// Chateaux a selectionner
 	Castle selectedCastle;
 	Castle targetCastle = NULLL;
 	Castle target;
 	
-	boolean Pause = false;
+	boolean pause;
+	
+	Pane root;
 	
 	@Override 
 	public void start(Stage primaryStage) throws Exception { 
@@ -88,8 +86,8 @@ public class Main extends Application {
 		primaryStage.setScene(scene); 
 		primaryStage.show(); 
 		
-		// create castle
-		tabOfCastle = Build(9,10,Settings.tabOfCastleName); //max 20 chateaux !!!
+		// Creation chateau
+		tabOfCastle = Build(9,10,Settings.tabOfCastleName); // maximum 20 chateaux
 		printAllCastle(tabOfCastle, root);		
 		
 		loadGame();
@@ -99,9 +97,9 @@ public class Main extends Application {
 			public void handle(long now) {
 				processInput(input, now);
 				
-				// Ameliore le revenu + tresor du chateau
+				// Ameliore le revenu et le tresor du chateau
 				tabOfCastle.forEach(castle -> RunACastle.updateRevenu(castle));
-				//if(countSec == 30) {
+				if(countSec == 60) {
 					tabOfCastle.forEach(castle -> {
 						if(castle.getType() == "Baron") {
 							RunACastle.updateTresorBaron(castle);
@@ -110,9 +108,9 @@ public class Main extends Application {
 							RunACastle.updateTresor(castle); 
 						}
 					});
-				//}
+				}
 				
-				// Affiche les infos du chateau lors que l'on clique dessus
+				// Affiche les informations du chateau lorsque l'on clique dessus
 				tabOfCastle.forEach(castle -> castle.getRectCastle().setOnMouseClicked(e -> {
 					// Choix de la cible du chateau
 					if(targetText != NULL && targetCastle == NULLL) {
@@ -154,17 +152,14 @@ public class Main extends Application {
 						if(inProduction != NULL) {
 							if(text == piquier && selectedCastle.getTresor() >= 100 && selectedCastle.getTabOfProduction().size() < 7) {
 								selectedCastle.setTresor(selectedCastle.getTresor() - 100);
-								//selectedCastle.setTimeOfProduction(new Piquier(selectedCastle.getName()).getTemps());
 								selectedCastle.getTabOfProduction().add("Piquier");
 							}
 							if(text == chevalier && selectedCastle.getTresor() >= 500 && selectedCastle.getTabOfProduction().size() < 7) {
 								selectedCastle.setTresor(selectedCastle.getTresor() - 500);
-								//selectedCastle.setTimeOfProduction(new Chevalier(selectedCastle.getName()).getTemps());
 								selectedCastle.getTabOfProduction().add("Chevalier");
 							}
 							if(text == onagre && selectedCastle.getTresor() >= 1000 && selectedCastle.getTabOfProduction().size() < 7) {
 								selectedCastle.setTresor(selectedCastle.getTresor() - 1000);
-								//selectedCastle.setTimeOfProduction(new Onagre(selectedCastle.getName()).getTemps());
 								selectedCastle.getTabOfProduction().add("Onagre");
 							}
 						}
@@ -363,16 +358,6 @@ public class Main extends Application {
 				tabOfCastle.forEach(castle -> {
 					if(!castle.getTabOfProduction().isEmpty()) {
 						if(!RunACastle.checkTimeOfProduction(castle)) {
-							RunACastle.changeTimeOfProduction(castle);
-						}
-						if(countSec == 60) {
-							castle.setTimeOfProduction(castle.getTimeOfProduction() - 1);
-						}
-						
-						
-						
-						
-						/*if(RunACastle.checkTimeOfProduction(castle)) {
 							if(countSec == 60) {
 								castle.setTimeOfProduction(castle.getTimeOfProduction() - 1);
 							}
@@ -401,8 +386,7 @@ public class Main extends Application {
 						}
 						else {
 							RunACastle.getTimeOfProduction(castle);
-						}*/
-						
+						}						
 					}
 					/*else if(castle.getTabOfProduction().isEmpty() && product != NULL){
 						product.setText("> Produire <");
@@ -431,25 +415,30 @@ public class Main extends Application {
 				
 				// Compte les secondes du jeu
 				if(countSec == 60) {
-					countTour++;
 					countSec = 0;
 				}
 				countSec++;
 			}
 			
 			private void processInput(Input input, long now) {
-				if(input.isPause() && Pause == false) {
-					Pause = true;
+				if(input.isPause()) {
 					gameLoop.stop();
-				}
-				else if(input.isPause() && Pause == true) {
-					gameLoop.start();
-					Pause = false;
 				}
 			}
 		};
 		gameLoop.start();
+		
+		gamePause = new AnimationTimer() {
+			@Override
+			public void handle(long now) {
+				
+			}
+		};
 	}
+	
+
+	
+	
 	
 	private void loadGame() {
 		input = new Input(scene);
@@ -459,17 +448,17 @@ public class Main extends Application {
 	// Creation du rectangle contenant les informations du chateau
 	private void createPrintInfos() {
 		createInfos = new Rectangle(Settings.INFORMATIONSCASTLEXY,Settings.INFORMATIONSCASTLEXY,Settings.INFORMATIONSWIDTH,Settings.INFORMATIONSHEIGHT);
-		createInfos.setArcWidth(40);
-		createInfos.setArcHeight(40);
+		createInfos.setArcWidth(Settings.RECTANGLE_ARC);
+		createInfos.setArcHeight(Settings.RECTANGLE_ARC);
 		createInfos.setFill(Color.WHITE);
 		root.getChildren().add(createInfos);
 	}
 	
 	// Creation rectangle + texte pour produire des troupes ou ameliorer
 	private void createProduction() {
-		createProduct = new Rectangle(Settings.SCENE_WIDTH/3,Settings.SCENE_HEIGHT/4,500,300);
-		createProduct.setArcWidth(40);
-		createProduct.setArcHeight(40);
+		createProduct = new Rectangle(Settings.SCENE_WIDTH/3,Settings.SCENE_HEIGHT/4,Settings.PRODUCTION_WIDTH,Settings.PRODUCTION_HEIGHT);
+		createProduct.setArcWidth(Settings.RECTANGLE_ARC);
+		createProduct.setArcHeight(Settings.RECTANGLE_ARC);
 		createProduct.setFill(Color.WHITE);
 		root.getChildren().add(createProduct);
 		
@@ -521,12 +510,12 @@ public class Main extends Application {
 	private void createSendTroupes() {
 		targetText = new Text("Cible : ?");
 		targetText.setLayoutX(Settings.TEXTX);
-		targetText.setLayoutY(Settings.EXTENDINFORMATIONHEIGHT - 20);
+		targetText.setLayoutY(Settings.EXTENDINFORMATIONHEIGHT - 15);
 		root.getChildren().add(targetText);
 		
 		cancel = new Text("> Annuler <");
 		cancel.setLayoutX(Settings.INFORMATIONSWIDTH - 60);
-		cancel.setLayoutY(165);
+		cancel.setLayoutY(Settings.EXTENDINFORMATIONHEIGHT - 15);
 		tabOfText.add(cancel);
 		root.getChildren().add(cancel);
 	}
@@ -536,13 +525,13 @@ public class Main extends Application {
 		down = new Text(" - ");
 		up = new Text(" + ");
 		
-		down.setLayoutX(150);
-		down.setLayoutY(210);
+		down.setLayoutX(Settings.INFORMATIONSHEIGHT);
+		down.setLayoutY(Settings.INFORMATIONSWIDTH - 15);
 		tabOfText.add(down);
 		root.getChildren().add(down);
 		
-		up.setLayoutX(170);
-		up.setLayoutY(210);
+		up.setLayoutX(Settings.INFORMATIONSHEIGHT + 20);
+		up.setLayoutY(Settings.INFORMATIONSWIDTH - 15);
 		tabOfText.add(up);
 		root.getChildren().add(up);
 	}
@@ -553,24 +542,24 @@ public class Main extends Application {
 		chevalier = new Text("> Chevalier < : " + c + " / " + RunACastle.countTroupes("Chevalier", selectedCastle.getTabTroupes()));
 		onagre = new Text("> Onagre < : " + o + " / " + RunACastle.countTroupes("Onagre", selectedCastle.getTabTroupes()));
 		
-		piquier.setLayoutX(30);
-		piquier.setLayoutY(190);
+		piquier.setLayoutX(Settings.INFORMATIONSCASTLEXY * 3);
+		piquier.setLayoutY(Settings.EXTENDINFORMATIONHEIGHT + 10);
 		tabOfText.add(piquier);
 		root.getChildren().add(piquier);
 		
-		chevalier.setLayoutX(30);
-		chevalier.setLayoutY(210);
+		chevalier.setLayoutX(Settings.INFORMATIONSCASTLEXY * 3);
+		chevalier.setLayoutY(Settings.INFORMATIONSWIDTH - 15);
 		tabOfText.add(chevalier);
 		root.getChildren().add(chevalier);
 		
-		onagre.setLayoutX(30);
-		onagre.setLayoutY(230);
+		onagre.setLayoutX(Settings.INFORMATIONSCASTLEXY * 3);
+		onagre.setLayoutY(Settings.INFORMATIONSWIDTH + 5);
 		tabOfText.add(onagre);
 		root.getChildren().add(onagre);
 		
 		validate = new Text("> Valider <");
-		validate.setLayoutX(130);
-		validate.setLayoutY(245);
+		validate.setLayoutX(Settings.INFORMATIONSWIDTH - 60);
+		validate.setLayoutY(Settings.MAXHEIGHT + 5);
 		tabOfText.add(validate);
 		root.getChildren().add(validate);
 	}
@@ -578,15 +567,15 @@ public class Main extends Application {
 	// Affichage des informations du chateau
 	private void printInfos(Castle c) {
 		status = new Text(" "); 
-		status.setLayoutX(30);
-		status.setLayoutY(30);
+		status.setLayoutX(Settings.INFORMATIONSCASTLEXY * 3);
+		status.setLayoutY(Settings.INFORMATIONSCASTLEXY * 3);
 		root.getChildren().add(status);
 		
 		// Verifie si Ameliorer est dans tabOfText pour eviter la superposition du texte
 		if(!tabOfText.contains(upgrade)) {
 			upgrade = new Text();
-			upgrade.setLayoutX(140);
-			upgrade.setLayoutY(45);
+			upgrade.setLayoutX(Settings.INFORMATIONSHEIGHT - 10);
+			upgrade.setLayoutY(Settings.INFORMATIONSCASTLEXY * 4 + 5);
 			tabOfText.add(upgrade);
 			root.getChildren().add(upgrade);
 		}
@@ -594,8 +583,8 @@ public class Main extends Application {
 		// Verifie si Envoyer des troupes est dans tabOfText pour eviter la superposition du texte
 		if(!tabOfText.contains(sendTroupes) && c.getOwner() == "Player") {
 			sendTroupes = new Text("> Envoyer des troupes <");
-			sendTroupes.setLayoutX(30);
-			sendTroupes.setLayoutY(150);
+			sendTroupes.setLayoutX(Settings.INFORMATIONSCASTLEXY * 3);
+			sendTroupes.setLayoutY(Settings.INFORMATIONSHEIGHT);
 			tabOfText.add(sendTroupes);
 			root.getChildren().add(sendTroupes);
 		}
@@ -603,16 +592,16 @@ public class Main extends Application {
 		// Verifie si Produire est dans tabOfText pour eviter la superposition du texte
 		if(!tabOfText.contains(product) && c.getOwner() == "Player") {
 			product = new Text("> Produire <");
-			product.setLayoutX(140);
-			product.setLayoutY(110);
+			product.setLayoutX(Settings.INFORMATIONSHEIGHT - 10);
+			product.setLayoutY(Settings.INFORMATIONSHEIGHT - 40);
 			tabOfText.add(product);
 			root.getChildren().add(product);
 		}
 		
 		if(c.getOwner() == "Player") {
 			allProduction = new Text("Production : " + c.getTabOfProduction().size());
-			allProduction.setLayoutX(30);
-			allProduction.setLayoutY(110);
+			allProduction.setLayoutX(Settings.INFORMATIONSCASTLEXY * 3);
+			allProduction.setLayoutY(Settings.INFORMATIONSHEIGHT - 40);
 			root.getChildren().add(allProduction);
 		}
 	}

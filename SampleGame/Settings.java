@@ -13,11 +13,16 @@ public class Settings {
     public static final int BARONSIZE = (int) (SCENE_HEIGHT *  0.04);
     public static final int DOORSIZE = (int) (SCENE_HEIGHT *  0.03);
     
+    static final int RECTANGLE_ARC = 40;
+    
     static final int INFORMATIONSCASTLEXY = 10;
     static final int INFORMATIONSWIDTH = 225;
     static final int INFORMATIONSHEIGHT = 150;
     static final int EXTENDINFORMATIONHEIGHT = 180;
     static final int MAXHEIGHT = 250;
+    
+    static final int PRODUCTION_WIDTH = 500;
+    static final int PRODUCTION_HEIGHT = 300;
     
     static final int TEXTX = INFORMATIONSCASTLEXY * 3;
 }

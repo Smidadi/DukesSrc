@@ -51,7 +51,7 @@ public class RunACastle {	// w : 1500 ; h : 1000 pour la map
 	static void reduceTresor(Castle c) {
 		int u = 1000 * c.getNiveau();
 		if(c.getTresor() < u) {
-			System.out.println("Am�lioration impossible");
+			System.out.println("Amélioration impossible");
 		}
 		else {
 			c.setTresor(c.getTresor() - u);
@@ -83,7 +83,7 @@ public class RunACastle {	// w : 1500 ; h : 1000 pour la map
 			return new Chevalier(c.getName()).getTemps();
 		case "Onagre" :
 			return new Onagre(c.getName()).getTemps();
-		case "Am�liorer" :
+		case "Améliorer" :
 			return 100+50*c.getNiveau();
 		default :
 			return 0;
@@ -102,7 +102,7 @@ public class RunACastle {	// w : 1500 ; h : 1000 pour la map
 			else if(c.getTabOfProduction().get(0) == "Onagre") {
 				c.setTimeOfProduction(new Onagre(c.getName()).getTemps());
 			}
-			else if(c.getTabOfProduction().get(0) == "Am�liorer") {
+			else if(c.getTabOfProduction().get(0) == "Améliorer") {
 				c.setTimeOfProduction(100 + 50*c.getNiveau());
 			}
 		}
