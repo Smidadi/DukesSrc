@@ -437,8 +437,8 @@ public class Main extends Application {
 	// Creation du rectangle contenant les informations du chateau
 	private void createPrintInfos() {
 		createInfos = new Rectangle(Settings.INFORMATIONSCASTLEXY,Settings.INFORMATIONSCASTLEXY,Settings.INFORMATIONSWIDTH,Settings.INFORMATIONSHEIGHT);
-		createInfos.setArcWidth(40);
-		createInfos.setArcHeight(40);
+		createInfos.setArcWidth(Settings.RECTANGLE_ARC);
+		createInfos.setArcHeight(Settings.RECTANGLE_ARC);
 		createInfos.setFill(Color.WHITE);
 		root.getChildren().add(createInfos);
 	}
@@ -446,8 +446,8 @@ public class Main extends Application {
 	// Creation rectangle + texte pour produire des troupes ou ameliorer
 	private void createProduction() {
 		createProduct = new Rectangle(Settings.SCENE_WIDTH/3,Settings.SCENE_HEIGHT/4,500,300);
-		createProduct.setArcWidth(40);
-		createProduct.setArcHeight(40);
+		createProduct.setArcWidth(Settings.RECTANGLE_ARC);
+		createProduct.setArcHeight(Settings.RECTANGLE_ARC);
 		createProduct.setFill(Color.WHITE);
 		root.getChildren().add(createProduct);
 		
@@ -514,13 +514,13 @@ public class Main extends Application {
 		down = new Text(" - ");
 		up = new Text(" + ");
 		
-		down.setLayoutX(150);
-		down.setLayoutY(210);
+		down.setLayoutX(Settings.INFORMATIONSHEIGHT + 20);
+		down.setLayoutY(Settings.INFORMATIONSWIDTH - 15);
 		tabOfText.add(down);
 		root.getChildren().add(down);
 		
-		up.setLayoutX(170);
-		up.setLayoutY(210);
+		up.setLayoutX(Settings.EXTENDINFORMATIONHEIGHT + 10);
+		up.setLayoutY(Settings.INFORMATIONSWIDTH - 15);
 		tabOfText.add(up);
 		root.getChildren().add(up);
 	}
@@ -531,18 +531,18 @@ public class Main extends Application {
 		chevalier = new Text("> Chevalier < : " + c + " / " + RunACastle.countTroupes("Chevalier", selectedCastle.getTabTroupes()));
 		onagre = new Text("> Onagre < : " + o + " / " + RunACastle.countTroupes("Onagre", selectedCastle.getTabTroupes()));
 		
-		piquier.setLayoutX(30);
-		piquier.setLayoutY(190);
+		piquier.setLayoutX(Settings.INFORMATIONSCASTLEXY * 3);
+		piquier.setLayoutY(Settings.EXTENDINFORMATIONHEIGHT + 10);
 		tabOfText.add(piquier);
 		root.getChildren().add(piquier);
 		
-		chevalier.setLayoutX(30);
-		chevalier.setLayoutY(210);
+		chevalier.setLayoutX(Settings.INFORMATIONSCASTLEXY * 3);
+		chevalier.setLayoutY(Settings.INFORMATIONSWIDTH - 15);
 		tabOfText.add(chevalier);
 		root.getChildren().add(chevalier);
 		
-		onagre.setLayoutX(30);
-		onagre.setLayoutY(230);
+		onagre.setLayoutX(Settings.INFORMATIONSCASTLEXY * 3);
+		onagre.setLayoutY(Settings.INFORMATIONSWIDTH + 5);
 		tabOfText.add(onagre);
 		root.getChildren().add(onagre);
 		
@@ -556,15 +556,15 @@ public class Main extends Application {
 	// Affichage des informations du chateau
 	private void printInfos(Castle c) {
 		status = new Text(" "); 
-		status.setLayoutX(30);
-		status.setLayoutY(30);
+		status.setLayoutX(Settings.INFORMATIONSCASTLEXY * 3);
+		status.setLayoutY(Settings.INFORMATIONSCASTLEXY * 3);
 		root.getChildren().add(status);
 		
 		// Verifie si Ameliorer est dans tabOfText pour eviter la superposition du texte
 		if(!tabOfText.contains(upgrade)) {
 			upgrade = new Text();
-			upgrade.setLayoutX(140);
-			upgrade.setLayoutY(45);
+			upgrade.setLayoutX(Settings.INFORMATIONSHEIGHT - 10);
+			upgrade.setLayoutY(Settings.INFORMATIONSCASTLEXY * 4 + 5);
 			tabOfText.add(upgrade);
 			root.getChildren().add(upgrade);
 		}
@@ -572,8 +572,8 @@ public class Main extends Application {
 		// Verifie si Envoyer des troupes est dans tabOfText pour eviter la superposition du texte
 		if(!tabOfText.contains(sendTroupes) && c.getOwner() == "Player") {
 			sendTroupes = new Text("> Envoyer des troupes <");
-			sendTroupes.setLayoutX(30);
-			sendTroupes.setLayoutY(150);
+			sendTroupes.setLayoutX(Settings.INFORMATIONSCASTLEXY * 3);
+			sendTroupes.setLayoutY(Settings.INFORMATIONSHEIGHT);
 			tabOfText.add(sendTroupes);
 			root.getChildren().add(sendTroupes);
 		}
@@ -581,8 +581,8 @@ public class Main extends Application {
 		// Verifie si Produire est dans tabOfText pour eviter la superposition du texte
 		if(!tabOfText.contains(product) && c.getOwner() == "Player") {
 			product = new Text("> Produire <");
-			product.setLayoutX(140);
-			product.setLayoutY(110);
+			product.setLayoutX(Settings.INFORMATIONSHEIGHT - 10);
+			product.setLayoutY(Settings.INFORMATIONSHEIGHT - 40);
 			tabOfText.add(product);
 			root.getChildren().add(product);
 		}
