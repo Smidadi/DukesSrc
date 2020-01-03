@@ -2,9 +2,9 @@ package SampleGame;
 
 public class Settings {
 	static final String tabOfCastleName[] = {"Versailles","Castelnaud","Chambord","Chenonceau","Villandry",
-			"Cheverny","Vaux-le-Vicomte","Fontainebleau","Cathare","Ussé",
-			"Amboise","Valençay","Chantilly","Bonaguil","Pierrefonds",
-			"Citadelles de l'oubli","Eguisheim ","Carcassonne","Peyrepertuse","Montségur"};
+			"Cheverny","Vaux-le-Vicomte","Fontainebleau","Cathare","Ussï¿½",
+			"Amboise","Valenï¿½ay","Chantilly","Bonaguil","Pierrefonds", "MontsÃ©gur"
+			,"Eguisheim ","Carcassonne","Peyrepertuse","Citadelles de l'oubli"};
 	
 	public static final double SCENE_WIDTH = 1500;
     public static final double SCENE_HEIGHT = 1000;

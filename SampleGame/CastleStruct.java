@@ -44,6 +44,10 @@ public class CastleStruct  {
 			if(inASquare(castle, cornerLT) == true || inASquare(castle, cornerLB) == true || inASquare(castle, cornerRT) == true || inASquare(castle, cornerRB) == true){
 				return false;
 			}
+			
+		}
+		if(cornerLT.getX() < Settings.INFORMATIONSWIDTH + 10 && cornerLT.getY() < Settings.MAXHEIGHT) {
+			return false;
 		}
 		return true;
 	}
