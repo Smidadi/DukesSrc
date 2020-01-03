@@ -275,12 +275,13 @@ public class Main extends Application {
 									tab[1] = p;
 									tab[2] = c;
 									OST ost = new OST(targetCastle, tab, selectedCastle, tabOfCastle);
-									// Affichage des ost
-									ArrayList<GeometricForm> tabOfGeometricForm = GeometricForm.tabOfGeometricForm(ost, tabOfCastle);
-									selectedCastle.setTabTroupes(Troupes.createTroupes(selectedCastle.getName(), RunACastle.countTroupes("Piquier", selectedCastle.getTabTroupes()) - p, RunACastle.countTroupes("Chevalier", selectedCastle.getTabTroupes()) - c,RunACastle.countTroupes("Onagre", selectedCastle.getTabTroupes()) - o));									
-									printUnites(ost, tabOfGeometricForm);
 									OST.distanceCastles(tabOfCastle, ost, targetCastle);
+									selectedCastle.setTabTroupes(Troupes.createTroupes(selectedCastle.getName(), 
+											RunACastle.countTroupes("Piquier", selectedCastle.getTabTroupes()) - p, 
+											RunACastle.countTroupes("Chevalier", selectedCastle.getTabTroupes()) - c,
+											RunACastle.countTroupes("Onagre", selectedCastle.getTabTroupes()) - o));
 									ost.setInMovment(true);
+									ost.setTabOfGeometricForm( GeometricForm.tabOfGeometricForm(ost, tabOfCastle));
 									tabOfOST.add(ost);
 									// Reinitialisation des variables troupes
 									p = 0;
@@ -396,6 +397,11 @@ public class Main extends Application {
 				
 				tabOfOST.forEach(ost -> {
 					if(ost.getInMovment() == true /*&& ost.getOwner() == selectedCastle.getOwner()*/) {
+						// Affichage des ost
+						
+						if(ost.getTabOfGeometricForm().size() != 0 && countSec == 60) {
+							printUnites(ost,ost.getTabOfGeometricForm());
+						}
 						OST.move(root, ost, ost.getOwner(), ost.getTarget());
 						if(ost.getCanAttack() == true) {
 							if(Troupes.attackACastle(tabOfCastle, ost.getOwner(), ost.getTarget(), ost.getOstUnites(), ost.getTarget().getTabTroupes()) == true) {
@@ -621,19 +627,22 @@ public class Main extends Application {
 	}
 	
 	private void printUnites(OST ost, ArrayList<GeometricForm> tabOfGeometricForm) {
-		ArrayList<Rectangle> rTab = new ArrayList<>();
-		ArrayList<Circle> cTab = new ArrayList<>();
-		ArrayList<Polygon> pTab = new ArrayList<>();
 		int r = tabOfGeometricForm.get(0).getColor().r;
 		int g = tabOfGeometricForm.get(0).getColor().g;
 		int b = tabOfGeometricForm.get(0).getColor().b;
-		for(int i=0; i < tabOfGeometricForm.size(); i++) {
+		int i = 0;
+		int cpt = 0;
+		while(cpt < 3) {
+			if(tabOfGeometricForm.size() == 0) {
+				return;
+			}
 			switch(tabOfGeometricForm.get(i).getType()){
 				case "rectangle":
 					Rectangle onagre = new Rectangle(tabOfGeometricForm.get(i).getX(),tabOfGeometricForm.get(i).getY(),(double) tabOfGeometricForm.get(i).getWidth(),(double) tabOfGeometricForm.get(i).getHeight());
 					onagre.setFill(Color.rgb(r, g, b));
-					rTab.add(onagre);
+					ost.getRectangle().add(onagre);
 					root.getChildren().add(onagre); 
+					tabOfGeometricForm.remove(i);
 					break;
 				case "triangle":
 					Polygon piquier = new Polygon();
@@ -642,23 +651,24 @@ public class Main extends Application {
 						    (double) tabOfGeometricForm.get(i).getS2().getX(), (double) tabOfGeometricForm.get(i).getS2().getY(),
 						    (double) tabOfGeometricForm.get(i).getS3().getX(), (double) tabOfGeometricForm.get(i).getS3().getY()});
 					piquier.setFill(Color.rgb(r, g, b));
-					pTab.add(piquier);
+					ost.getPolygon().add(piquier);
 					root.getChildren().add(piquier); 
+					tabOfGeometricForm.remove(i);
 					break;
 				case "circle":
 					Circle chevalier = new Circle((double) tabOfGeometricForm.get(i).getX(),(double) tabOfGeometricForm.get(i).getY(),(double) tabOfGeometricForm.get(i).getRadius());
 					chevalier.setFill(Color.rgb(r, g, b));
-					cTab.add(chevalier);
+					ost.getCircle().add(chevalier);
 					root.getChildren().add(chevalier); 
+					tabOfGeometricForm.remove(i);
 					break;
 				default:
 					System.out.println("erreur affichage troupe : type Unknow");
 					break;
 			}
+			cpt++;
 		}
-		ost.setCircle(cTab);
-		ost.setPolygon(pTab);
-		ost.setRectangle(rTab);
+		return;
 	}
 	
 	public static void main(String[] args) {

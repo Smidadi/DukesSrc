@@ -2,8 +2,8 @@ package SampleGame;
 
 public class Settings {
 	static final String tabOfCastleName[] = {"Versailles","Castelnaud","Chambord","Chenonceau","Villandry",
-			"Cheverny","Vaux-le-Vicomte","Fontainebleau","Cathare","Uss�",
-			"Amboise","Valen�ay","Chantilly","Bonaguil","Pierrefonds", "Montségur"
+			"Cheverny","Vaux-le-Vicomte","Fontainebleau","Cathare","Ussé",
+			"Amboise","Valenday","Chantilly","Bonaguil","Pierrefonds", "Montségur"
 			,"Eguisheim ","Carcassonne","Peyrepertuse","Citadelles de l'oubli"};
 	
 	public static final double SCENE_WIDTH = 1500;
