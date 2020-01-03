@@ -10,7 +10,7 @@ public class Castle {
 	private String owner;
 	private String type;
 	
-	private int niveau;
+	private int level;
 	
 	private int tresor;	
 	private int revenu;
@@ -18,8 +18,7 @@ public class Castle {
 	private ArrayList<Troupes> tabTroupes = new ArrayList<Troupes>();
 	protected OST ost;
 	
-	private ArrayList<String> tabOfProduction = new ArrayList<String>();
-	private int TimeOfProduction;
+	private Production productionLine;
 	
 	private CastleStruct Castle;
 	private CastleDoor CastleDoor;
@@ -43,7 +42,7 @@ public class Castle {
                 this.color = new TeamColor();
                 this.tabTroupes = Troupes.createTroupes(this.name,6,6,6); // Temporary
 			}
-			this.niveau = 1;
+			this.level = 1;
 			this.tresor = 0;
 			 			
 			this.Castle = new CastleStruct(type,tabOfCastle);
@@ -53,7 +52,7 @@ public class Castle {
 		if(type == "Baron") {
 			this.name = tabOfCastleName[tabOfCastle.size()];
 			this.owner = "Baron " + Integer.toString(nb);
-			this.niveau = 1 + (int) Math.random() * 5;
+			this.level = 1 + (int) Math.random() * 5;
 			this.tresor = 500 + (int) Math.random() * 1001;	// 500 - 1500			
 			this.tabTroupes = Troupes.createTroupes(this.name,0,0,0); // temporaire
 			this.Castle = new CastleStruct(type,tabOfCastle);
@@ -75,8 +74,9 @@ public class Castle {
 		
 		this.rectDoor = new Rectangle(Dx,Dy,Dw,Dh);
 		
+		this.productionLine = new Production(this.level);
 		this.type = type;
-		this.revenu = this.niveau * 10;
+		this.revenu = this.level * 10;
 	}
 	
 
@@ -109,11 +109,11 @@ public class Castle {
 	public void setCastleDoor(CastleDoor castleDoor) {
 		CastleDoor = castleDoor;
 	}
-	public int getNiveau() {
-		return niveau;
+	public int getLevel() {
+		return level;
 	}
-	public void setNiveau(int niveau) {
-		this.niveau = niveau;
+	public void setLevel(int level) {
+		this.level = level;
 	}
 	public int getTresor() {
 		return tresor;
@@ -151,23 +151,17 @@ public class Castle {
 	public void setRectDoor(Rectangle rectDoor) {
 		this.rectDoor = rectDoor;
 	}
-	public ArrayList<String> getTabOfProduction() {
-		return tabOfProduction;
-	}
-	public void setTabOfProduction(ArrayList<String> tabOfProduction) {
-		this.tabOfProduction = tabOfProduction;
-	}
 	public String getOwner() {
 		return owner;
 	}
 	public void setOwner(String owner) {
 		this.owner = owner;
 	}
-	public int getTimeOfProduction() {
-		return TimeOfProduction;
+	public Production getProductionLine() {
+		return productionLine;
 	}
-	public void setTimeOfProduction(int timeOfProduction) {
-		TimeOfProduction = timeOfProduction;
-	}
+	public void setProductionLine(Production productionLine) {
+		this.productionLine = productionLine;
+	}	
 	
 }
