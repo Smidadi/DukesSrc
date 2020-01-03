@@ -16,6 +16,7 @@ public class OST {
 	private TeamColor TeamColor;
 	private Castle owner;
 	
+	private ArrayList<GeometricForm> tabOfGeometricForm;
 	private ArrayList<Rectangle> rectangle = new ArrayList<>();
 	private ArrayList<Circle> circle = new ArrayList<>();
 	private ArrayList<Polygon> polygon = new ArrayList<>();
@@ -105,6 +106,9 @@ public class OST {
 				root.getChildren().remove(ost.getRectangle().get(i));
 				ost.getRectangle().remove(ost.getRectangle().get(i));
 			}
+			if(ost.getRectangle().isEmpty() && ost.getCircle().isEmpty() && ost.getPolygon().isEmpty()) {
+				ost.setCanAttack(true);
+			}
 		}
 		// CIRCLE
 		for(int i = 0; i < ost.getCircle().size(); i++) {
@@ -130,6 +134,9 @@ public class OST {
 			if(ost.getCircle().get(i).getCenterX() == ost.getX() && ost.getCircle().get(i).getCenterY() == ost.getY()) {
 				root.getChildren().remove(ost.getCircle().get(i));
 				ost.getCircle().remove(ost.getCircle().get(i));
+			}
+			if(ost.getRectangle().isEmpty() && ost.getCircle().isEmpty() && ost.getPolygon().isEmpty()) {
+				ost.setCanAttack(true);
 			}
 			
 		}
@@ -159,11 +166,11 @@ public class OST {
 				root.getChildren().remove(ost.getPolygon().get(i));
 				ost.getPolygon().remove(ost.getPolygon().get(i));
 			}
+			if(ost.getRectangle().isEmpty() && ost.getCircle().isEmpty() && ost.getPolygon().isEmpty()) {
+				ost.setCanAttack(true);
+			}
 		}
 		
-		if(ost.getRectangle().isEmpty() && ost.getCircle().isEmpty() && ost.getPolygon().isEmpty()) {
-			ost.setCanAttack(true);
-		}
 	}
 	
 	static void moveR(OST ost, String dir, Rectangle r) {
@@ -395,5 +402,11 @@ public class OST {
 	}
 	public void setCanAttack(boolean canAttack) {
 		this.canAttack = canAttack;
+	}
+	public ArrayList<GeometricForm> getTabOfGeometricForm() {
+		return tabOfGeometricForm;
+	}
+	public void setTabOfGeometricForm(ArrayList<GeometricForm> tabOfGeometricForm) {
+		this.tabOfGeometricForm = tabOfGeometricForm;
 	}
 }

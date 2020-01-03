@@ -4,7 +4,11 @@ public class Settings {
 	static final String tabOfCastleName[] = {"Versailles","Castelnaud","Chambord","Chenonceau","Villandry",
 			"Cheverny","Vaux-le-Vicomte","Fontainebleau","Cathare","Ussé",
 			"Amboise","Valenday","Chantilly","Bonaguil","Pierrefonds", "Montségur"
+<<<<<<< HEAD
 			,"Eguisheim ","Carcassonne","Peyrepertuse","Mordor"};
+=======
+			,"Eguisheim ","Carcassonne","Peyrepertuse","Citadelles de l'oubli"};
+>>>>>>> 3bb874e7a21fa669691801b370c1a7f1a3cf5bdb
 	
 	public static final double SCENE_WIDTH = 1500;
     public static final double SCENE_HEIGHT = 1000;

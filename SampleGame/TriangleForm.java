@@ -14,7 +14,7 @@ public class TriangleForm extends GeometricForm {
 		if(direction == 'N' || direction == 'S') {
 			switch(position) {
 			case 1:
-				this.s1.setX(door.getX()-10);
+				this.s1.setX(door.getX()-15);
 				this.s1.setY(door.getY()-5);			
 				break;
 			case 2:
@@ -22,7 +22,7 @@ public class TriangleForm extends GeometricForm {
 				this.s1.setY(door.getY()-5);				
 				break;
 			case 3:
-				this.s1.setX(door.getX()+10);
+				this.s1.setX(door.getX()+15);
 				this.s1.setY(door.getY()-5);	
 				break;
 			default:
@@ -32,7 +32,7 @@ public class TriangleForm extends GeometricForm {
 			switch(position) {
 			case 1:
 				this.s1.setX(door.getX());
-				this.s1.setY(door.getY() - 15);
+				this.s1.setY(door.getY() - 20);
 				break;
 			case 2:
 				this.s1.setX(door.getX());
@@ -40,7 +40,7 @@ public class TriangleForm extends GeometricForm {
 				break;
 			case 3:
 				this.s1.setX(door.getX());
-				this.s1.setY(door.getY() + 5);	
+				this.s1.setY(door.getY() + 10);	
 				break;
 			default:
 				break;

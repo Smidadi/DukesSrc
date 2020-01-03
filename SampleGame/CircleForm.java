@@ -13,7 +13,7 @@ public class CircleForm extends GeometricForm {
 		if(direction == 'N' || direction == 'S') {
 			switch(position) {
 			case 1:
-				this.x = door.getX()-10;
+				this.x = door.getX()-15;
 				this.y = door.getY();
 				break;
 			case 2:
@@ -21,7 +21,7 @@ public class CircleForm extends GeometricForm {
 				this.y = door.getY();
 				break;
 			case 3:
-				this.x = door.getX()+10;
+				this.x = door.getX()+15;
 				this.y = door.getY();
 				break;
 			default:
@@ -31,7 +31,7 @@ public class CircleForm extends GeometricForm {
 			switch(position) {
 			case 1:
 				this.x = door.getX();
-				this.y = door.getY()-10;
+				this.y = door.getY()-15;
 				break;
 			case 2:
 				this.x = door.getX();
@@ -39,7 +39,7 @@ public class CircleForm extends GeometricForm {
 				break;
 			case 3:
 				this.x = door.getX();
-				this.y = door.getY()+10;
+				this.y = door.getY()+15;
 				break;
 			default:
 				break;

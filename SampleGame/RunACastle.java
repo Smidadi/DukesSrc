@@ -143,6 +143,7 @@ public class RunACastle {	// w : 1500 ; h : 1000 pour la map
 				tabOfCastle.get(i).setColor(attacker.getColor());
 				for(int k = 0; k<troopOfattacker.size(); k++) {
 					tabOfCastle.get(i).getTabTroupes().add(troopOfattacker.get(k));
+					troopOfattacker.remove(k);
 				}				
 			}
 		}
