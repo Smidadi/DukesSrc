@@ -1,13 +1,19 @@
 package SampleGame;
 
-//import java.util.BitSet;
+import java.util.BitSet;
 
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
+import static javafx.scene.input.KeyCode.*;
+
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 public class Input {
 
+	private BitSet keyboardBitSet = new BitSet();
+	
 	private Scene scene = null;
 
 	public Input(Scene scene) {
@@ -15,25 +21,40 @@ public class Input {
 	}
 
 	public void addListeners() {
-		scene.addEventFilter(MouseEvent.MOUSE_PRESSED, mousePressedEventHandler);
-		scene.addEventFilter(MouseEvent.MOUSE_RELEASED, mouseReleasedEventHandler);
+		scene.addEventFilter(KeyEvent.KEY_PRESSED, keyPressedEventHandler);
+		scene.addEventFilter(KeyEvent.KEY_RELEASED, keyReleasedEventHandler);
 	}
 
 	public void removeListeners() {
-		scene.removeEventFilter(MouseEvent.MOUSE_PRESSED, mousePressedEventHandler);
-		scene.removeEventFilter(MouseEvent.MOUSE_RELEASED, mouseReleasedEventHandler);
+		scene.removeEventFilter(KeyEvent.KEY_PRESSED, keyPressedEventHandler);
+		scene.removeEventFilter(KeyEvent.KEY_RELEASED, keyReleasedEventHandler);
 	}
-
-	private EventHandler<MouseEvent> mousePressedEventHandler = event -> {
+	
+	private EventHandler<KeyEvent> keyPressedEventHandler = event -> {
 		// register key down
+		keyboardBitSet.set(event.getCode().ordinal(), true);
 		event.consume();
 	};
-
-	private EventHandler<MouseEvent> mouseReleasedEventHandler = new EventHandler<MouseEvent>() {
+	
+	private EventHandler<KeyEvent> keyReleasedEventHandler = new EventHandler<KeyEvent>() {
 		@Override
-		public void handle(MouseEvent event) {
+		public void handle(KeyEvent event) {
 			// register key up
+			keyboardBitSet.set(event.getCode().ordinal(), false);
 			event.consume();
 		}
 	};
+
+	
+	private boolean is(KeyCode key) {
+		return keyboardBitSet.get(key.ordinal());
+	}
+	
+	public boolean isPause() {
+		return is(SPACE);
+	}
+	
+	public boolean isExit() {
+		return is(ESCAPE);
+	}
 }
