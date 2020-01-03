@@ -29,20 +29,22 @@ public class Production {
 	
 	 static void updateProduction(Castle c) {
 		c.getProductionLine().getTabOfProduction().remove(0);
-		switch(c.getProductionLine().getTabOfProduction().get(0)) {
-		case "Piquier":
-			c.getProductionLine().setTimeLeft(c.getProductionLine().getTimeOfPiquier());
-			break;
-		case "Chevalier":
-			c.getProductionLine().setTimeLeft(c.getProductionLine().getTimeOfChevalier());
-			break;
-		case "Onagre":
-			c.getProductionLine().setTimeLeft(c.getProductionLine().getTimeOfOnagre());
-			break;
-		case "Améliorer":
-			c.getProductionLine().setTimeLeft(c.getProductionLine().getTimeOfUpgrade());
-		default :
-			break;
+		if(c.getProductionLine().getTabOfProduction().isEmpty() == false) {
+			switch(c.getProductionLine().getTabOfProduction().get(0)) {
+			case "Piquier":
+				c.getProductionLine().setTimeLeft(c.getProductionLine().getTimeOfPiquier());
+				break;
+			case "Chevalier":
+				c.getProductionLine().setTimeLeft(c.getProductionLine().getTimeOfChevalier());
+				break;
+			case "Onagre":
+				c.getProductionLine().setTimeLeft(c.getProductionLine().getTimeOfOnagre());
+				break;
+			case "Améliorer":
+				c.getProductionLine().setTimeLeft(c.getProductionLine().getTimeOfUpgrade());
+			default :
+				break;
+			}
 		}
 	}
 		

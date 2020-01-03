@@ -542,7 +542,7 @@ public class Main extends Application {
 		
 		validate = new Text("> Valider <");
 		validate.setLayoutX(Settings.INFORMATIONSWIDTH - 60);
-		validate.setLayoutY(Settings.MAXHEIGHT + 5);
+		validate.setLayoutY(Settings.MAXHEIGHT);
 		tabOfText.add(validate);
 		root.getChildren().add(validate);
 	}
@@ -583,8 +583,8 @@ public class Main extends Application {
 		
 		if(c.getOwner() == "Player") {
 			allProduction = new Text("Production : " + c.getProductionLine().getTabOfProduction().size());
-			allProduction.setLayoutX(30);
-			allProduction.setLayoutY(110);
+			allProduction.setLayoutX(Settings.INFORMATIONSCASTLEXY * 3);
+			allProduction.setLayoutY(Settings.INFORMATIONSHEIGHT - 40);
 			root.getChildren().add(allProduction);
 		}
 	}
