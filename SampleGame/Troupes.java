@@ -6,8 +6,6 @@ public class Troupes {
 	
 	protected String name;
 	protected String Owner;
-	protected int cout;
-	protected int temps;
 	protected int vitesse;
 	protected int vie;
 	protected int degat;
@@ -39,8 +37,8 @@ public class Troupes {
 		}
 	}
 	
-	public static Boolean doDamage(Troupes soldier, ArrayList<Troupes> defenser) {	// Fonction recursive : inflige des degats a une unité
-		// Choisir une unité aléatoire à attaquer	
+	public static Boolean doDamage(Troupes soldier, ArrayList<Troupes> defenser) {	// Fonction recursive : inflige des degats a une unitï¿½
+		// Choisir une unitï¿½ alï¿½atoire ï¿½ attaquer	
 		int i = (int) (Math.random() * defenser.size());
 		
 		while(soldier.degat != 0) {
@@ -89,53 +87,28 @@ public class Troupes {
 	public String toString() {
 		return "Troupes : ";
 	}
-
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public int getCout() {
-		return cout;
-	}
-
-	public void setCout(int cout) {
-		this.cout = cout;
-	}
-
-	public int getTemps() {
-		return temps;
-	}
-
-	public void setTemps(int temps) {
-		this.temps = temps;
-	}
-
 	public int getVitesse() {
 		return vitesse;
 	}
-
 	public void setVitesse(int vitesse) {
 		this.vitesse = vitesse;
 	}
-
 	public int getVie() {
 		return vie;
 	}
-
 	public void setVie(int vie) {
 		this.vie = vie;
 	}
-
 	public int getDegat() {
 		return degat;
 	}
-
 	public void setDegat(int degat) {
 		this.degat = degat;
 	}
-
 }

@@ -33,7 +33,7 @@ public class RunACastle {	// w : 1500 ; h : 1000 pour la map
 	}
 	
 	static void updateRevenu(Castle c) {
-		c.setRevenu(c.getNiveau() * 10);
+		c.setRevenu(c.getLevel() * 10);
 	}
 	
 	static void updateTresorBaron(Castle c) {
@@ -45,101 +45,68 @@ public class RunACastle {	// w : 1500 ; h : 1000 pour la map
 	}
 	
 	static void updateNiveau(Castle c) {
-		c.setNiveau(c.getNiveau()+1);
+		c.setLevel(c.getLevel()+1);
 	}
 	
-	static void reduceTresor(Castle c) {
-		int u = 1000 * c.getNiveau();
-		if(c.getTresor() < u) {
-			System.out.println("Am�lioration impossible");
-		}
-		else {
-			c.setTresor(c.getTresor() - u);
-		}
-	}	
-	
-	static void removeProduction(Castle c, ArrayList<String> p) {
-		switch(p.get(0)) {
+	//Partie qui traite les intéractions entre trésorerie - réserve et Production
+	static void removeCostOfProduction(Castle c) {
+		switch(c.getProductionLine().getTabOfProduction().get(0)) {
 		case "Piquier" :
-			c.setTresor(c.getTresor() + new Piquier(c.getName()).getCout());
+			c.setTresor(c.getTresor() - c.getProductionLine().getCostOfPiquier());
 			break;
 		case "Chevalier" :
-			c.setTresor(c.getTresor() + new Chevalier(c.getName()).getCout());
+			c.setTresor(c.getTresor() - c.getProductionLine().getCostOfChevalier());
 			break;
 		case "Onagre" :
-			c.setTresor(c.getTresor() + new Onagre(c.getName()).getCout());
+			c.setTresor(c.getTresor() - c.getProductionLine().getCostOfOnagre());
 			break;
-		case "Am�liorer" :
-			c.setTresor(c.getTresor() + 1000*c.getNiveau());
+		case "Améliorer" :
+			c.setTresor(c.getTresor() - c.getProductionLine().getCostOfUpgrade());
 			break;
 		}
 	}
-	
-	static int recoverCost(Castle c, ArrayList<String> p) {
-		switch(p.get(0)) {
+
+	static void refundCostOfProduction(Castle c) {
+		switch(c.getProductionLine().getTabOfProduction().get(0)) {
 		case "Piquier" :
-			return new Piquier(c.getName()).getTemps();
+			c.setTresor(c.getTresor() + c.getProductionLine().getCostOfPiquier());
+			break;
 		case "Chevalier" :
-			return new Chevalier(c.getName()).getTemps();
+			c.setTresor(c.getTresor() + c.getProductionLine().getCostOfChevalier());
+			break;
 		case "Onagre" :
-			return new Onagre(c.getName()).getTemps();
-		case "Am�liorer" :
-			return 100+50*c.getNiveau();
-		default :
-			return 0;
+			c.setTresor(c.getTresor() + c.getProductionLine().getCostOfOnagre());
+			break;
+		case "Améliorer" :
+			c.setTresor(c.getTresor() + c.getProductionLine().getCostOfUpgrade());
+			break;
 		}
 	}
 	
-	
-	static void getTimeOfProduction(Castle c) {
-		if(c.getTimeOfProduction() == 0) {
-			if(c.getTabOfProduction().get(0) == "Piquier") {
-				c.setTimeOfProduction(new Piquier(c.getName()).getTemps());
-			}
-			else if(c.getTabOfProduction().get(0) == "Chevalier") {
-				c.setTimeOfProduction(new Chevalier(c.getName()).getTemps());
-			}
-			else if(c.getTabOfProduction().get(0) == "Onagre") {
-				c.setTimeOfProduction(new Onagre(c.getName()).getTemps());
-			}
-			else if(c.getTabOfProduction().get(0) == "Am�liorer") {
-				c.setTimeOfProduction(100 + 50*c.getNiveau());
-			}
-		}
-	}
-	
-	static boolean checkTimeOfProduction(Castle c) {
-		if(c.getTimeOfProduction() != 0) {
-			return true;
-		}
-		return false;
-	}
-	
-	static void changeTimeOfProduction(Castle c) {
-		getTimeOfProduction(c);
-		if(c.getTabOfProduction().get(0) == "Améliorer") {
-			updateNiveau(c);
-			c.getTabOfProduction().remove(0);
-			if(!c.getTabOfProduction().isEmpty()) {
-				getTimeOfProduction(c);
-			}
-			return;
-		}
-		else if(c.getTabOfProduction().get(0) == "Piquier") {
-			c.getTabOfProduction().remove(0);
+	static void CollectProduction(Castle c) {
+		switch(c.getProductionLine().getTabOfProduction().get(0)) {
+		case "Piquier" :
 			c.getTabTroupes().add(new Piquier(c.getOwner()));
-			if(!c.getTabOfProduction().isEmpty()) {
-				getTimeOfProduction(c);
-			}
-			return;
+			break;
+		case "Chevalier" :
+			c.getTabTroupes().add(new Chevalier(c.getOwner()));
+			break;
+		case "Onagre" :
+			c.getTabTroupes().add(new Onagre(c.getOwner()));
+			break;
+		case "Améliorer" :
+			updateNiveau(c);
+			Production.increaseCostOfUpgrade(c);
+			break;
 		}
 	}
 	
+	//Partie qui traite les intéractions entre une OST et un chateau
 	static void changeOwner(ArrayList<Castle> tabOfCastle, Castle attacker, Castle defenser, ArrayList<Troupes> troopOfattacker) {
 		for(int i = 0; i<tabOfCastle.size(); i++) {			
 			if(defenser.getName() == tabOfCastle.get(i).getName()) {		
 				tabOfCastle.get(i).setOwner(attacker.getOwner());
-				tabOfCastle.get(i).getTabOfProduction().clear();
+				tabOfCastle.get(i).getProductionLine().getTabOfProduction().clear();
 				tabOfCastle.get(i).setColor(attacker.getColor());
 				for(int k = 0; k<troopOfattacker.size(); k++) {
 					tabOfCastle.get(i).getTabTroupes().add(troopOfattacker.get(k));
