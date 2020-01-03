@@ -71,7 +71,6 @@ public class Main extends Application {
 	// Chateaux a selectionner
 	Castle selectedCastle;
 	Castle targetCastle = NULLL;
-	Castle target;
 	
 	boolean pause;
 	
@@ -116,7 +115,6 @@ public class Main extends Application {
 					if(targetText != NULL && targetCastle == NULLL) {
 						if(selectedCastle != castle) {
 							targetCastle = castle;
-							target = castle;
 							targetText.setText("Cible : " + targetCastle.getName());
 						}
 					}
