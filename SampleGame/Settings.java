@@ -14,7 +14,7 @@ public class Settings {
     public static final int DOORSIZE = (int) (SCENE_HEIGHT *  0.03);
     
     static final int INFORMATIONSCASTLEXY = 10;
-    static final int INFORMATIONSWIDTH = 210;
+    static final int INFORMATIONSWIDTH = 225;
     static final int INFORMATIONSHEIGHT = 150;
     static final int EXTENDINFORMATIONHEIGHT = 180;
     static final int MAXHEIGHT = 250;

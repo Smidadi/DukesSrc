@@ -51,7 +51,7 @@ public class RunACastle {	// w : 1500 ; h : 1000 pour la map
 	static void reduceTresor(Castle c) {
 		int u = 1000 * c.getNiveau();
 		if(c.getTresor() < u) {
-			System.out.println("Amélioration impossible");
+			System.out.println("Amï¿½lioration impossible");
 		}
 		else {
 			c.setTresor(c.getTresor() - u);
@@ -69,7 +69,7 @@ public class RunACastle {	// w : 1500 ; h : 1000 pour la map
 		case "Onagre" :
 			c.setTresor(c.getTresor() + new Onagre(c.getName()).getCout());
 			break;
-		case "Améliorer" :
+		case "Amï¿½liorer" :
 			c.setTresor(c.getTresor() + 1000*c.getNiveau());
 			break;
 		}
@@ -83,12 +83,31 @@ public class RunACastle {	// w : 1500 ; h : 1000 pour la map
 			return new Chevalier(c.getName()).getTemps();
 		case "Onagre" :
 			return new Onagre(c.getName()).getTemps();
-		case "Améliorer" :
+		case "Amï¿½liorer" :
 			return 100+50*c.getNiveau();
 		default :
 			return 0;
 		}
 	}
+	
+	
+	static void changeTimeOfProduction(Castle c) {
+		if(c.getTimeOfProduction() == 0) {
+			if(c.getTabOfProduction().get(0) == "Piquier") {
+				c.setTimeOfProduction(new Piquier(c.getName()).getTemps());
+			}
+			else if(c.getTabOfProduction().get(0) == "Chevalier") {
+				c.setTimeOfProduction(new Chevalier(c.getName()).getTemps());
+			}
+			else if(c.getTabOfProduction().get(0) == "Onagre") {
+				c.setTimeOfProduction(new Onagre(c.getName()).getTemps());
+			}
+			else if(c.getTabOfProduction().get(0) == "Amï¿½liorer") {
+				c.setTimeOfProduction(100 + 50*c.getNiveau());
+			}
+		}
+	}
+	
 	
 	
 	static void changeOwner(ArrayList<Castle> tabOfCastle, Castle attacker, Castle defenser, ArrayList<Troupes> troopOfattacker) {

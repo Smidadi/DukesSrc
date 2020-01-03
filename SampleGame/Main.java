@@ -334,7 +334,7 @@ public class Main extends Application {
 					else if(selectedCastle.getTresor() >= 1000 * selectedCastle.getNiveau() && selectedCastle.getOwner() == "Player" && !selectedCastle.getTabOfProduction().contains("Améliorer")){
 						upgrade.setText("> Améliorer <\n" + 1000 * selectedCastle.getNiveau() +" florins");
 					}
-					status.setText(selectedCastle.getName() + "                     Maître : " + selectedCastle.getOwner() +
+					status.setText(selectedCastle.getName() + " | Maître : " + selectedCastle.getOwner() +
 					"\nNiveau : " + selectedCastle.getNiveau() +
 					"\nRevenu : " + selectedCastle.getRevenu() +
 					"\nTroupes : " + RunACastle.countTroupes("Piquier", selectedCastle.getTabTroupes()) + "P | " + 
@@ -342,6 +342,8 @@ public class Main extends Application {
 					RunACastle.countTroupes("Onagre", selectedCastle.getTabTroupes()) + "O" +
 					"\nTresor : " + selectedCastle.getTresor() + " florins\n" +
 					upLine.getText());
+					
+					//product.setText("> Produire <\n" + (selectedCastle.getTimeOfProduction()) + "s");
 					
 					if(selectedCastle.getOwner() == "Player") {
 						allProduction.setText("Production : " + selectedCastle.getTabOfProduction().size());
@@ -360,40 +362,35 @@ public class Main extends Application {
 				
 				tabOfCastle.forEach(castle -> {
 					if(!castle.getTabOfProduction().isEmpty()) {
+						RunACastle.changeTimeOfProduction(castle);
 						if(countSec == 60) {
-							countTourProd++;
 							castle.setTimeOfProduction(castle.getTimeOfProduction() - 1);
 						}
-						product.setText("> Produire <\n" + (castle.getTimeOfProduction()) + "s");
-						if(castle.getTabOfProduction().get(0) == "Améliorer" && countTourProd == (100 + 50*castle.getNiveau())) {
+						if(castle.getTabOfProduction().get(0) == "Améliorer" && castle.getTimeOfProduction() == 0) {
 							RunACastle.updateNiveau(castle); 
-							countTourProd = 0;
 							castle.getTabOfProduction().remove(0);
 						}
-						else if(castle.getTabOfProduction().get(0) == "Piquier" && countTourProd == 5) {
+						else if(castle.getTabOfProduction().get(0) == "Piquier" && castle.getTimeOfProduction() == 0) {
 							castle.getTabTroupes().add(new Piquier(castle.getOwner()));
-							countTourProd = 0;
 							castle.getTabOfProduction().remove(0);
+							RunACastle.changeTimeOfProduction(castle);
 						}
 						
-						else if(castle.getTabOfProduction().get(0) == "Chevalier" && countTourProd == 20) {
+						else if(castle.getTabOfProduction().get(0) == "Chevalier" && castle.getTimeOfProduction() == 0) {
 							castle.getTabTroupes().add(new Chevalier(castle.getOwner()));
-							countTourProd = 0;
 							castle.getTabOfProduction().remove(0);
+							RunACastle.changeTimeOfProduction(castle);
 						}
 						
-						else if(castle.getTabOfProduction().get(0) == "Onagre" && countTourProd == 50) {
+						else if(castle.getTabOfProduction().get(0) == "Onagre" && castle.getTimeOfProduction() == 0) {
 							castle.getTabTroupes().add(new Onagre(castle.getOwner()));
-							countTourProd = 0;
 							castle.getTabOfProduction().remove(0);
+							RunACastle.changeTimeOfProduction(castle);
 						}
 					}
-					else {
-						if(product != NULL) {
-							product.setText("> Produire <");
-						}
-						countTourProd = 0;
-					}
+					/*else if(castle.getTabOfProduction().isEmpty() && product != NULL){
+						product.setText("> Produire <");
+					}*/
 					
 				});
 				
