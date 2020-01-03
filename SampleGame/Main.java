@@ -334,7 +334,7 @@ public class Main extends Application {
 					else if(selectedCastle.getTresor() >= 1000 * selectedCastle.getNiveau() && selectedCastle.getOwner() == "Player" && !selectedCastle.getTabOfProduction().contains("Améliorer")){
 						upgrade.setText("> Améliorer <\n" + 1000 * selectedCastle.getNiveau() +" florins");
 					}
-					status.setText(selectedCastle.getName() + "                     Maître : " + selectedCastle.getOwner() +
+					status.setText(selectedCastle.getName() + " | Maître : " + selectedCastle.getOwner() +
 					"\nNiveau : " + selectedCastle.getNiveau() +
 					"\nRevenu : " + selectedCastle.getRevenu() +
 					"\nTroupes : " + RunACastle.countTroupes("Piquier", selectedCastle.getTabTroupes()) + "P | " + 
