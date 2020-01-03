@@ -68,8 +68,8 @@ public class RunACastle {	// w : 1500 ; h : 1000 pour la map
 		}
 	}
 
-	static void refundCostOfProduction(Castle c) {
-		switch(c.getProductionLine().getTabOfProduction().get(0)) {
+	static void removeAProduction(Castle c) {
+		switch(c.getProductionLine().getTabOfProduction().get(c.getProductionLine().getTabOfProduction().size()-1)) {
 		case "Piquier" :
 			c.setTresor(c.getTresor() + c.getProductionLine().getCostOfPiquier());
 			break;
@@ -84,6 +84,10 @@ public class RunACastle {	// w : 1500 ; h : 1000 pour la map
 			break;
 		default :
 			break;
+		}
+		c.getProductionLine().getTabOfProduction().remove(c.getProductionLine().getTabOfProduction().size()-1); //remove the last production
+		if(c.getProductionLine().getTabOfProduction().size() == 0) {
+			c.getProductionLine().setTimeLeft(0);
 		}
 	}
 	
