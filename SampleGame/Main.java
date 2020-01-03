@@ -499,12 +499,12 @@ public class Main extends Application {
 	private void createSendTroupes() {
 		targetText = new Text("Cible : ?");
 		targetText.setLayoutX(Settings.TEXTX);
-		targetText.setLayoutY(Settings.EXTENDINFORMATIONHEIGHT - 20);
+		targetText.setLayoutY(Settings.EXTENDINFORMATIONHEIGHT - 15);
 		root.getChildren().add(targetText);
 		
 		cancel = new Text("> Annuler <");
 		cancel.setLayoutX(Settings.INFORMATIONSWIDTH - 60);
-		cancel.setLayoutY(165);
+		cancel.setLayoutY(Settings.EXTENDINFORMATIONHEIGHT - 15);
 		tabOfText.add(cancel);
 		root.getChildren().add(cancel);
 	}
@@ -547,13 +547,8 @@ public class Main extends Application {
 		root.getChildren().add(onagre);
 		
 		validate = new Text("> Valider <");
-<<<<<<< HEAD
 		validate.setLayoutX(Settings.INFORMATIONSWIDTH - 60);
 		validate.setLayoutY(Settings.MAXHEIGHT);
-=======
-		validate.setLayoutX(130);
-		validate.setLayoutY(245);
->>>>>>> ee26f894cb9dd458f3c2ef1a460c52563b634289
 		tabOfText.add(validate);
 		root.getChildren().add(validate);
 	}
