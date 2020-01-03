@@ -95,8 +95,6 @@ public class RunACastle {	// w : 1500 ; h : 1000 pour la map
 		for(int i = 0; i<tabOfCastle.size(); i++) {			
 			if(defenser.getName() == tabOfCastle.get(i).getName()) {		
 				tabOfCastle.get(i).setOwner(attacker.getOwner());
-				String n = Integer.toString(getNbOfCastle(tabOfCastle, attacker.getOwner())); //creation d'un nom basé sur le nombre de chateau de l'attaquant
-				tabOfCastle.get(i).setName(attacker.getName() + "-" + n);
 				tabOfCastle.get(i).getTabOfProduction().clear();
 				tabOfCastle.get(i).setColor(attacker.getColor());
 				for(int k = 0; k<troopOfattacker.size(); k++) {
@@ -116,15 +114,5 @@ public class RunACastle {	// w : 1500 ; h : 1000 pour la map
 				}
 			}
 		}
-	}
-	
-	static int getNbOfCastle(ArrayList<Castle> tabOfCastle, String Owner) {
-		int nbOfCastle = 0;
-		for(int i = 0; i<tabOfCastle.size(); i++) {
-			if(tabOfCastle.get(i).getOwner() == Owner) {
-				nbOfCastle++;
-			}
-		}
-		return nbOfCastle;
 	}
 }
