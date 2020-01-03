@@ -91,7 +91,7 @@ public class RunACastle {	// w : 1500 ; h : 1000 pour la map
 	}
 	
 	
-	static void changeTimeOfProduction(Castle c) {
+	static void getTimeOfProduction(Castle c) {
 		if(c.getTimeOfProduction() == 0) {
 			if(c.getTabOfProduction().get(0) == "Piquier") {
 				c.setTimeOfProduction(new Piquier(c.getName()).getTemps());
@@ -108,7 +108,32 @@ public class RunACastle {	// w : 1500 ; h : 1000 pour la map
 		}
 	}
 	
+	static boolean checkTimeOfProduction(Castle c) {
+		if(c.getTimeOfProduction() != 0) {
+			return true;
+		}
+		return false;
+	}
 	
+	static void changeTimeOfProduction(Castle c) {
+		getTimeOfProduction(c);
+		if(c.getTabOfProduction().get(0) == "Améliorer") {
+			updateNiveau(c);
+			c.getTabOfProduction().remove(0);
+			if(!c.getTabOfProduction().isEmpty()) {
+				getTimeOfProduction(c);
+			}
+			return;
+		}
+		else if(c.getTabOfProduction().get(0) == "Piquier") {
+			c.getTabOfProduction().remove(0);
+			c.getTabTroupes().add(new Piquier(c.getOwner()));
+			if(!c.getTabOfProduction().isEmpty()) {
+				getTimeOfProduction(c);
+			}
+			return;
+		}
+	}
 	
 	static void changeOwner(ArrayList<Castle> tabOfCastle, Castle attacker, Castle defenser, ArrayList<Troupes> troopOfattacker) {
 		for(int i = 0; i<tabOfCastle.size(); i++) {			

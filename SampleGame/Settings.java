@@ -2,9 +2,9 @@ package SampleGame;
 
 public class Settings {
 	static final String tabOfCastleName[] = {"Versailles","Castelnaud","Chambord","Chenonceau","Villandry",
-			"Cheverny","Vaux-le-Vicomte","Fontainebleau","Cathare","Uss�",
-			"Amboise","Valen�ay","Chantilly","Bonaguil","Pierrefonds", "Montségur"
-			,"Eguisheim ","Carcassonne","Peyrepertuse","Citadelles de l'oubli"};
+			"Cheverny","Vaux-le-Vicomte","Fontainebleau","Cathare","Ussé",
+			"Amboise","Valenday","Chantilly","Bonaguil","Pierrefonds", "Montségur"
+			,"Eguisheim ","Carcassonne","Peyrepertuse","Mordor"};
 	
 	public static final double SCENE_WIDTH = 1500;
     public static final double SCENE_HEIGHT = 1000;
@@ -18,4 +18,6 @@ public class Settings {
     static final int INFORMATIONSHEIGHT = 150;
     static final int EXTENDINFORMATIONHEIGHT = 180;
     static final int MAXHEIGHT = 250;
+    
+    static final int TEXTX = INFORMATIONSCASTLEXY * 3;
 }

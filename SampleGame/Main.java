@@ -39,8 +39,6 @@ public class Main extends Application {
 	private Text cancel = NULL;
 	// choisir ses troupes
 	private Text troupesText = NULL;
-	private Text upgradeTroupe = NULL;
-	private Text reduceTroupe = NULL;
 	// (appuyer) pour valider
 	private Text validate = NULL;
 	// (appuyer) pour produire troupes ou ameliorer
@@ -67,7 +65,6 @@ public class Main extends Application {
 	private int o = 0;
 	
 	private int countTour = 0;
-	private int countTourProd = 0;
 	private int countSec = 0;
 	
 	
@@ -343,7 +340,9 @@ public class Main extends Application {
 					"\nTresor : " + selectedCastle.getTresor() + " florins\n" +
 					upLine.getText());
 					
-					//product.setText("> Produire <\n" + (selectedCastle.getTimeOfProduction()) + "s");
+					if(selectedCastle.getOwner() == "Player") {
+						product.setText("> Produire <\n" + (selectedCastle.getTimeOfProduction()) + "s");
+					}
 					
 					if(selectedCastle.getOwner() == "Player") {
 						allProduction.setText("Production : " + selectedCastle.getTabOfProduction().size());
@@ -362,31 +361,47 @@ public class Main extends Application {
 				
 				tabOfCastle.forEach(castle -> {
 					if(!castle.getTabOfProduction().isEmpty()) {
-						RunACastle.changeTimeOfProduction(castle);
+						if(!RunACastle.checkTimeOfProduction(castle)) {
+							RunACastle.changeTimeOfProduction(castle);
+						}
 						if(countSec == 60) {
 							castle.setTimeOfProduction(castle.getTimeOfProduction() - 1);
 						}
-						if(castle.getTabOfProduction().get(0) == "Améliorer" && castle.getTimeOfProduction() == 0) {
-							RunACastle.updateNiveau(castle); 
-							castle.getTabOfProduction().remove(0);
-						}
-						else if(castle.getTabOfProduction().get(0) == "Piquier" && castle.getTimeOfProduction() == 0) {
-							castle.getTabTroupes().add(new Piquier(castle.getOwner()));
-							castle.getTabOfProduction().remove(0);
-							RunACastle.changeTimeOfProduction(castle);
-						}
 						
-						else if(castle.getTabOfProduction().get(0) == "Chevalier" && castle.getTimeOfProduction() == 0) {
-							castle.getTabTroupes().add(new Chevalier(castle.getOwner()));
-							castle.getTabOfProduction().remove(0);
-							RunACastle.changeTimeOfProduction(castle);
-						}
 						
-						else if(castle.getTabOfProduction().get(0) == "Onagre" && castle.getTimeOfProduction() == 0) {
-							castle.getTabTroupes().add(new Onagre(castle.getOwner()));
-							castle.getTabOfProduction().remove(0);
-							RunACastle.changeTimeOfProduction(castle);
+						
+						
+						/*if(RunACastle.checkTimeOfProduction(castle)) {
+							if(countSec == 60) {
+								castle.setTimeOfProduction(castle.getTimeOfProduction() - 1);
+							}
+							else if(castle.getTabOfProduction().get(0) == "Améliorer" && castle.getTimeOfProduction() == 0) {
+								RunACastle.updateNiveau(castle); 
+								castle.getTabOfProduction().remove(0);
+								RunACastle.getTimeOfProduction(castle);
+							}
+							else if(castle.getTabOfProduction().get(0) == "Piquier" && castle.getTimeOfProduction() == 0) {
+								castle.getTabTroupes().add(new Piquier(castle.getOwner()));
+								castle.getTabOfProduction().remove(0);
+								RunACastle.getTimeOfProduction(castle);
+							}
+							
+							else if(castle.getTabOfProduction().get(0) == "Chevalier" && castle.getTimeOfProduction() == 0) {
+								castle.getTabTroupes().add(new Chevalier(castle.getOwner()));
+								castle.getTabOfProduction().remove(0);
+								RunACastle.getTimeOfProduction(castle);
+							}
+							
+							else if(castle.getTabOfProduction().get(0) == "Onagre" && castle.getTimeOfProduction() == 0) {
+								castle.getTabTroupes().add(new Onagre(castle.getOwner()));
+								castle.getTabOfProduction().remove(0);
+								RunACastle.getTimeOfProduction(castle);
+							}
 						}
+						else {
+							RunACastle.getTimeOfProduction(castle);
+						}*/
+						
 					}
 					/*else if(castle.getTabOfProduction().isEmpty() && product != NULL){
 						product.setText("> Produire <");
@@ -460,12 +475,14 @@ public class Main extends Application {
 		cancel = new Text("> Quitter <");
 		cancel.setLayoutX(createProduct.getX() + 400);
 		cancel.setLayoutY(createProduct.getY() + 30);
+		cancel.setFill(Color.DARKRED);
 		tabOfText.add(cancel);
 		root.getChildren().add(cancel);
 		
 		validate = new Text("> Valider <");
 		validate.setLayoutX(createProduct.getX() + 400);
 		validate.setLayoutY(createProduct.getY() + 275);
+		validate.setFill(Color.GREEN);
 		tabOfText.add(validate);
 		root.getChildren().add(validate);
 		
@@ -497,12 +514,12 @@ public class Main extends Application {
 	// Choix d'une cible + bouton annuler
 	private void createSendTroupes() {
 		targetText = new Text("Cible : ?");
-		targetText.setLayoutX(30);
-		targetText.setLayoutY(165);
+		targetText.setLayoutX(Settings.TEXTX);
+		targetText.setLayoutY(Settings.EXTENDINFORMATIONHEIGHT - 20);
 		root.getChildren().add(targetText);
 		
 		cancel = new Text("> Annuler <");
-		cancel.setLayoutX(130);
+		cancel.setLayoutX(Settings.INFORMATIONSWIDTH - 60);
 		cancel.setLayoutY(165);
 		tabOfText.add(cancel);
 		root.getChildren().add(cancel);
