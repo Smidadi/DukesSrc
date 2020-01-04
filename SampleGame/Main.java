@@ -186,7 +186,7 @@ public class Main extends Application {
 						if(ost.getTabOfGeometricForm().size() != 0 && countSec == 60) {
 							printUnites(ost,ost.getTabOfGeometricForm());
 						}
-						OST.move(root, ost, ost.getOwner(), ost.getTarget());
+						Movement.move(root, tabOfCastle, ost, ost.getOwner(), ost.getTarget());
 						if(ost.getCanAttack() == true) {
 							if(Troupes.attackACastle(tabOfCastle, ost.getOwner(), ost.getTarget(), ost.getOstUnites(), ost.getTarget().getTabTroupes()) == true) {
 								int r = ost.getOwner().getColor().r;
@@ -378,7 +378,6 @@ public class Main extends Application {
 								tab[1] = p;
 								tab[2] = c;
 								OST ost = new OST(targetCastle, tab, selectedCastle, tabOfCastle);
-								OST.distanceCastles(tabOfCastle, ost, targetCastle);
 								selectedCastle.setTabTroupes(Troupes.createTroupes(selectedCastle.getName(), 
 										RunACastle.countTroupes("Piquier", selectedCastle.getTabTroupes()) - p, 
 										RunACastle.countTroupes("Chevalier", selectedCastle.getTabTroupes()) - c,
@@ -717,7 +716,7 @@ public class Main extends Application {
 			}
 			cpt++;
 		}
-		return;
+		OST.initDodgeBoolean(ost);
 	}
 	
 	public static void main(String[] args) {
