@@ -17,7 +17,7 @@ public class CastleDoor {
 		}
 		switch(Side) {
 			case 0: //North
-				this.center = new Coordonnee(center2.getX() , center2.getY() + size);
+				this.center = new Coordonnee(center2.getX() , center2.getY() - size);
 				this.direction = 'N';
 				break;
 			case 1:	//East
@@ -25,7 +25,7 @@ public class CastleDoor {
 				this.direction = 'E';
 				break;
 			case 2:	//South
-				this.center = new Coordonnee(center2.getX() , center2.getY() - size);
+				this.center = new Coordonnee(center2.getX() , center2.getY() + size);
 				this.direction = 'S';
 				break;
 			case 3:	//West
@@ -91,9 +91,6 @@ public class CastleDoor {
 
 	public void setCornerRB(Coordonnee cornerRB) {
 		this.cornerRB = cornerRB;
-	}
-	public void setDirection(char c) {
-		this.direction = c;
 	}
 	public char getDirection() {
 		return direction;

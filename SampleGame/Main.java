@@ -186,7 +186,10 @@ public class Main extends Application {
 						if(ost.getTabOfGeometricForm().size() != 0 && countSec == 60) {
 							printUnites(ost,ost.getTabOfGeometricForm());
 						}
-						Movement.move(root, tabOfCastle, ost, ost.getOwner(), ost.getTarget());
+						if(countSec%4 == 0) {
+							Movement.move(root, tabOfCastle, ost, ost.getOwner(), ost.getTarget());
+						}
+						
 						if(ost.getCanAttack() == true) {
 							if(Troupes.attackACastle(tabOfCastle, ost.getOwner(), ost.getTarget(), ost.getOstUnites(), ost.getTarget().getTabTroupes()) == true) {
 								int r = ost.getOwner().getColor().r;
@@ -670,7 +673,8 @@ public class Main extends Application {
 			castle.setFill(Color.rgb(r, g, b));
 			door.setFill(Color.BROWN); 
 			root.getChildren().add(castle); 
-			root.getChildren().add(door); 
+			root.getChildren().add(door);
+			System.out.println(tabOfCastle.get(i).getName() + " : " + tabOfCastle.get(i).getCastleDoor().getDirection());
 		}
 	}
 	

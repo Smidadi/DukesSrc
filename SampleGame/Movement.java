@@ -20,6 +20,13 @@ public class Movement {
 			double rectY = ost.getRectangle().get(i).getY();
 			Rectangle r = ost.getRectangle().get(i);
 			int speed = ost.getMaxSpeed();
+			System.out.println("ENTREE X : " + rectX + " | Y : " + rectY + " | D : " + targetCastle.getCastleDoor().getDirection());
+			System.out.println("X : " + ost.getTargetX() + " | Y : "+ ost.getTargetY());
+			System.out.println(inFrontOfTheDoor(sourceCastle.getCastleDoor(),rectX,rectY) + " | " + inFrontOfTheDoor(targetCastle.getCastleDoor(),rectX,rectY));
+			if(ost.getRectangle().get(i).getX() == ost.getTargetX() && ost.getRectangle().get(i).getY() == ost.getTargetY()) {
+				root.getChildren().remove(ost.getRectangle().get(i));
+				ost.getRectangle().remove(ost.getRectangle().get(i));
+			}
 			if(inFrontOfTheDoor(sourceCastle.getCastleDoor(),rectX,rectY) == true) {	//sortie du chateau source
 				switch(sourceCastle.getCastleDoor().getDirection()) {
 					case 'N':
@@ -54,14 +61,14 @@ public class Movement {
 					default:
 						break;
 				}
-			}else {	//déplacement entre les chateaux vers la cible
+			}else if(inFrontOfTheDoor(sourceCastle.getCastleDoor(),rectX,rectY) == false && inFrontOfTheDoor(targetCastle.getCastleDoor(),rectX,rectY) == false){	//déplacement entre les chateaux vers la cible
 				if(r.getX() != ost.getTargetX()) {
-					if(ost.getRectDodgeX().get(i)== false) {	
+					if(ost.getRectDodgeX().get(i)== false) {	//si l'unité n'est pas en train de longer un chateau sur l'axe X then DO
 						if( Math.abs(ost.getTargetX() - r.getX()) < speed) {
 							speed = (int) Math.abs(ost.getTargetX() - r.getX()); //modifie la vitesse pour ne pas dépasser l'objectif
 						}
 						if(r.getX() < ost.getTargetX()) {
-							if(closeToACastle(tabOfCastle, ost, r.getX(), r.getY(), "RIGHT", speed) == false) { //pas d'obstacle
+							if(closeToACastle(tabOfCastle, ost, r.getX()+5, r.getY()+5, "RIGHT", speed) == false) { //pas d'obstacle
 								moveRectangle(ost, "RIGHT", ost.getRectangle().get(i), speed);
 								ost.getRectDodgeY().set(i, false);
 							}else {	
@@ -69,7 +76,7 @@ public class Movement {
 								ost.getRectDodgeY().set(i, true);
 							}
 						}else {
-							if(closeToACastle(tabOfCastle, ost, r.getX(), r.getY(), "LEFT", speed) == false) {	//pas d'obstacle
+							if(closeToACastle(tabOfCastle, ost, r.getX()+5, r.getY()+5, "LEFT", speed) == false) {	//pas d'obstacle
 								moveRectangle(ost, "LEFT", ost.getRectangle().get(i), speed);
 								ost.getRectDodgeY().set(i, false);
 							}else {	//début de longement d'un chateau sur l'axe Y
@@ -80,13 +87,13 @@ public class Movement {
 					}
 				}
 				speed = ost.getMaxSpeed();
-				if(ost.getRectDodgeY().get(i)== false) {	//si l'unité n'est pas en train de longer un chateau sur l'axe Y then DO
-					if(r.getY() != ost.getTargetY()) {
+				if(r.getY() != ost.getTargetY()) {
+					if(ost.getRectDodgeY().get(i)== false) {	//si l'unité n'est pas en train de longer un chateau sur l'axe Y then DO
 						if( Math.abs(ost.getTargetY() - r.getY()) < speed) {
 							speed = (int) Math.abs(ost.getTargetY() - r.getY()); //modifie la vitesse pour ne pas dépasser l'objectif
 						}
 						if(r.getY() < ost.getTargetY()) {
-							if(closeToACastle(tabOfCastle, ost, r.getX(), r.getY(), "DOWN", speed) == false) { //pas d'obstacle
+							if(closeToACastle(tabOfCastle, ost, r.getX()+5, r.getY()+5, "DOWN", speed) == false) { //pas d'obstacle
 								moveRectangle(ost, "DOWN", ost.getRectangle().get(i), speed);
 								ost.getRectDodgeX().set(i, false);
 							}else {	//début de longement d'un chateau sur l'axe X
@@ -94,7 +101,7 @@ public class Movement {
 								ost.getRectDodgeX().set(i, true);
 							}
 						}else {
-							if(closeToACastle(tabOfCastle, ost, r.getX(), r.getY(), "UP", speed) == false) {	//pas d'obstacle
+							if(closeToACastle(tabOfCastle, ost, r.getX()+5, r.getY()+5, "UP", speed) == false) {	//pas d'obstacle
 								moveRectangle(ost, "UP", ost.getRectangle().get(i), speed);
 								ost.getRectDodgeX().set(i, false);
 							}else {	//début de longement d'un chateau sur l'axe X
@@ -103,10 +110,6 @@ public class Movement {
 							}
 						}
 					}
-				}
-				if(ost.getRectangle().get(i).getX() == ost.getTargetX() && ost.getRectangle().get(i).getY() == ost.getTargetY()) {
-					root.getChildren().remove(ost.getRectangle().get(i));
-					ost.getRectangle().remove(ost.getRectangle().get(i));
 				}
 			}
 		}
@@ -209,14 +212,14 @@ public class Movement {
 		int doorCornerY1;
 		int doorCornerX2;
 		int doorCornerY2;
-		int d = Settings.DOORTICKNESS;
+		int d = Settings.DOORTICKNESS / 2;
 		switch(door.getDirection()) {
 			case 'N': 
 				doorCornerX1 = door.getCornerLT().getX();
 				doorCornerY1 = door.getCornerLT().getY()+d;
 				doorCornerX2 = door.getCornerRT().getX();
 				doorCornerY2 = door.getCornerRT().getY()+d;
-				if( (doorCornerX1 < formX && formX < (doorCornerX2)) && (doorCornerY1 > formY && formY > (doorCornerY2 - 3*space)) ) {
+				if( (formX > doorCornerX1 && formX < (doorCornerX2)) && (formY < doorCornerY1 && formY > (doorCornerY2 - 3*space)) ) {
 					return true;
 				}else {
 					return false;
@@ -226,7 +229,7 @@ public class Movement {
 				doorCornerY1 = door.getCornerRT().getY();
 				doorCornerX2 = door.getCornerRB().getX()-d;
 				doorCornerY2 = door.getCornerRB().getY();
-				if( (doorCornerX1 > formX && formX < (doorCornerX2 + 3*space)) && (doorCornerY1 < formY && formY < (doorCornerY2)) ) {
+				if( (formX > doorCornerX1 && formX < (doorCornerX2 + 3*space)) && (formY > doorCornerY1 && formY < (doorCornerY2)) ) {
 					return true;
 				}else {
 					return false;
@@ -236,7 +239,7 @@ public class Movement {
 				doorCornerY1 = door.getCornerLB().getY()-d;
 				doorCornerX2 = door.getCornerRB().getX();
 				doorCornerY2 = door.getCornerRB().getY()-d;
-				if( (doorCornerX1 < formX && formX < (doorCornerX2)) && (doorCornerY1 < formY && formY < (doorCornerY2 + 3*space)) ) {
+				if( (formX > doorCornerX1 && formX < (doorCornerX2)) && (formY > doorCornerY1 && formY < (doorCornerY2 + 3*space)) ) {
 					return true;
 				}else {
 					return false;
@@ -246,7 +249,7 @@ public class Movement {
 				doorCornerY1 = door.getCornerLT().getY();
 				doorCornerX2 = door.getCornerLB().getX()+d;
 				doorCornerY2 = door.getCornerLB().getY();
-				if( (doorCornerX1 < formX && formX > (doorCornerX2 - 3*space)) && (doorCornerY1 < formY && formY < (doorCornerY2)) ) {
+				if( (formX < doorCornerX1 && formX > (doorCornerX2 - 3*space)) && (formY > doorCornerY1 && formY < (doorCornerY2)) ) {
 					return true;
 				}else {
 					return false;
@@ -283,7 +286,7 @@ public class Movement {
 	
 	static String whereToGo(ArrayList<Castle> tabOfCastle, double x, double y, String direction) {
 		double minD = Settings.SCENE_WIDTH; //pour initialiser
-		CastleStruct c = tabOfCastle.get(0).getCastle();;
+		CastleStruct c = tabOfCastle.get(0).getCastle();
 		for(int i = 0; i < tabOfCastle.size(); i++) {
 			double x2  = tabOfCastle.get(i).getCastle().getCenter().getX();
 			double y2  = tabOfCastle.get(i).getCastle().getCenter().getY();
@@ -303,7 +306,7 @@ public class Movement {
 				yCorner1 = c.getCornerLB().getY();
 				xCorner2 = c.getCornerRB().getX();
 				yCorner2 = c.getCornerRB().getY();
-				if(Coordonnee.distance(x,y,xCorner1,yCorner1) < Coordonnee.distance(x,y,xCorner2,yCorner2)) {
+				if(Coordonnee.distance(x,y,xCorner1,yCorner1) <= Coordonnee.distance(x,y,xCorner2,yCorner2)) {
 					return "LEFT";
 				}else {
 					return "RIGHT";
@@ -313,7 +316,7 @@ public class Movement {
 				yCorner1 = c.getCornerLT().getY();
 				xCorner2 = c.getCornerRT().getX();
 				yCorner2 = c.getCornerRT().getY();
-				if(Coordonnee.distance(x,y,xCorner1,yCorner1) < Coordonnee.distance(x,y,xCorner2,yCorner2)) {
+				if(Coordonnee.distance(x,y,xCorner1,yCorner1) <= Coordonnee.distance(x,y,xCorner2,yCorner2)) {
 					return "RIGHT";
 				}else {
 					return "LEFT";
@@ -323,7 +326,7 @@ public class Movement {
 				yCorner1 = c.getCornerLT().getY();
 				xCorner2 = c.getCornerLB().getX();
 				yCorner2 = c.getCornerLB().getY();
-				if(Coordonnee.distance(x,y,xCorner1,yCorner1) < Coordonnee.distance(x,y,xCorner2,yCorner2)) {
+				if(Coordonnee.distance(x,y,xCorner1,yCorner1) <= Coordonnee.distance(x,y,xCorner2,yCorner2)) {
 					return "UP";
 				}else {
 					return "DOWN";
@@ -333,7 +336,7 @@ public class Movement {
 				yCorner1 = c.getCornerRT().getY();
 				xCorner2 = c.getCornerRB().getX();
 				yCorner2 = c.getCornerRB().getY();
-				if(Coordonnee.distance(x,y,xCorner1,yCorner1) < Coordonnee.distance(x,y,xCorner2,yCorner2)) {
+				if(Coordonnee.distance(x,y,xCorner1,yCorner1) <= Coordonnee.distance(x,y,xCorner2,yCorner2)) {
 					return "UP";
 				}else {
 					return "DOWN";
@@ -347,36 +350,16 @@ public class Movement {
 		//System.out.println("Cibley : " + ost.getY() + " | Ry : " + r.getY());
 		switch(dir) {
 		case "LEFT" :
-			if(r.getX() < ost.getTargetX()) {
-				r.setX(ost.getTargetX());
-			}
-			else {
-				r.setX(r.getX() -speed);
-			}
+			r.setX(r.getX() -speed);
 			break;
 		case "RIGHT" :
-			if(r.getX() > ost.getTargetX()) {
-				r.setX(ost.getTargetX());
-			}
-			else {
-				r.setX(r.getX() +speed);
-			}
+			r.setX(r.getX() +speed);
 			break;
 		case "UP" :
-			if(r.getY() < ost.getTargetY()) {
-				r.setY(ost.getTargetY());
-			}
-			else {
-				r.setY(r.getY() -speed);
-			}
+			r.setY(r.getY() -speed);
 			break;
 		case "DOWN" :
-			if(r.getY() > ost.getTargetY()) {
-				r.setY(ost.getTargetY());
-			}
-			else {
-				r.setY(r.getY() +speed);
-			}
+			r.setY(r.getY() +speed);
 			break;
 		default:
 			break;
