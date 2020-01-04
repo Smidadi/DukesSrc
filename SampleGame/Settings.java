@@ -12,6 +12,7 @@ public class Settings {
     public static final int DUCSIZE = (int) (SCENE_HEIGHT *  0.05);
     public static final int BARONSIZE = (int) (SCENE_HEIGHT *  0.04);
     public static final int DOORSIZE = (int) (SCENE_HEIGHT *  0.03);
+    public static final int DOORTICKNESS = 2;
     
     static final int RECTANGLE_ARC = 40;
     

@@ -7,7 +7,7 @@ public class CastleDoor {
 	
 	CastleDoor(Coordonnee center2, String typeCastle) {	
 		int sizeDW = Settings.DOORSIZE;
-		int sizeDH = 2; //Pixels
+		int sizeDH = Settings.DOORTICKNESS; //Pixels
 		int Side = (int) (Math.random() * 4);
 		int size;
 		if(typeCastle == "Duc" || typeCastle == "Player") {

@@ -205,37 +205,48 @@ public class Movement {
 	}
 	
 	static boolean inFrontOfTheDoor(CastleDoor door, double formX, double formY) {
-		int doorCornerX;
-		int doorCornerY;
+		int doorCornerX1;
+		int doorCornerY1;
+		int doorCornerX2;
+		int doorCornerY2;
+		int d = Settings.DOORTICKNESS;
 		switch(door.getDirection()) {
 			case 'N': 
-				doorCornerX = door.getCornerLT().getX();
-				doorCornerY = door.getCornerLT().getY();
-				if( (doorCornerX < formX && formX < (doorCornerX + 3*space)) && (doorCornerY > formY && formY > (doorCornerY - 3*space)) ) {
+				doorCornerX1 = door.getCornerLT().getX();
+				doorCornerY1 = door.getCornerLT().getY()+d;
+				doorCornerX2 = door.getCornerRT().getX();
+				doorCornerY2 = door.getCornerRT().getY()+d;
+				if( (doorCornerX1 < formX && formX < (doorCornerX2)) && (doorCornerY1 > formY && formY > (doorCornerY2 - 3*space)) ) {
 					return true;
 				}else {
 					return false;
 				}
 			case 'E':
-				doorCornerX = door.getCornerRT().getX();
-				doorCornerY = door.getCornerRT().getY();
-				if( (doorCornerX > formX && formX < (doorCornerX + 3*space)) && (doorCornerY < formY && formY < (doorCornerY + 3*space)) ) {
+				doorCornerX1 = door.getCornerRT().getX()-d;
+				doorCornerY1 = door.getCornerRT().getY();
+				doorCornerX2 = door.getCornerRB().getX()-d;
+				doorCornerY2 = door.getCornerRB().getY();
+				if( (doorCornerX1 > formX && formX < (doorCornerX2 + 3*space)) && (doorCornerY1 < formY && formY < (doorCornerY2)) ) {
 					return true;
 				}else {
 					return false;
 				}
 			case 'S':
-				doorCornerX = door.getCornerLB().getX();
-				doorCornerY = door.getCornerLB().getY();
-				if( (doorCornerX < formX && formX < (doorCornerX + 3*space)) && (doorCornerY < formY && formY < (doorCornerY + 3*space)) ) {
+				doorCornerX1 = door.getCornerLB().getX();
+				doorCornerY1 = door.getCornerLB().getY()-d;
+				doorCornerX2 = door.getCornerRB().getX();
+				doorCornerY2 = door.getCornerRB().getY()-d;
+				if( (doorCornerX1 < formX && formX < (doorCornerX2)) && (doorCornerY1 < formY && formY < (doorCornerY2 + 3*space)) ) {
 					return true;
 				}else {
 					return false;
 				}
 			case 'W':	
-				doorCornerX = door.getCornerLT().getX();
-				doorCornerY = door.getCornerLT().getY();
-				if( (doorCornerX < formX && formX > (doorCornerX - 3*space)) && (doorCornerY < formY && formY < (doorCornerY + 3*space)) ) {
+				doorCornerX1 = door.getCornerLT().getX()+d;
+				doorCornerY1 = door.getCornerLT().getY();
+				doorCornerX2 = door.getCornerLB().getX()+d;
+				doorCornerY2 = door.getCornerLB().getY();
+				if( (doorCornerX1 < formX && formX > (doorCornerX2 - 3*space)) && (doorCornerY1 < formY && formY < (doorCornerY2)) ) {
 					return true;
 				}else {
 					return false;
