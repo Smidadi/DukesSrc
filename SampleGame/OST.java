@@ -78,20 +78,6 @@ public class OST {
 		}
 	}
 	
-	static void initDodgeBoolean(OST ost) {
-		for(int i = 0; i < ost.getRectangle().size(); i++) {
-			ost.getRectDodgeX().add(false);
-			ost.getRectDodgeY().add(false);
-		}
-		for(int i = 0; i < ost.getCircle().size(); i++) {
-			ost.getCircleDodgeX().add(false);
-			ost.getCircleDodgeY().add(false);
-		}
-		for(int i = 0; i < ost.getPolygon().size(); i++) {
-			ost.getPolyDodgeX().add(false);
-			ost.getPolyDodgeY().add(false);
-		}
-	}
 
 	
 	/* ----- GETTER ----- */

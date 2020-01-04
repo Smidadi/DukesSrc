@@ -689,6 +689,8 @@ public class Main extends Application {
 					Rectangle onagre = new Rectangle(tabOfGeometricForm.get(i).getX(),tabOfGeometricForm.get(i).getY(),(double) tabOfGeometricForm.get(i).getWidth(),(double) tabOfGeometricForm.get(i).getHeight());
 					onagre.setFill(Color.rgb(r, g, b));
 					ost.getRectangle().add(onagre);
+					ost.getRectDodgeX().add(false);
+					ost.getRectDodgeY().add(false);
 					root.getChildren().add(onagre); 
 					tabOfGeometricForm.remove(i);
 					break;
@@ -700,6 +702,8 @@ public class Main extends Application {
 						    (double) tabOfGeometricForm.get(i).getS3().getX(), (double) tabOfGeometricForm.get(i).getS3().getY()});
 					piquier.setFill(Color.rgb(r, g, b));
 					ost.getPolygon().add(piquier);
+					ost.getPolyDodgeX().add(false);
+					ost.getPolyDodgeY().add(false);
 					root.getChildren().add(piquier); 
 					tabOfGeometricForm.remove(i);
 					break;
@@ -707,6 +711,8 @@ public class Main extends Application {
 					Circle chevalier = new Circle((double) tabOfGeometricForm.get(i).getX(),(double) tabOfGeometricForm.get(i).getY(),(double) tabOfGeometricForm.get(i).getRadius());
 					chevalier.setFill(Color.rgb(r, g, b));
 					ost.getCircle().add(chevalier);
+					ost.getCircleDodgeX().add(false);
+					ost.getCircleDodgeY().add(false);
 					root.getChildren().add(chevalier); 
 					tabOfGeometricForm.remove(i);
 					break;
@@ -716,7 +722,6 @@ public class Main extends Application {
 			}
 			cpt++;
 		}
-		OST.initDodgeBoolean(ost);
 	}
 	
 	public static void main(String[] args) {
