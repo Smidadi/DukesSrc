@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.Pane; 
 import javafx.scene.paint.Color; 
 import javafx.scene.shape.Rectangle;
@@ -20,11 +19,14 @@ public class Main extends Application {
 	private Scene scene;
 	private Input input;
 	private AnimationTimer gameLoop, pauseLoop;
+	Pane root;
 	
 	private ArrayList<Castle> tabOfCastle = new ArrayList<>();
 	private ArrayList<Text> tabOfText = new ArrayList<>();
 	private ArrayList<OST> tabOfOST = new ArrayList<>();
 		
+	// Message pour le jeu en pause
+	private Text textPause = NULL;
 	// Barre d'informations du chateau
 	private Text status = NULL;
 	// (appuyer) pour ameliorer pour le niveau
@@ -62,31 +64,29 @@ public class Main extends Application {
 	private int c = 0;
 	private int o = 0;
 	
-	private int countTour = 0;
+	// Timer de boucle
 	private int countSec = 0;
 	
-	
+	// Panneaux d'affichages des troupes ou de la production
 	Rectangle createInfos;
 	Rectangle createProduct;
-	
-	Pane root;
 		
+	// Cheateau liés à l'affichage
 	Castle selectedCastle;
 	Castle targetCastle = NULLL;
 	
-	boolean Pause = false;
+	private boolean makePause;
 	
 	@Override 
 	public void start(Stage primaryStage) throws Exception { 
-		
 		root = new Pane(); 
 		scene = new Scene(root, Settings.SCENE_WIDTH, Settings.SCENE_HEIGHT, Color.rgb(154,205,50)); 
 		primaryStage.setTitle("DukesOfTheRealm"); 
 		primaryStage.setScene(scene); 
 		primaryStage.show(); 
 		
-		// create castle
-		tabOfCastle = Build(9,10,Settings.tabOfCastleName); //max 20 chateaux !!!
+		// Creation des chateau
+		tabOfCastle = Build(5,7,Settings.tabOfCastleName); // maximum 20 chateaux 
 		printAllCastle(tabOfCastle, root);		
 		
 		loadGame();
@@ -96,8 +96,9 @@ public class Main extends Application {
 			public void handle(long now) {
 				processInput(input, now);
 				
-				// Ameliore le revenu + tresor du chateau
+				// Ameliore le revenu de tous les chateaux
 				tabOfCastle.forEach(castle -> RunACastle.updateRevenu(castle));
+				// Timer qui actualise à intervalle régulier le trésor de tous les chateaux
 				if(countSec == 60) {
 					tabOfCastle.forEach(castle -> {
 						if(castle.getType() == "Baron") {
@@ -109,16 +110,10 @@ public class Main extends Application {
 					});
 				}
 				
-				// Affiche les infos du chateau lors que l'on clique dessus
+				// Interaction avec les chateaux
 				tabOfCastle.forEach(castle -> castle.getRectCastle().setOnMouseClicked(e -> {
-					// Choix de la cible du chateau
-					if(targetText != NULL && targetCastle == NULLL) {
-						if(selectedCastle != castle) {
-							targetCastle = castle;
-							targetText.setText("Cible : " + targetCastle.getName());
-						}
-					}
-					else if(targetText == NULL && inProduction == NULL) {
+					// Affiche les informations du chateau séléctionné
+					if(targetText == NULL && inProduction == NULL) {
 						tabOfText.clear();
 						createPrintInfos();
 						printInfos(castle);
@@ -131,210 +126,32 @@ public class Main extends Application {
 					// Ameliore le niveau du chateau
 					if(selectedCastle.getOwner() == "Player") {
 						if(text == upgrade) {
-							if(!selectedCastle.getProductionLine().getTabOfProduction().contains("Améliorer")) { //si il n'y  a pas déjà une amélioration
-								RunACastle.removeCostOfProduction(selectedCastle);	//cost
+							if(!selectedCastle.getProductionLine().getTabOfProduction().contains("Améliorer")) { // si il n'y  a pas déjà une amélioration
 								selectedCastle.getProductionLine().getTabOfProduction().add("Améliorer");	//add
+								RunACastle.removeCostOfProduction(selectedCastle);	//cost
+								updateStatus();
 								if(selectedCastle.getProductionLine().getTimeLeft() == 0) {
 									selectedCastle.getProductionLine().setTimeLeft(selectedCastle.getProductionLine().getTimeOfUpgrade());	//timer
 								}
 							}
 							upgrade.setText(" ");
 						}
+						// Cree le panneau pour la production des troupes
+						if(text == product && targetText == NULL) {
+							createProduction();
+							// Force la mise en pause du jeu pour la production
+							makePauseProcess();
+						}
 						// Cree le texte du choix de la cible et du bouton annuler
 						if(text == sendTroupes && targetText == NULL && cancel == NULL) {
 							createInfos.setHeight(Settings.EXTENDINFORMATIONHEIGHT);
 							createSendTroupes();
-						}
-						// Cree le panneau pour la production des troupes
-						if(text == product && targetText == NULL) {
-							createProduction();
-						}
-						// Gere la production des troupes
-						if(inProduction != NULL) {
-							if(text == piquier && selectedCastle.getTresor() >= selectedCastle.getProductionLine().getCostOfPiquier() 
-									&& selectedCastle.getProductionLine().getTabOfProduction().size() < 7) {
-								selectedCastle.setTresor(selectedCastle.getTresor() - selectedCastle.getProductionLine().getCostOfPiquier());	//cost
-								selectedCastle.getProductionLine().getTabOfProduction().add("Piquier");	//add
-								if(selectedCastle.getProductionLine().getTimeLeft() == 0) {
-									selectedCastle.getProductionLine().setTimeLeft(selectedCastle.getProductionLine().getTimeOfPiquier());	//timer	
-								}
-							}
-							if(text == chevalier && selectedCastle.getTresor() >= selectedCastle.getProductionLine().getCostOfChevalier() 
-									&& selectedCastle.getProductionLine().getTabOfProduction().size() < 7) {
-								selectedCastle.setTresor(selectedCastle.getTresor() - selectedCastle.getProductionLine().getCostOfChevalier());	//cost
-								selectedCastle.getProductionLine().getTabOfProduction().add("Chevalier");	//add
-								if(selectedCastle.getProductionLine().getTimeLeft() == 0) {
-									selectedCastle.getProductionLine().setTimeLeft(selectedCastle.getProductionLine().getTimeOfChevalier());	//timer
-								}
-							}
-							if(text == onagre && selectedCastle.getTresor() >= selectedCastle.getProductionLine().getCostOfOnagre() 
-									&& selectedCastle.getProductionLine().getTabOfProduction().size() < 7) {
-								selectedCastle.setTresor(selectedCastle.getTresor() - selectedCastle.getProductionLine().getCostOfOnagre());	//cost
-								selectedCastle.getProductionLine().getTabOfProduction().add("Onagre");	//add
-								if(selectedCastle.getProductionLine().getTimeLeft() == 0) {
-									selectedCastle.getProductionLine().setTimeLeft(selectedCastle.getProductionLine().getTimeOfOnagre());	//timer
-								}
-							}
-						}
-						
-						// Gere annulation du dernier element de la liste
-						if(text == remove && !selectedCastle.getProductionLine().getTabOfProduction().isEmpty()) {
-							RunACastle.removeAProduction(selectedCastle);							
-							product.setText("> Produire <");
-						}
-						
-						// Gere le cote hors production de troupes
-						//création d'une OST
-						if(inProduction == NULL) {
-							if((text == piquier || text == chevalier || text == onagre) && up == NULL && down == NULL) {
-								createButtonUpDown();
-							}
-							if(troupeToColor != NULL) {
-								troupeToColor.setFill(Color.BLACK);
-							}
-							if(text == piquier) {
-								troupeToChange = "Piquier";
-								troupeToColor = piquier;
-							}
-							else if(text == chevalier) {
-								troupeToChange = "Chevalier";
-								troupeToColor = chevalier;
-							}
-							else if(text == onagre) {
-								troupeToChange = "Onagre";
-								troupeToColor = onagre;
-							}
-							if(troupeToColor != NULL) {
-								troupeToColor.setFill(Color.DARKTURQUOISE);
-							}
-							// Augmentation du nombre de troupes
-							if(text == up) {
-								switch (troupeToChange) {
-								case "Piquier" :
-									if(p != RunACastle.countTroupes("Piquier", selectedCastle.getTabTroupes())) {
-										p++;
-										piquier.setText("> Piquier < : " + p + " / " + RunACastle.countTroupes("Piquier", selectedCastle.getTabTroupes()));
-									}
-									break;
-								case "Chevalier" :
-									if(c != RunACastle.countTroupes("Chevalier", selectedCastle.getTabTroupes())) {
-										c++;
-										chevalier.setText("> Chevalier < : " + c + " / " + RunACastle.countTroupes("Chevalier", selectedCastle.getTabTroupes()));
-									}
-									break;
-								case "Onagre" :
-									if(o != RunACastle.countTroupes("Onagre", selectedCastle.getTabTroupes())) {
-										o++;
-										onagre.setText("> Onagre < : " + o + " / " + RunACastle.countTroupes("Onagre", selectedCastle.getTabTroupes()));
-									}
-									break;
-								}
-							}
-							if(text == down) {
-								switch (troupeToChange) {
-								case "Piquier" :
-									if(p != 0) {
-										p--;
-										piquier.setText("> Piquier < : " + p + " / " + RunACastle.countTroupes("Piquier", selectedCastle.getTabTroupes()));
-									}
-									break;
-								case "Chevalier" :
-									if(c != 0) {
-										c--;
-										chevalier.setText("> Chevalier < : " + c + " / " + RunACastle.countTroupes("Chevalier", selectedCastle.getTabTroupes()));
-									}
-									break;
-								case "Onagre" :
-									if(o != 0) {
-										o--;
-										onagre.setText("> Onagre < : " + o + " / " + RunACastle.countTroupes("Onagre", selectedCastle.getTabTroupes()));
-									}
-									break;
-								}
-							}
-						}
-
-						// Annulation de l'envoi de troupes
-						if(text == cancel || text == validate) {
-							if(inProduction != NULL) {
-								inProduction.setText(" ");
-								inProduction = NULL;
-								root.getChildren().remove(createProduct);
-								
-								piquier.setText(" ");
-								piquier = NULL;
-								
-								chevalier.setText(" ");
-								chevalier = NULL;
-								
-								onagre.setText(" ");
-								onagre = NULL;
-								
-								remove.setText(" ");
-								remove = NULL;
-							}
-							else {
-								// Ajoute les troupes a l'OST
-								if(text == validate && (p != 0 || c != 0 || o != 0)) {
-									// 0 : onagre | 1 : piquier | 2 : chevalier
-									int tab[] = new int[3];
-									tab[0] = o;
-									tab[1] = p;
-									tab[2] = c;
-									OST ost = new OST(targetCastle, tab, selectedCastle, tabOfCastle);
-									OST.distanceCastles(tabOfCastle, ost, targetCastle);
-									selectedCastle.setTabTroupes(Troupes.createTroupes(selectedCastle.getName(), 
-											RunACastle.countTroupes("Piquier", selectedCastle.getTabTroupes()) - p, 
-											RunACastle.countTroupes("Chevalier", selectedCastle.getTabTroupes()) - c,
-											RunACastle.countTroupes("Onagre", selectedCastle.getTabTroupes()) - o));
-									ost.setInMovment(true);
-									ost.setTabOfGeometricForm( GeometricForm.tabOfGeometricForm(ost, tabOfCastle));
-									tabOfOST.add(ost);
-									// Reinitialisation des variables troupes
-									p = 0;
-									c = 0;
-									o = 0;
-								}
-								// Enleve augmentation et diminution
-								if(up != NULL && down != NULL) {
-									up.setText(" ");
-									up = NULL;
-									down.setText(" ");
-									down = NULL;
-								}
-								// Enleve le texte des troupes
-								if(targetCastle != NULLL) {
-									piquier.setText(" ");
-									piquier = NULL;
-									chevalier.setText(" ");
-									chevalier = NULL;
-									onagre.setText(" ");
-									onagre = NULL;
-								}
-								// Enleve le texte chateau cible
-								targetText.setText(" ");
-								targetText = NULL;
-								// Enleve le chateau cible
-								targetCastle = NULLL;
-								// Remettre la taille du rectangle a sa taille d'origine
-								createInfos.setHeight(Settings.INFORMATIONSHEIGHT);
-							}						
-							// Enleve le texte annuler
-							cancel.setText(" ");
-							cancel = NULL;
-							tabOfText.remove(cancel);
-							// Enleve le texte valider
-							if(validate != NULL) {
-								validate.setText(" ");
-								validate = NULL;
-								tabOfText.remove(validate);
-							}
+							makePauseProcess();
 						}
 					}
 				}));
 				
-				
-				// Modifications visuelles des infos du chateau selectionné
+				// Modifications visuelles des informations du chateau selectionné
 				if(status != NULL) {
 					if(selectedCastle.getTresor() < 1000 * selectedCastle.getLevel()) {
 						upgrade.setText(" ");
@@ -343,34 +160,14 @@ public class Main extends Application {
 							&& !selectedCastle.getProductionLine().getTabOfProduction().contains("Améliorer")){
 						upgrade.setText("> Améliorer <\n" + 1000 * selectedCastle.getLevel() +" florins");
 					}
-					status.setText(selectedCastle.getName() + " | Maître : " + selectedCastle.getOwner() +
-					"\nNiveau : " + selectedCastle.getLevel() +
-					"\nRevenu : " + selectedCastle.getRevenu() +
-					"\nTroupes : " + RunACastle.countTroupes("Piquier", selectedCastle.getTabTroupes()) + "P | " + 
-					RunACastle.countTroupes("Chevalier", selectedCastle.getTabTroupes()) + "C | " + 
-					RunACastle.countTroupes("Onagre", selectedCastle.getTabTroupes()) + "O" +
-					"\nTresor : " + selectedCastle.getTresor() + " florins\n" +
-					upLine.getText());
+					updateStatus();
 					
 					if(selectedCastle.getOwner() == "Player") {
 						product.setText("> Produire <\n" + (selectedCastle.getProductionLine().getTimeLeft()) + "s");
 					}
-					
-					if(selectedCastle.getOwner() == "Player") {
-						allProduction.setText("Production : " + selectedCastle.getProductionLine().getTabOfProduction().size());
-						if(inProduction != NULL) {
-							inProduction.setText("Que voulez-vous produire ?" +
-												 "\nNombre de production maximale possible : 7" + 
-												 "\n\n\nEn production : " + selectedCastle.getProductionLine().getTabOfProduction());
-						}
-					}
 				}
 				
-				if(targetCastle != NULLL && troupesText == NULL && piquier == NULL) {
-					createInfos.setHeight(Settings.MAXHEIGHT);
-					createTroupes();
-				}
-				
+				// Actualisation du temps de production des chateaux 
 				tabOfCastle.forEach(castle -> {
 					if(!castle.getProductionLine().getTabOfProduction().isEmpty()) {
 						if(countSec == 60) {
@@ -380,16 +177,12 @@ public class Main extends Application {
 							RunACastle.CollectProduction(castle);
 							Production.updateProduction(castle);
 						}
-					}
-					/*else if(castle.getProductionLine().getTabOfProduction().isEmpty() && product != NULL){
-						product.setText("> Produire <");
-					}	*/				
+					}	
 				});
 				
 				tabOfOST.forEach(ost -> {
-					if(ost.getInMovment() == true /*&& ost.getOwner() == selectedCastle.getOwner()*/) {
+					if(ost.getInMovment() == true) {
 						// Affichage des ost
-						
 						if(ost.getTabOfGeometricForm().size() != 0 && countSec == 60) {
 							printUnites(ost,ost.getTabOfGeometricForm());
 						}
@@ -405,20 +198,26 @@ public class Main extends Application {
 					}
 				});
 				
-				// Compte les secondes du jeu
+				// Timer du jeu
 				if(countSec == 60) {
-					countTour++;
 					countSec = 0;
 				}
 				countSec++;
 			}
 			
+			// Fonction qui force la mise en pause du jeu pour la production de troupes ou l'envoi de troupes
+			private void makePauseProcess() {
+				makePause = true;
+				gameLoop.stop();
+				pauseLoop.start();
+			}
+			
+			// Gère les entrées claviers
 			private void processInput(Input input, long now) {
-				if(input.isPause() /*&& Pause == false*/) {
-					Pause = true;
+				if(input.isPause() == true && makePause == false) {
 					gameLoop.stop();
 					pauseLoop.start();
-				}
+				}				
 			}
 		};
 		gameLoop.start();
@@ -426,12 +225,222 @@ public class Main extends Application {
 		pauseLoop = new AnimationTimer() {
 			@Override
 			public void handle(long now) {
+				setTextPause(); // Affiche le message de mise en pause
+				
 				processInputPause(input, now);
-				System.out.println("Pause" + Pause);
+				
+				// Choix de la cible de l'attaque
+				tabOfCastle.forEach(castle -> castle.getRectCastle().setOnMouseClicked(e -> {
+					if(selectedCastle != castle && sendTroupes != NULL && inProduction == NULL && targetCastle == NULLL) {
+						targetCastle = castle;
+						targetText.setText("Cible : " + targetCastle.getName());
+						createInfos.setHeight(Settings.MAXHEIGHT);
+						createTroupes();
+					}
+				}));
+				
+				tabOfText.forEach(text -> text.setOnMouseClicked(e -> {
+					// Gere la production des troupes
+					if(inProduction != NULL) {
+						if(text == piquier && selectedCastle.getTresor() >= selectedCastle.getProductionLine().getCostOfPiquier() 
+								&& selectedCastle.getProductionLine().getTabOfProduction().size() < 7) {
+							selectedCastle.setTresor(selectedCastle.getTresor() - selectedCastle.getProductionLine().getCostOfPiquier());	//cost
+							selectedCastle.getProductionLine().getTabOfProduction().add("Piquier");	//add
+							if(selectedCastle.getProductionLine().getTimeLeft() == 0) {
+								selectedCastle.getProductionLine().setTimeLeft(selectedCastle.getProductionLine().getTimeOfPiquier());	//timer	
+							}
+						}
+						if(text == chevalier && selectedCastle.getTresor() >= selectedCastle.getProductionLine().getCostOfChevalier() 
+								&& selectedCastle.getProductionLine().getTabOfProduction().size() < 7) {
+							selectedCastle.setTresor(selectedCastle.getTresor() - selectedCastle.getProductionLine().getCostOfChevalier());	//cost
+							selectedCastle.getProductionLine().getTabOfProduction().add("Chevalier");	//add
+							if(selectedCastle.getProductionLine().getTimeLeft() == 0) {
+								selectedCastle.getProductionLine().setTimeLeft(selectedCastle.getProductionLine().getTimeOfChevalier());	//timer
+							}
+						}
+						if(text == onagre && selectedCastle.getTresor() >= selectedCastle.getProductionLine().getCostOfOnagre() 
+								&& selectedCastle.getProductionLine().getTabOfProduction().size() < 7) {
+							selectedCastle.setTresor(selectedCastle.getTresor() - selectedCastle.getProductionLine().getCostOfOnagre());	//cost
+							selectedCastle.getProductionLine().getTabOfProduction().add("Onagre");	//add
+							if(selectedCastle.getProductionLine().getTimeLeft() == 0) {
+								selectedCastle.getProductionLine().setTimeLeft(selectedCastle.getProductionLine().getTimeOfOnagre());	//timer
+							}
+						}
+						updateStatus();
+						inProduction.setText("Que voulez-vous produire ?" +
+								 "\nNombre de production maximale possible : 7" + 
+								 "\n\n\nEn production : " + selectedCastle.getProductionLine().getTabOfProduction());
+					}
+					// Gere l'annulation du dernier élèment de la liste
+					if(text == remove && !selectedCastle.getProductionLine().getTabOfProduction().isEmpty()) {
+						RunACastle.removeAProduction(selectedCastle);	
+						updateStatus();
+						inProduction.setText("Que voulez-vous produire ?" +
+								 "\nNombre de production maximale possible : 7" + 
+								 "\n\n\nEn production : " + selectedCastle.getProductionLine().getTabOfProduction());
+					}
+					// Gere le cote hors production de troupes
+					// Création d'une OST
+					if(inProduction == NULL) {
+						if((text == piquier || text == chevalier || text == onagre) && up == NULL && down == NULL) {
+							createButtonUpDown();
+						}
+						if(troupeToColor != NULL) {
+							troupeToColor.setFill(Color.BLACK);
+						}
+						if(text == piquier) {
+							troupeToChange = "Piquier";
+							troupeToColor = piquier;
+						}
+						else if(text == chevalier) {
+							troupeToChange = "Chevalier";
+							troupeToColor = chevalier;
+						}
+						else if(text == onagre) {
+							troupeToChange = "Onagre";
+							troupeToColor = onagre;
+						}
+						if(troupeToColor != NULL) {
+							troupeToColor.setFill(Color.DARKTURQUOISE);
+						}
+						// Augmentation du nombre de troupes
+						if(text == up) {
+							switch (troupeToChange) {
+							case "Piquier" :
+								if(p != RunACastle.countTroupes("Piquier", selectedCastle.getTabTroupes())) {
+									p++;
+									piquier.setText("> Piquier < : " + p + " / " + RunACastle.countTroupes("Piquier", selectedCastle.getTabTroupes()));
+								}
+								break;
+							case "Chevalier" :
+								if(c != RunACastle.countTroupes("Chevalier", selectedCastle.getTabTroupes())) {
+									c++;
+									chevalier.setText("> Chevalier < : " + c + " / " + RunACastle.countTroupes("Chevalier", selectedCastle.getTabTroupes()));
+								}
+								break;
+							case "Onagre" :
+								if(o != RunACastle.countTroupes("Onagre", selectedCastle.getTabTroupes())) {
+									o++;
+									onagre.setText("> Onagre < : " + o + " / " + RunACastle.countTroupes("Onagre", selectedCastle.getTabTroupes()));
+								}
+								break;
+							}
+						}
+						if(text == down) {
+							switch (troupeToChange) {
+							case "Piquier" :
+								if(p != 0) {
+									p--;
+									piquier.setText("> Piquier < : " + p + " / " + RunACastle.countTroupes("Piquier", selectedCastle.getTabTroupes()));
+								}
+								break;
+							case "Chevalier" :
+								if(c != 0) {
+									c--;
+									chevalier.setText("> Chevalier < : " + c + " / " + RunACastle.countTroupes("Chevalier", selectedCastle.getTabTroupes()));
+								}
+								break;
+							case "Onagre" :
+								if(o != 0) {
+									o--;
+									onagre.setText("> Onagre < : " + o + " / " + RunACastle.countTroupes("Onagre", selectedCastle.getTabTroupes()));
+								}
+								break;
+							}
+						}
+					}
+					
+					// Annulation ou validation de l'envoi de troupes
+					if(text == cancel || text == validate) {
+						if(inProduction != NULL) {
+							inProduction.setText(" ");
+							inProduction = NULL;
+							root.getChildren().remove(createProduct);
+							
+							piquier.setText(" ");
+							piquier = NULL;
+							
+							chevalier.setText(" ");
+							chevalier = NULL;
+							
+							onagre.setText(" ");
+							onagre = NULL;
+							
+							remove.setText(" ");
+							remove = NULL;
+						}
+						else {
+							// Ajoute les troupes à l'OST
+							if(text == validate && (p != 0 || c != 0 || o != 0)) {
+								// 0 : onagre | 1 : piquier | 2 : chevalier
+								int tab[] = new int[3];
+								tab[0] = o;
+								tab[1] = p;
+								tab[2] = c;
+								OST ost = new OST(targetCastle, tab, selectedCastle, tabOfCastle);
+								OST.distanceCastles(tabOfCastle, ost, targetCastle);
+								selectedCastle.setTabTroupes(Troupes.createTroupes(selectedCastle.getName(), 
+										RunACastle.countTroupes("Piquier", selectedCastle.getTabTroupes()) - p, 
+										RunACastle.countTroupes("Chevalier", selectedCastle.getTabTroupes()) - c,
+										RunACastle.countTroupes("Onagre", selectedCastle.getTabTroupes()) - o));
+								ost.setInMovment(true);
+								ost.setTabOfGeometricForm( GeometricForm.tabOfGeometricForm(ost, tabOfCastle));
+								tabOfOST.add(ost);
+								// Reinitialisation des variables troupes
+								p = 0;
+								c = 0;
+								o = 0;
+							}
+							// Enleve la possibilité d'augmenter et de diminuer
+							if(up != NULL && down != NULL) {
+								up.setText(" ");
+								up = NULL;
+								down.setText(" ");
+								down = NULL;
+							}
+							// Enleve le texte des troupes
+							if(targetCastle != NULLL) {
+								piquier.setText(" ");
+								piquier = NULL;
+								chevalier.setText(" ");
+								chevalier = NULL;
+								onagre.setText(" ");
+								onagre = NULL;
+							}
+							// Enleve le chateau cible
+							targetText.setText(" ");
+							targetText = NULL;
+							targetCastle = NULLL;
+							// Remettre le panneau status à sa taille d'origine
+							createInfos.setHeight(Settings.INFORMATIONSHEIGHT);
+						}						
+						// Enleve le texte annuler
+						cancel.setText(" ");
+						cancel = NULL;
+						tabOfText.remove(cancel);
+						// Enleve le texte valider
+						if(validate != NULL) {
+							validate.setText(" ");
+							validate = NULL;
+							tabOfText.remove(validate);
+						}
+						makePauseProcessPause();
+					}
+				}));
 			}
+			
+			// Force la mise en route du jeu après validation de l'envoi de troupes ou de l'envoi de la production
+			private void makePauseProcessPause() {
+				removeTextPause();
+				makePause = false;
+				pauseLoop.stop();
+				gameLoop.start();
+			}
+			
+			// Gère les entrées claviers
 			private void processInputPause(Input input, long now) {
-				if(input.isPause() /*&& Pause == true*/) {
-					Pause = false;
+				if(input.isPause() == false && makePause == false) {
+					removeTextPause();
 					pauseLoop.stop();
 					gameLoop.start();
 				}
@@ -442,6 +451,39 @@ public class Main extends Application {
 	private void loadGame() {
 		input = new Input(scene);
 		input.addListeners();
+	}
+	
+	// Affiche le texte "JEU EN PAUSE" lors de la mise en pause du jeu
+	private void setTextPause() {
+		if(textPause == NULL) {
+			textPause = new Text("JEU EN PAUSE");
+			textPause.setStyle("-fx-font-size: 60px;");
+			textPause.setLayoutX(Settings.SCENE_WIDTH / 1.37);
+			textPause.setLayoutY(Settings.TEXTX * 2.5);
+			textPause.setFill(Color.RED);
+			root.getChildren().add(textPause);
+		}
+	}
+	
+	// Enlève le texte "JEU EN PAUSE" lors de la mise en route du jeu
+	private void removeTextPause() {
+		textPause.setText(" ");
+		textPause = NULL;
+	}	
+	
+	// Actualise les informations du château après quelques changements
+	private void updateStatus() {
+		status.setText(selectedCastle.getName() + " | Maître : " + selectedCastle.getOwner() +
+				"\nNiveau : " + selectedCastle.getLevel() +
+				"\nRevenu : " + selectedCastle.getRevenu() +
+				"\nTroupes : " + RunACastle.countTroupes("Piquier", selectedCastle.getTabTroupes()) + "P | " + 
+				RunACastle.countTroupes("Chevalier", selectedCastle.getTabTroupes()) + "C | " + 
+				RunACastle.countTroupes("Onagre", selectedCastle.getTabTroupes()) + "O" +
+				"\nTresor : " + selectedCastle.getTresor() + " florins\n" +
+				upLine.getText());
+		if(selectedCastle.getOwner() == "Player") {
+			allProduction.setText("Production : " + selectedCastle.getProductionLine().getTabOfProduction().size());
+		}
 	}
 	
 	// Creation du rectangle contenant les informations du chateau
@@ -461,7 +503,9 @@ public class Main extends Application {
 		createProduct.setFill(Color.WHITE);
 		root.getChildren().add(createProduct);
 		
-		inProduction = new Text(" ");
+		inProduction = new Text("Que voulez-vous produire ?" +
+				 "\nNombre de production maximale possible : 7" + 
+				 "\n\n\nEn production : " + selectedCastle.getProductionLine().getTabOfProduction());
 		inProduction.setLayoutX(createProduct.getX() + 20);
 		inProduction.setLayoutY(createProduct.getY() + 30);
 		root.getChildren().add(inProduction);

@@ -85,6 +85,7 @@ public class OST {
 		for(int i = 0; i < ost.getRectangle().size(); i++) {
 			// LEFT
 			if(player.getCastle().getCenter().getX() > ost.getX() && ost.getRectangle().get(i).getX() != ost.getX()) {
+				String form = ost.getRectangle().get(i).getClass().getName();
 				moveR(ost, "LEFT", ost.getRectangle().get(i));
 			}
 			// RIGHT
