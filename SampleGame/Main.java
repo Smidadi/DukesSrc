@@ -414,7 +414,7 @@ public class Main extends Application {
 			}
 			
 			private void processInput(Input input, long now) {
-				if(input.isPause() && Pause == false) {
+				if(input.isPause() /*&& Pause == false*/) {
 					Pause = true;
 					gameLoop.stop();
 					pauseLoop.start();
@@ -430,7 +430,7 @@ public class Main extends Application {
 				System.out.println("Pause" + Pause);
 			}
 			private void processInputPause(Input input, long now) {
-				if(input.isPause() && Pause == true) {
+				if(input.isPause() /*&& Pause == true*/) {
 					Pause = false;
 					pauseLoop.stop();
 					gameLoop.start();
