@@ -41,7 +41,10 @@ public class CastleStruct  {
 		Coordonnee cornerRB = new Coordonnee(center.getX() + size, center.getY() + size);
 		for(int i=0;i<tabOfCastle.size();i++) {
 			CastleStruct castle = tabOfCastle.get(i).getCastle();
-			if(inASquare(castle, cornerLT) == true || inASquare(castle, cornerLB) == true || inASquare(castle, cornerRT) == true || inASquare(castle, cornerRB) == true){
+			if(Coordonnee.inASquare(castle, cornerLT.getX(),cornerLT.getY(),Settings.DOORSIZE) == true 
+				|| Coordonnee.inASquare(castle, cornerLB.getX(),cornerLB.getY(),Settings.DOORSIZE) == true 
+				|| Coordonnee.inASquare(castle, cornerRT.getX(),cornerRT.getY(),Settings.DOORSIZE) == true 
+				|| Coordonnee.inASquare(castle, cornerRB.getX(),cornerRB.getY(),Settings.DOORSIZE) == true){
 				return false;
 			}
 			
@@ -52,17 +55,7 @@ public class CastleStruct  {
 		return true;
 	}
 	
-	private Boolean inASquare(CastleStruct Castle, Coordonnee aPoint) {
-		// Xmin <= x <= Xmax ET Ymin <= y <= Ymax
-		int xMin = Castle.getCornerLT().getX() - Settings.DOORSIZE; //LEFT CORNER
-		int xMax = Castle.getCornerRT().getX() + Settings.DOORSIZE;	//RIGHT CORNER
-		int yMin = Castle.getCornerLT().getY() - Settings.DOORSIZE;	//TOP CORNER
-		int yMax = Castle.getCornerLB().getY() + Settings.DOORSIZE; //TOP CORNER
-		if( (xMin <= aPoint.getX() && aPoint.getX() <= xMax) && (yMin <= aPoint.getY() && aPoint.getY() <= yMax) ) {
-			return true;
-		}
-		return false;
-	}
+	
 		
 
 	/* ----- GETTER ----- */
