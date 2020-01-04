@@ -19,9 +19,7 @@ public class Main extends Application {
 	private static final Castle NULLL = null;
 	private Scene scene;
 	private Input input;
-	private AnimationTimer gameLoop;
-	
-	
+	private AnimationTimer gameLoop, pauseLoop;
 	
 	private ArrayList<Castle> tabOfCastle = new ArrayList<>();
 	private ArrayList<Text> tabOfText = new ArrayList<>();
@@ -419,14 +417,26 @@ public class Main extends Application {
 				if(input.isPause() && Pause == false) {
 					Pause = true;
 					gameLoop.stop();
-				}
-				else if(input.isPause() && Pause == true) {
-					gameLoop.start();
-					Pause = false;
+					pauseLoop.start();
 				}
 			}
 		};
 		gameLoop.start();
+		
+		pauseLoop = new AnimationTimer() {
+			@Override
+			public void handle(long now) {
+				processInputPause(input, now);
+				System.out.println("Pause" + Pause);
+			}
+			private void processInputPause(Input input, long now) {
+				if(input.isPause() && Pause == true) {
+					Pause = false;
+					pauseLoop.stop();
+					gameLoop.start();
+				}
+			}
+		};
 	}
 	
 	private void loadGame() {
