@@ -34,13 +34,13 @@ public class Castle implements Serializable  {
                 this.name = tabOfCastleName[tabOfCastle.size()];
                 this.owner = type;
                 this.color = new TeamColor(220,20,60);
-                this.tabTroupes = Troupes.createTroupes(this.name,20,20,20); // Temporary
+                this.tabTroupes = Troupes.createTroupes(this.name,2,2,2); // Temporary
             }
             else {
                 this.name = tabOfCastleName[tabOfCastle.size()];
                 this.owner = "Duc " + Integer.toString(nb);
                 this.color = new TeamColor();
-                this.tabTroupes = Troupes.createTroupes(this.name,6,6,6); // Temporary
+                this.tabTroupes = Troupes.createTroupes(this.name,2,2,2); // Temporary
 			}
 			this.level = 1;
 			this.tresor = 0;

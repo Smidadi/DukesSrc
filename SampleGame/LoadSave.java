@@ -19,7 +19,6 @@ public class LoadSave extends Main {
 				tabOfCastle.set(i, (Castle) ois.readObject());
 				LoadSave.createRectangleOfCastle(tabOfCastle.get(i));
 				LoadSave.createDoorOfCastle(tabOfCastle.get(i));
-				//System.out.printl
 			}
 			
 			// Récupération des OST

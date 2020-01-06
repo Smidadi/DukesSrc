@@ -198,10 +198,12 @@ public class Main extends Application {
 								int g = ost.getOwner().getColor().g;
 								int b = ost.getOwner().getColor().b;
 								ost.getTarget().getRectCastle().setFill(Color.rgb(r, g, b));
-								tabOfOST.remove(ost);
 							}
 						}
 					}
+					/*if(ost.getInMovment() == false) {
+						tabOfOST.remove(ost);
+					}*/
 				});
 				
 				// Timer du jeu
@@ -210,8 +212,10 @@ public class Main extends Application {
 					countSecIA++;
 				}
 				
-				if(countSecIA == 1) {
+				if(countSecIA == 5) {
 					tabOfCastle.forEach(castle -> {
+						System.out.println(castle.getTypeOwner());
+						System.out.println(castle.getTypeOwner() == "Duc");
 						if(castle.getTypeOwner() == "Duc") {
 							IA.randomAction(castle, tabOfCastle, tabOfOST);
 						}
@@ -417,7 +421,7 @@ public class Main extends Application {
 										RunACastle.countTroupes("Chevalier", selectedCastle.getTabTroupes()) - c,
 										RunACastle.countTroupes("Onagre", selectedCastle.getTabTroupes()) - o));
 								ost.setInMovment(true);
-								ost.setTabOfGeometricForm( GeometricForm.tabOfGeometricForm(ost, tabOfCastle));
+								ost.setTabOfGeometricForm(GeometricForm.tabOfGeometricForm(ost, tabOfCastle));
 								tabOfOST.add(ost);
 								// Reinitialisation des variables troupes
 								p = 0;
@@ -554,8 +558,8 @@ public class Main extends Application {
 	
 	private void loadOldGame() {
 		root.getChildren().clear();
-		LoadSave.loadSave(tabOfCastle, tabOfOST);
 		resetScreen.resetTextScreen(root, tabOfText);
+		LoadSave.loadSave(tabOfCastle, tabOfOST);
 		printAllCastle(tabOfCastle, root);
 	}
 	
