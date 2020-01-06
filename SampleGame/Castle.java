@@ -44,7 +44,7 @@ public class Castle {
 			}
 			this.level = 1;
 			this.tresor = 0;
-			 			
+			this.revenu = this.level * 10;
 			this.Castle = new CastleStruct(type,tabOfCastle);
 			this.CastleDoor = new CastleDoor(this.Castle.getCenter(),type);
 		}
@@ -58,6 +58,7 @@ public class Castle {
 			this.Castle = new CastleStruct(type,tabOfCastle);
 			this.CastleDoor = new CastleDoor(this.Castle.getCenter(),type);
 			this.color = new TeamColor(128,128,128); //grey 
+			this.revenu = this.level;
 		}
 		
 		int x = this.Castle.getCornerLT().getX();
@@ -76,7 +77,7 @@ public class Castle {
 		
 		this.productionLine = new Production(this.level);
 		this.type = type;
-		this.revenu = this.level * 10;
+		
 	}
 	
 

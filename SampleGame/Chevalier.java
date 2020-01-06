@@ -7,7 +7,7 @@ public class Chevalier extends Troupes {
 	Chevalier( String owner) {
 		this.name = "Chevalier";
 		this.Owner = owner;
-		this.vitesse = 6;
+		this.vitesse = 3;
 		this.vie = 3;
 		this.degat = 5;
 	}
