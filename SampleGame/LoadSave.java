@@ -47,16 +47,16 @@ public class LoadSave extends Main {
 	}
 	
 	static public void createRectangleOfCastle(Castle c) {
-		int x = c.getCastle().getCornerLT().getX();
-		int y = c.getCastle().getCornerLT().getY();
+		double x = c.getCastle().getCornerLT().getX();
+		double y = c.getCastle().getCornerLT().getY();
 		double w = Coordonnee.distance(c.getCastle().getCornerLT(), c.getCastle().getCornerRT());
 		double h = Coordonnee.distance(c.getCastle().getCornerLT(), c.getCastle().getCornerLB());
 		c.setRectCastle(new Rectangle(x,y,w,h));
 	}
 	
 	static public void createDoorOfCastle(Castle c) {
-		int x = c.getCastleDoor().getCornerLT().getX();
-		int y = c.getCastleDoor().getCornerLT().getY();
+		double x = c.getCastleDoor().getCornerLT().getX();
+		double y = c.getCastleDoor().getCornerLT().getY();
 		double w = Coordonnee.distance(c.getCastleDoor().getCornerLT(), c.getCastleDoor().getCornerRT());
 		double h = Coordonnee.distance(c.getCastleDoor().getCornerLT(), c.getCastleDoor().getCornerLB());
 		c.setRectDoor(new Rectangle(x,y,w,h));

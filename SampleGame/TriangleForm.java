@@ -1,5 +1,7 @@
 package SampleGame;
 
+import javafx.collections.ObservableList;
+import javafx.scene.shape.Polygon;
 
 public class TriangleForm extends GeometricForm {
 	private Coordonnee s1 = new Coordonnee(0,0); 
@@ -53,7 +55,17 @@ public class TriangleForm extends GeometricForm {
 		this.color = color;
 	}
 
-	
+	TriangleForm(Polygon polygon, TeamColor color){
+		ObservableList<Double> PointList = polygon.getPoints();
+		this.s1.setX( PointList.get(0).intValue());
+		this.s1.setX( PointList.get(1).intValue());		
+		this.s2.setX( PointList.get(2).intValue());
+		this.s2.setX( PointList.get(3).intValue());		
+		this.s3.setX( PointList.get(4).intValue());
+		this.s3.setX( PointList.get(5).intValue());
+		this.color = color;
+		
+	}
 	/* ----- GETTER ----- */
 	/* ----- SETTER ----- */
 	
@@ -62,7 +74,6 @@ public class TriangleForm extends GeometricForm {
 		return type;
 	}
 
-	
 	public Coordonnee getS1() {
 		return s1;
 	}

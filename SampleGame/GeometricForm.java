@@ -35,6 +35,20 @@ public abstract class GeometricForm implements Serializable {
 		}
 		return tabOfGeometricForm;
 	}
+	
+	static ArrayList<GeometricForm> newTabOfGeometricForm( OST ost) {
+		ArrayList<GeometricForm> tabOfGeometricForm = new ArrayList<GeometricForm>();
+		for(int i=0; i<ost.getRectangle().size(); i++) {
+			tabOfGeometricForm.add(new RectangleForm(ost.getRectangle().get(i), ost.getTeamColor()));
+		}
+		for(int i=0; i<ost.getCircle().size(); i++) {
+			tabOfGeometricForm.add(new CircleForm(ost.getCircle().get(i), ost.getTeamColor()));
+		}
+		for(int i=0; i<ost.getPolygon().size(); i++) {
+			tabOfGeometricForm.add(new TriangleForm(ost.getPolygon().get(i), ost.getTeamColor()));
+		}
+		return tabOfGeometricForm;
+	}
 
 	/* ----- GETTER ----- */
 	/* ----- SETTER ----- */

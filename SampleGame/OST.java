@@ -38,7 +38,7 @@ public class OST implements Serializable {
 		this.ostUnites = new  ArrayList<Troupes>();
 		this.Target = Target;
 
-		this.MaxSpeed = 3;
+		this.MaxSpeed = 1;
 
 		this.targetX = Target.getCastleDoor().getCenter().getX();
 		this.targetY = Target.getCastleDoor().getCenter().getY();
@@ -46,15 +46,15 @@ public class OST implements Serializable {
 			if(tab[i]!= 0) {
 				switch (i) {
 					case 0:
-						this.MaxSpeed = 1;
+						this.MaxSpeed = 4;
 						while(tab[i] > 0) {
 							this.ostUnites.add(new Onagre(owner.getName()));
 							tab[i]--;
 						}
 						break;
 					case 1:
-						if(this.MaxSpeed > 2) {
-							this.MaxSpeed = 2;
+						if(this.MaxSpeed < 3) {
+							this.MaxSpeed = 3;
 						}
 						while(tab[i] > 0) {
 							this.ostUnites.add(new Piquier(owner.getName()));

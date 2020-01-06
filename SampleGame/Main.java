@@ -190,7 +190,7 @@ public class Main extends Application {
 						if(ost.getTabOfGeometricForm().size() != 0 && countSec == 60) {
 							printUnites(ost,ost.getTabOfGeometricForm());
 						}
-						Movement.move(root, tabOfCastle, ost, ost.getOwner(), ost.getTarget());
+						Movement.move(root, tabOfCastle, ost, ost.getOwner(), ost.getTarget(), countSec);
 						
 						if(ost.getCanAttack() == true) {
 							if(Troupes.attackACastle(tabOfCastle, ost.getOwner(), ost.getTarget(), ost.getOstUnites(), ost.getTarget().getTabTroupes()) == true) {

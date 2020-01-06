@@ -61,15 +61,15 @@ public class Castle implements Serializable  {
 			this.revenu = this.level;
 		}
 		
-		int x = this.Castle.getCornerLT().getX();
-		int y = this.Castle.getCornerLT().getY();
+		double x = this.Castle.getCornerLT().getX();
+		double y = this.Castle.getCornerLT().getY();
 		double w = Coordonnee.distance(this.Castle.getCornerLT(), this.Castle.getCornerRT());
 		double h = Coordonnee.distance(this.Castle.getCornerLT(), this.Castle.getCornerLB());
 		
 		this.rectCastle = new Rectangle(x,y,w,h);
 		
-		int Dx = this.CastleDoor.getCornerLT().getX();
-		int Dy = this.CastleDoor.getCornerLT().getY();
+		double Dx = this.CastleDoor.getCornerLT().getX();
+		double Dy = this.CastleDoor.getCornerLT().getY();
 		double Dw = Coordonnee.distance(this.CastleDoor.getCornerLT(), this.CastleDoor.getCornerRT());
 		double Dh = Coordonnee.distance(this.CastleDoor.getCornerLT(), this.CastleDoor.getCornerLB());
 		

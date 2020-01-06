@@ -1,5 +1,7 @@
 package SampleGame;
 
+import javafx.scene.shape.Circle;
+
 public class CircleForm extends GeometricForm {
 	private int x;
 	private int y;
@@ -48,6 +50,13 @@ public class CircleForm extends GeometricForm {
 		this.radius = 5;
 		this.color = color;
 	 }	 
+	 
+	 CircleForm(Circle circle,TeamColor color){
+			this.x = (int) circle.getCenterX();
+			this.y = (int) circle.getCenterY();
+			this.radius = (int) circle.getRadius();
+			this.color = color;
+	}
 	 
 	/* ----- GETTER ----- */
 	/* ----- SETTER ----- */
