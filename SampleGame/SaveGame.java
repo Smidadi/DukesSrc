@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
+import javafx.scene.shape.Rectangle;
+
 public class SaveGame extends Main {
 	static public void saveGame(ArrayList<Castle> tabOfCastle, ArrayList<OST> tabOfOST) {
 		ObjectOutputStream oos = null;
@@ -34,11 +36,4 @@ public class SaveGame extends Main {
 			}
 		}
 	}
-	
-	/*static public void savePositionOfOST(ArrayList<GeometricForm> tabOfGeometricForm) {
-		ArrayList<> listOfPos = new ArrayList<>();
-		for(int i = 0; i < tabOfGeometricForm.size(); i++) {
-			
-		}
-	}*/
 }

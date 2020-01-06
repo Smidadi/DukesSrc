@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class IA {
 	static void randomAction(Castle c, ArrayList<Castle> tabOfCastle, ArrayList<OST> tabOfOST) {
 		int random = (int) (Math.random() * 2);
+		int randUnite;
 		int tab[] = new int[3];
 		if(random == 0) {
 			// Cas de production de troupes
@@ -12,33 +13,30 @@ public class IA {
 			switch(random) {
 			case 0 : // Production d'un piquier
 				if(c.getTresor() >= c.getProductionLine().getCostOfPiquier()) {
-					System.out.println("Ajout d'un piquier");
 					c.getProductionLine().getTabOfProduction().add("Piquier");
 					RunACastle.removeCostOfProduction(c);
 					if(c.getProductionLine().getTimeLeft() == 0) {
-						c.getProductionLine().setTimeLeft(c.getProductionLine().getTimeOfUpgrade());
+						c.getProductionLine().setTimeLeft(c.getProductionLine().getTimeOfPiquier());
 					}
 				}
 				System.out.println("Impossible pour piquier");
 				break;
 			case 1 : // Production d'un chevalier
 				if(c.getTresor() >= c.getProductionLine().getCostOfChevalier()) {
-					System.out.println("Ajout d'un chevalier");
 					c.getProductionLine().getTabOfProduction().add("Chevalier");
 					RunACastle.removeCostOfProduction(c);
 					if(c.getProductionLine().getTimeLeft() == 0) {
-						c.getProductionLine().setTimeLeft(c.getProductionLine().getTimeOfUpgrade());
+						c.getProductionLine().setTimeLeft(c.getProductionLine().getTimeOfChevalier());
 					}
 				}
 				System.out.println("Impossible pour chevalier");
 				break;
 			case 2 : // Production d'un onagre
 				if(c.getTresor() >= c.getProductionLine().getCostOfOnagre()) {
-					System.out.println("Ajout d'un onagre");
 					c.getProductionLine().getTabOfProduction().add("Onagre");
 					RunACastle.removeCostOfProduction(c);
 					if(c.getProductionLine().getTimeLeft() == 0) {
-						c.getProductionLine().setTimeLeft(c.getProductionLine().getTimeOfUpgrade());
+						c.getProductionLine().setTimeLeft(c.getProductionLine().getTimeOfOnagre());
 					}
 				}
 				System.out.println("Impossible pour onagre");
@@ -46,14 +44,11 @@ public class IA {
 			default :
 				break;
 			}
-			System.out.println("Ajout troupes");
 		} else if(random == 1) {
-			random = (int) (Math.random() * 3);
+			randUnite = (int) (Math.random() * 3);
 			OST ost;
-			System.out.println("Envoi de troupes");
-			switch(random) {
+			switch(randUnite) {
 			case 0 : // Un type de troupes à envoyer
-				System.out.println("Ajout d'un type");
 				setInTabRandomUnite(c, randomUnite((int) (Math.random() * 3)), tab);
 				
 				ost = new OST(randomTargetCastle(c, tabOfCastle), tab, c, tabOfCastle);
@@ -62,7 +57,6 @@ public class IA {
 				tabOfOST.add(ost);
 				break;
 			case 1 :
-				System.out.println("Ajout de deux types");
 				String randToEscape = randomUnite((int) (Math.random() * 3));
 				setInTabRandomUnite(c, randToEscape , tab);
 				String randToTest = randomUnite((int) (Math.random() * 3));
@@ -78,7 +72,6 @@ public class IA {
 				tabOfOST.add(ost);
 				break;
 			case 2 :
-				System.out.println("Ajout de trois types");
 				setInTabRandomUnite(c, "Piquier" , tab);
 				setInTabRandomUnite(c, "Chevalier" , tab);
 				setInTabRandomUnite(c, "Onagre" , tab);
@@ -97,13 +90,28 @@ public class IA {
 	
 	static void setInTabRandomUnite(Castle c, String unite, int[] tab) {
 		if(unite == "Piquier") {
-			tab[1] = (int) (Math.random() * RunACastle.countTroupes(unite, c.getTabTroupes()));
+			if(RunACastle.countTroupes(unite, c.getTabTroupes()) == 1) {
+				tab[1] = (int) (Math.random() * 2);
+			}
+			else {
+				tab[1] = (int) (Math.random() * RunACastle.countTroupes(unite, c.getTabTroupes()));
+			}
 		}
 		else if(unite == "Chevalier") {
-			tab[2] = (int) (Math.random() * RunACastle.countTroupes(unite, c.getTabTroupes()));
+			if(RunACastle.countTroupes(unite, c.getTabTroupes()) == 1) {
+				tab[2] = (int) (Math.random() * 2);
+			}
+			else {
+				tab[2] = (int) (Math.random() * RunACastle.countTroupes(unite, c.getTabTroupes()));
+			}
 		}
 		else if(unite == "Onagre") {
-			tab[0] = (int) (Math.random() * RunACastle.countTroupes(unite, c.getTabTroupes()));
+			if(RunACastle.countTroupes(unite, c.getTabTroupes()) == 1) {
+				tab[0] = (int) (Math.random() * 2);
+			}
+			else {
+				tab[0] = (int) (Math.random() * RunACastle.countTroupes(unite, c.getTabTroupes()));
+			}
 		}
 		else {
 			System.out.println("No type found");
