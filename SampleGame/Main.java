@@ -214,8 +214,6 @@ public class Main extends Application {
 				
 				if(countSecIA == 5) {
 					tabOfCastle.forEach(castle -> {
-						System.out.println(castle.getTypeOwner());
-						System.out.println(castle.getTypeOwner() == "Duc");
 						if(castle.getTypeOwner() == "Duc") {
 							IA.randomAction(castle, tabOfCastle, tabOfOST);
 						}
@@ -558,7 +556,7 @@ public class Main extends Application {
 	
 	private void loadOldGame() {
 		root.getChildren().clear();
-		resetScreen.resetTextScreen(root, tabOfText);
+		resetScreen.resetTextScreen(root, tabOfText, tabOfOST);
 		LoadSave.loadSave(tabOfCastle, tabOfOST);
 		printAllCastle(tabOfCastle, root);
 	}

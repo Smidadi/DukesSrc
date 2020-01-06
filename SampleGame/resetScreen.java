@@ -6,7 +6,7 @@ import javafx.scene.text.Text;
 import javafx.scene.layout.Pane;
 
 public class resetScreen extends Main {
-	static void resetTextScreen(Pane root, ArrayList<Text> tabOfText) {
+	static void resetTextScreen(Pane root, ArrayList<Text> tabOfText, ArrayList<OST> tabOfOST) {
 		// Message pour le jeu en pause
 		textPause = NULL;
 		// Barre d'informations du chateau
@@ -43,6 +43,7 @@ public class resetScreen extends Main {
 		
 		selectedCastle = NULLL;
 		
+		tabOfOST.clear();
 		tabOfText.clear();
 	}	
 }

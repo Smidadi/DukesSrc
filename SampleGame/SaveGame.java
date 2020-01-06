@@ -21,6 +21,7 @@ public class SaveGame extends Main {
 			
 			// Sauvegarde des OST
 			for(int i = 0; i < tabOfOST.size(); i++) {
+				tabOfOST.get(i).setTabOfGeometricForm(GeometricForm.newTabOfGeometricForm(tabOfOST.get(i)));
 				oos.writeObject(tabOfOST.get(i));
 			}
 		} catch (java.io.IOException e) {
