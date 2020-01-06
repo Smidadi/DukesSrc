@@ -45,10 +45,6 @@ public class Castle implements Serializable  {
 			this.level = 1;
 			this.tresor = 0;
 			this.revenu = this.level * 10;
-<<<<<<< HEAD
-			 			
-=======
->>>>>>> f953f1b09bb4ed16d24d4f89eed7d33430074beb
 			this.Castle = new CastleStruct(type,tabOfCastle);
 			this.CastleDoor = new CastleDoor(this.Castle.getCenter(),type);
 		}
@@ -81,10 +77,7 @@ public class Castle implements Serializable  {
 		
 		this.productionLine = new Production(this.level);
 		this.type = type;
-<<<<<<< HEAD
 		this.typeOwner = type;
-=======
->>>>>>> f953f1b09bb4ed16d24d4f89eed7d33430074beb
 		
 	}
 	

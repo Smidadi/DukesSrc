@@ -190,14 +190,7 @@ public class Main extends Application {
 						if(ost.getTabOfGeometricForm().size() != 0 && countSec == 60) {
 							printUnites(ost,ost.getTabOfGeometricForm());
 						}
-<<<<<<< HEAD
 						Movement.move(root, tabOfCastle, ost, ost.getOwner(), ost.getTarget());
-						
-=======
-						if(countSec%2 == 0) {
-							Movement.move(root, tabOfCastle, ost, ost.getOwner(), ost.getTarget());
-						}
->>>>>>> f953f1b09bb4ed16d24d4f89eed7d33430074beb
 						
 						if(ost.getCanAttack() == true) {
 							if(Troupes.attackACastle(tabOfCastle, ost.getOwner(), ost.getTarget(), ost.getOstUnites(), ost.getTarget().getTabTroupes()) == true) {
@@ -218,10 +211,8 @@ public class Main extends Application {
 				}
 				
 				if(countSecIA == 1) {
-					System.out.println("5 sec écoulées");
 					tabOfCastle.forEach(castle -> {
 						if(castle.getTypeOwner() == "Duc") {
-							System.out.println("ENTREE");
 							IA.randomAction(castle, tabOfCastle, tabOfOST);
 						}
 					});
