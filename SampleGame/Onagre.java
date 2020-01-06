@@ -6,7 +6,7 @@ public class Onagre extends Troupes {
 	Onagre( String owner) {
 		this.name = "Onagre";
 		this.Owner = owner;
-		this.vitesse = 1;
+		this.vitesse = 4;
 		this.vie = 5;
 		this.degat = 10;
 	}

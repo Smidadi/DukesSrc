@@ -6,7 +6,7 @@ public class Piquier extends Troupes {
 	Piquier(String owner) {
 		this.name = "Piquier";
 		this.Owner = owner;
-		this.vitesse = 2;
+		this.vitesse = 3;
 		this.vie = 1;
 		this.degat = 1;
 	}

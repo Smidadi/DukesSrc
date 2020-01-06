@@ -55,10 +55,10 @@ public class CastleStruct implements Serializable {
 	
 	private Boolean inASquare(CastleStruct Castle, Coordonnee aPoint) {
 		// Xmin <= x <= Xmax ET Ymin <= y <= Ymax
-		int xMin = Castle.getCornerLT().getX() - Settings.DOORSIZE; //LEFT CORNER
-		int xMax = Castle.getCornerRT().getX() + Settings.DOORSIZE;	//RIGHT CORNER
-		int yMin = Castle.getCornerLT().getY() - Settings.DOORSIZE;	//TOP CORNER
-		int yMax = Castle.getCornerLB().getY() + Settings.DOORSIZE; //TOP CORNER
+		double xMin = Castle.getCornerLT().getX() - Settings.DOORSIZE; //LEFT CORNER
+		double xMax = Castle.getCornerRT().getX() + Settings.DOORSIZE;	//RIGHT CORNER
+		double yMin = Castle.getCornerLT().getY() - Settings.DOORSIZE;	//TOP CORNER
+		double yMax = Castle.getCornerLB().getY() + Settings.DOORSIZE; //TOP CORNER
 		if( (xMin <= aPoint.getX() && aPoint.getX() <= xMax) && (yMin <= aPoint.getY() && aPoint.getY() <= yMax) ) {
 			return true;
 		}

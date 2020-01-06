@@ -1,5 +1,8 @@
 package SampleGame;
 
+import java.util.ArrayList;
+
+import javafx.scene.shape.Rectangle;
 
 class RectangleForm extends GeometricForm {
 	private int width;
@@ -49,6 +52,14 @@ class RectangleForm extends GeometricForm {
 		}
 		this.width = 10;
 		this.height = 10;
+		this.color = color;
+	}
+	
+	RectangleForm(Rectangle rectangle,TeamColor color){
+		this.x = (int) rectangle.getX();
+		this.y = (int) rectangle.getY();
+		this.height = (int) rectangle.getHeight();
+		this.width = (int) rectangle.getWidth();
 		this.color = color;
 	}
 	
