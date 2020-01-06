@@ -16,25 +16,35 @@ public class Input{
 	private Scene scene = null;
 	
 	private boolean pause;
+	private boolean escape = false;
 			
 	public Input(Scene scene) {
 		this.scene = scene;
 	}
 
 	public void addListeners() {
-		//scene.addEventFilter(KeyEvent.KEY_PRESSED, keyPP);
+		//scene.addEventFilter(KeyEvent.KEY_RELEASED, keyPP);
 		scene.addEventFilter(KeyEvent.KEY_RELEASED, keyPR);
+		scene.addEventFilter(KeyEvent.KEY_RELEASED, keyPPR);
+
 	}
 
 	public void removeListeners() {
 		//scene.removeEventFilter(KeyEvent.KEY_PRESSED, keyPP);
-		scene.removeEventFilter(KeyEvent.KEY_RELEASED, keyPP);
+		scene.removeEventFilter(KeyEvent.KEY_RELEASED, keyPR);
+		scene.removeEventFilter(KeyEvent.KEY_RELEASED, keyPPR);
+
 	}
 	
-	private EventHandler<KeyEvent> keyPP = event -> {
-		// register key down
-		keyboardBitSet.set(event.getCode().ordinal(), true);
-		event.consume();
+	// TOUCHE ESPACE
+	
+	private EventHandler<KeyEvent> keyPPR = new EventHandler<KeyEvent>() {
+		@Override
+		public void handle(KeyEvent event) {
+			// register key up
+			keyboardBitSet.set(event.getCode().ordinal(), false);
+			event.consume();
+		}
 	};
 	
 	private EventHandler<KeyEvent> keyPR = new EventHandler<KeyEvent>() {
@@ -50,16 +60,6 @@ public class Input{
 			}
 		}
 	};
-	
-	/*private EventHandler<KeyEvent> keyReleasedEventHandler = new EventHandler<KeyEvent>() {
-		@Override
-		public void handle(KeyEvent event) {
-			// register key up
-			keyboardBitSet.set(event.getCode().ordinal(), false);
-			event.consume();
-		}
-	};
-*/
 	
 	private boolean is(KeyCode key) {
 		return keyboardBitSet.get(key.ordinal());

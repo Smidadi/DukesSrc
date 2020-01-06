@@ -1,5 +1,6 @@
 package SampleGame;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
@@ -8,7 +9,7 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 
 
-public class OST {
+public class OST implements Serializable {
 	private ArrayList<Troupes> ostUnites;
 	private int MaxSpeed;
 	private Castle Target;
@@ -17,9 +18,9 @@ public class OST {
 	
 	private ArrayList<GeometricForm> tabOfGeometricForm;
 	
-	private ArrayList<Rectangle> rectangle = new ArrayList<>();
-	private ArrayList<Circle> circle = new ArrayList<>();
-	private ArrayList<Polygon> polygon = new ArrayList<>();
+	transient private ArrayList<Rectangle> rectangle = new ArrayList<>();
+	transient private ArrayList<Circle> circle = new ArrayList<>();
+	transient private ArrayList<Polygon> polygon = new ArrayList<>();
 	
 	private ArrayList<Boolean> rectDodgeX = new ArrayList<>();
 	private ArrayList<Boolean> rectDodgeY = new ArrayList<>();
@@ -43,7 +44,7 @@ public class OST {
 		this.owner = owner;
 		this.ostUnites = new  ArrayList<Troupes>();
 		this.Target = Target;
-		this.MaxSpeed = 6;
+		this.MaxSpeed = 2;
 		this.targetX = Target.getCastleDoor().getCenter().getX();
 		this.targetY = Target.getCastleDoor().getCenter().getY();
 		for(int i = 0; i < 3; i++) {

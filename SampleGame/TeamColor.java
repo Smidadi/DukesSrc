@@ -1,7 +1,8 @@
 package SampleGame;
 
+import java.io.Serializable;
 
-public class TeamColor {
+public class TeamColor implements Serializable {
 	public int r;
 	public int g;
 	public int b;

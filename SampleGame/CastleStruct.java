@@ -1,9 +1,10 @@
 package SampleGame;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class CastleStruct  {	
+public class CastleStruct implements Serializable {	
 	
 	private Coordonnee center, cornerLT, cornerLB, cornerRT, cornerRB;
 	

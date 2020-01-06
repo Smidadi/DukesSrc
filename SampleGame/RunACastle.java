@@ -37,7 +37,7 @@ public class RunACastle {	// w : 1500 ; h : 1000 pour la map
 	}
 	
 	static void updateTresorBaron(Castle c) {
-		c.setTresor(c.getTresor() + (int) (c.getRevenu() * 0.1));
+		c.setTresor(c.getTresor() + c.getRevenu());
 	}
 	
 	static void updateTresor(Castle c) {
@@ -103,6 +103,7 @@ public class RunACastle {	// w : 1500 ; h : 1000 pour la map
 			c.getTabTroupes().add(new Onagre(c.getOwner()));
 			break;
 		case "Améliorer" :
+			updateRevenu(c);
 			updateNiveau(c);
 			Production.increaseCostOfUpgrade(c);
 			break;
@@ -116,6 +117,7 @@ public class RunACastle {	// w : 1500 ; h : 1000 pour la map
 		for(int i = 0; i<tabOfCastle.size(); i++) {			
 			if(defenser.getName() == tabOfCastle.get(i).getName()) {		
 				tabOfCastle.get(i).setOwner(attacker.getOwner());
+				tabOfCastle.get(i).setTypeOwner(attacker.getTypeOwner());
 				tabOfCastle.get(i).getProductionLine().getTabOfProduction().clear();
 				tabOfCastle.get(i).setColor(attacker.getColor());
 				for(int k = 0; k<troopOfattacker.size(); k++) {

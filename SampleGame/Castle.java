@@ -1,14 +1,15 @@
 package SampleGame;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import javafx.scene.shape.Rectangle;
 
-public class Castle {
-	
+public class Castle implements Serializable  {
 	private String name;
 	private String owner;
 	private String type;
+	private String typeOwner;
 	
 	private int level;
 	
@@ -16,7 +17,6 @@ public class Castle {
 	private int revenu;
 	
 	private ArrayList<Troupes> tabTroupes = new ArrayList<Troupes>();
-	protected OST ost;
 	
 	private Production productionLine;
 	
@@ -24,8 +24,8 @@ public class Castle {
 	private CastleDoor CastleDoor;
 	private TeamColor color;
 	
-	private Rectangle rectCastle;
-	private Rectangle rectDoor;
+	transient private Rectangle rectCastle;
+	transient private Rectangle rectDoor;
 	
 	
 	Castle(String type, ArrayList<Castle> tabOfCastle, int nb, String tabOfCastleName[]) {
@@ -44,6 +44,7 @@ public class Castle {
 			}
 			this.level = 1;
 			this.tresor = 0;
+			this.revenu = this.level * 10;
 			 			
 			this.Castle = new CastleStruct(type,tabOfCastle);
 			this.CastleDoor = new CastleDoor(this.Castle.getCenter(),type);
@@ -54,10 +55,11 @@ public class Castle {
 			this.owner = "Baron " + Integer.toString(nb);
 			this.level = 1 + (int) Math.random() * 5;
 			this.tresor = 500 + (int) Math.random() * 1001;	// 500 - 1500			
-			this.tabTroupes = Troupes.createTroupes(this.name,0,0,0); // temporaire
+			this.tabTroupes = Troupes.createTroupes(this.name,(int) (Math.random() * 6),(int) (Math.random() * 6),(int) (Math.random() * 6)); // temporaire
 			this.Castle = new CastleStruct(type,tabOfCastle);
 			this.CastleDoor = new CastleDoor(this.Castle.getCenter(),type);
 			this.color = new TeamColor(128,128,128); //grey 
+			this.revenu = this.level;
 		}
 		
 		int x = this.Castle.getCornerLT().getX();
@@ -76,7 +78,8 @@ public class Castle {
 		
 		this.productionLine = new Production(this.level);
 		this.type = type;
-		this.revenu = this.level * 10;
+		this.typeOwner = type;
+		
 	}
 	
 
@@ -162,6 +165,11 @@ public class Castle {
 	}
 	public void setProductionLine(Production productionLine) {
 		this.productionLine = productionLine;
+	}
+	public String getTypeOwner() {
+		return typeOwner;
+	}
+	public void setTypeOwner(String typeOwner) {
+		this.typeOwner = typeOwner;
 	}	
-	
 }

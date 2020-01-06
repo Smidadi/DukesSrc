@@ -1,6 +1,8 @@
 package SampleGame;
 
-public class CastleDoor {
+import java.io.Serializable;
+
+public class CastleDoor implements Serializable {
 	
 	private Coordonnee center, cornerLT, cornerLB, cornerRT, cornerRB;
 	private char direction; //N , E , S , W

@@ -1,6 +1,6 @@
 package SampleGame;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 
 /*import java.awt.Dimension;
 
@@ -8,7 +8,7 @@ Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 int height = (int)dimension.getHeight();
 int width  = (int)dimension.getWidth();*/
 
-public class Coordonnee {
+public class Coordonnee implements Serializable {
 	private int x, y;
 	
 	public Coordonnee() {
@@ -53,6 +53,49 @@ public class Coordonnee {
 		return false;
 	}
 	
+	static Boolean onTheBorder(CastleStruct Castle, double x, double y, int space) {
+		// Xmin <= x <= Xmax ET Ymin <= y <= Ymax
+		int xMin = Castle.getCornerLT().getX() - space; //LEFT CORNER
+		int xMax = Castle.getCornerRB().getX() + space;	//RIGHT CORNER
+		int yMin = Castle.getCornerRT().getY() - space;	//TOP CORNER
+		int yMax = Castle.getCornerLB().getY() + space; //TOP CORNER
+		if( (xMin <= x && x <= xMax) && (yMin == y) ) {	//TOP BORDER
+			return true;
+		}else if( (xMin <= x && x <= xMax) && (yMax == y) ) {	//BOTTOM BORDER
+			return true;
+		}else if( (yMin <= y && y <= yMax) && (xMin == x) ) {	//LEFT BORDER
+			return true;
+		}else if( (yMin <= y && y <= yMax) && (xMax == x) ) {	//RIGHT BORDER
+			return true;
+		}
+		return false;
+	}
+	
+	static int onACorner(CastleStruct Castle, double x, double y, int space) {
+		// Xmin <= x <= Xmax ET Ymin <= y <= Ymax
+		int xCorner, yCorner;
+		xCorner = Castle.getCornerLT().getX() - space;
+		yCorner = Castle.getCornerLT().getY() - space;
+		if( (xCorner == x &&  y == yCorner) ) {	//LT
+			return 1;
+		}
+		xCorner = Castle.getCornerRT().getX() + space;
+		yCorner = Castle.getCornerRT().getY() - space;
+		if( (xCorner == x &&  y == yCorner) ) {	//RT
+			return 2;
+		}
+		xCorner = Castle.getCornerLB().getX() - space;
+		yCorner = Castle.getCornerLB().getY() + space;
+		if( (xCorner == x &&  y == yCorner) ) {	//LB
+			return 3;
+		}
+		xCorner = Castle.getCornerRB().getX() + space;
+		yCorner = Castle.getCornerRB().getY() + space;
+		if( (xCorner == x &&  y == yCorner) ) {	//RB
+			return 4;
+		}
+		return 0;
+	}
 	
 	
 	/* ------------------ */

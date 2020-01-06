@@ -1,9 +1,10 @@
 package SampleGame;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public abstract class GeometricForm {
+public abstract class GeometricForm implements Serializable {
 	
 	static ArrayList<GeometricForm> tabOfGeometricForm( OST ost, ArrayList<Castle> tabOfCastle) {
 		ArrayList<GeometricForm> tabOfGeometricForm = new ArrayList<GeometricForm>();

@@ -1,8 +1,9 @@
 package SampleGame;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Production {
+public class Production implements Serializable {
 	private ArrayList<String> tabOfProduction = new ArrayList<String>();
 	//troupes
 	private final int timeOfPiquier = 5;

@@ -1,8 +1,9 @@
 package SampleGame;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Troupes {
+public class Troupes implements Serializable {
 	
 	protected String name;
 	protected String Owner;
