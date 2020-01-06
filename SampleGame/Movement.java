@@ -9,18 +9,45 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * La Class Movement gére le déplacement des unités dans le jeu 
+ * il s'agite de déplacer des carrés, des cercles et des triangles (polygon)
+ *
+ */
 public class Movement {
 	
+	/**
+	 * @param space
+	 * ne peut être modifié, il s'agite de l'espace entre le château et sa bordure
+	 */
 	private final static int space = 10;
 	
+	/**
+	 * La méthode move bouge les unités en fonction de leur formes géométriques.
+	 * D'abord les rectangle puis les cercles puis les polygons.
+	 * @param root
+	 * 	il s'agit de la racine visuel du jeu
+	 * @param tabOfCastle
+	 * 	l'ArrayList qui regroupe l'ensemble des châteaux du jeu.
+	 * @param ost
+	 * 	l'OST en déplacement
+	 * @param sourceCastle
+	 * 	le château qui a envoyé l'OST
+	 * @param targetCastle
+	 * 	le château cible de l'OST
+	 * @param countSec
+	 * 	timer égale à 60 toute le 1 seconde. Permet de gérer la vitesse des unités
+	 */
 	static void move(Pane root, ArrayList<Castle> tabOfCastle, OST ost, Castle sourceCastle, Castle targetCastle, int countSec) {
 		// --------------------------------------------------------------------------------------------------------- //
 		// --------------------------------------------- RECTANGLE ------------------------------------------------- //
 		// --------------------------------------------------------------------------------------------------------- //
+		/**
+		 * vitesse d'un rectangle 60px/s
+		 */
 		if(countSec % ost.getMaxSpeed() == 0) {
 			for(int i = 0; i < ost.getRectangle().size(); i++) {
 				Rectangle r = ost.getRectangle().get(i);
-				//arrivé à destination
 				String direction;
 				//sortie du chateau source
 				if(inFrontOfTheDoor(sourceCastle, (r.getX()+5), ((r.getY()+5)), (space-1)) == true ) {	
@@ -131,6 +158,9 @@ public class Movement {
 		// --------------------------------------------------------------------------------------------------------- //
 		// ---------------------------------------------- CIRCLE --------------------------------------------------- //
 		// --------------------------------------------------------------------------------------------------------- //
+		/**
+		 * vitesse d'un cercle 20px/s
+		 */
 		if(countSec % ost.getMaxSpeed() == 0) {
 			for(int i = 0; i < ost.getCircle().size(); i++) {
 				Circle c = ost.getCircle().get(i);
@@ -245,6 +275,9 @@ public class Movement {
 		// --------------------------------------------------------------------------------------------------------- //
 		// ---------------------------------------------- POLYGON -------------------------------------------------- //
 		// --------------------------------------------------------------------------------------------------------- //
+		/**
+		 * vitesse d'un polygon 30px/s
+		 */
 		if(countSec % ost.getMaxSpeed() == 0) {
 			for(int i = 0; i < ost.getPolygon().size(); i++) {
 				ObservableList<Double> pos = ost.getPolygon().get(i).getPoints();
@@ -359,6 +392,18 @@ public class Movement {
 		//fin du déplacement de l'OST arrivé au chateau cible
 	}
 	
+	/**
+	 * inFrontOfTheDoor vérifie si l'unité se trouve devant la porte du château castle
+	 * @param castle
+	 * 	le château
+	 * @param formX
+	 * 	la coordonnée x de l'unité
+	 * @param formY
+	 * 	la coordonnée x de l'unité
+	 * @param spaceModifie
+	 * 	l'espace devant la porte varie entre le château qui envoie l'OST et le château cible
+	 * @return true si l'unité est devant la porte du château, sinon false
+	 */
 	static boolean inFrontOfTheDoor(Castle castle, double formX, double formY, int spaceModifie) {
 		int CornerX1;
 		int CornerY1;
@@ -408,7 +453,20 @@ public class Movement {
 				return false;
 		}
 	}
-		
+	
+	/**
+	 * la méthode cherche si l'unité se trouve sur la bordure de l'un des châteaux du jeu
+	 * @see Coordonnee.onTheBorder
+	 * @param tabOfCastle
+	 * 	l'ArrayList qui regroupe l'ensemble des châteaux du jeu.
+	 * @param ost
+	 * 	l'OST auquel appartient l'unité
+	 * @param x
+	 * 	coordonnée en x de l'unité
+	 * @param y
+	 * 	coordonnée en y de l'unité
+	 * @return le château autour duquel se trouve l'unité, sinon null
+	 */
 	static CastleStruct aroundACastle(ArrayList<Castle> tabOfCastle,OST ost, double x, double y) {
 		for(int i=0; i < tabOfCastle.size(); i++) {
 			if(Coordonnee.onTheBorder(tabOfCastle.get(i).getCastle(), x, y, space) == true) {
@@ -419,6 +477,23 @@ public class Movement {
 	}
 		
 	// RECTANGLE
+	/**
+	 * Lorsqu'une unité se trouve sur la bordure d'un château,
+	 * 	la méthode moveAroundACastle la déplace comme si elle était sur un rond-point 
+	 * 	en tournant dans le sens anti-horaire. L'unité ne peut quitter la bordure du château que si 
+	 * 	elle se trouve sur un coin de la bordure.
+	 * Dans l'autre cas elle ne fait.
+	 * @param tabOfCastle
+	 * 	l'ArrayList qui regroupe l'ensemble des châteaux du jeu.
+	 * @param ost
+	 * 	l'OST auquel appartient l'unité	
+	 * @param x
+	 * 	coordonnée en x de l'unité
+	 * @param y
+	 * 	coordonnée en y de l'unité
+	 * @return la direction vers laquelle doit se deplacer l'unité si elle se trouve sur la bordure d'un château
+	 * 	sinon "freeToMove" si elle ne se trouve pas sur une bordure
+	 */
 	static String moveAroundACastle(ArrayList<Castle> tabOfCastle,OST ost, double x, double y) {
 		CastleStruct c = aroundACastle(tabOfCastle,ost,x,y);
 		int targetX = ost.getTargetX(); 
@@ -442,7 +517,22 @@ public class Movement {
 		return "freeToMove";
 	}
 	
-	
+	/**
+	 * Lorsqu'une unité se trouve sur la bordure d'un château,
+	 * 	la méthode moveAroundACastleC la déplace comme si elle était sur un rond-point 
+	 * 	en tournant dans le sens anti-horaire. L'unité ne peut quitter la bordure du château que si 
+	 * 	elle se trouve sur un coin de la bordure.
+	 * Dans l'autre cas elle ne fait.
+	 * @param tabOfCastle
+	 * 	l'ArrayList qui regroupe l'ensemble des châteaux du jeu.
+	 * @param ost
+	 * 	l'OST auquel appartient l'unité	
+	 * @param circle
+	 * 	le cercle à déplacer
+	 * @return la direction vers laquelle doit se deplacer l'unité si elle peut quitter la bordure d'un château
+	 * 	elle peut retourner "OK" si elle déplace l'unité le long de la bordure 
+	 * 	ou alors "freeToMove" si elle ne se trouve pas sur une bordure
+	 */
 	// CIRCLE
 	static String moveAroundACastleC(ArrayList<Castle> tabOfCastle,OST ost, Circle circle) {
 		double x =  circle.getCenterX();
@@ -474,6 +564,22 @@ public class Movement {
 		return "freeToMove";
 	}
 	
+	/**
+	 * Lorsqu'une unité se trouve sur la bordure d'un château,
+	 * 	la méthode moveAroundACastleP la déplace comme si elle était sur un rond-point 
+	 * 	en tournant dans le sens anti-horaire. L'unité ne peut quitter la bordure du château que si 
+	 * 	elle se trouve sur un coin de la bordure.
+	 * Dans l'autre cas elle ne fait.
+	 * @param tabOfCastle
+	 * 	l'ArrayList qui regroupe l'ensemble des châteaux du jeu.
+	 * @param ost
+	 * 	l'OST auquel appartient l'unité	
+	 * @param polygon
+	 * 	le polygon à déplacer
+	 * @return la direction vers laquelle doit se deplacer l'unité si elle peut quitter la bordure d'un château
+	 * 	elle peut retourner "OK" si elle déplace l'unité le long de la bordure 
+	 * 	ou alors "freeToMove" si elle ne se trouve pas sur une bordure
+	 */
 	static String moveAroundACastleP(ArrayList<Castle> tabOfCastle,OST ost, Polygon polygon) {
 		ObservableList<Double> pos = polygon.getPoints();
 		double PolyX = pos.get(0);
@@ -504,6 +610,22 @@ public class Movement {
 		return "freeToMove";
 	}
 
+	/**
+	 * Cette méthode vérifie si l'unité peut sortir de la bordure d'un château pour rejoindre sa cible
+	 * ou si elle doit continuer son contournement
+	 * @param corner
+	 * 	un entier qui représente le coin sur lequel se trouve l'unité
+	 * 	@see Coordonnee.onACorner
+	 * @param targetX
+	 * 	la coordonnée X de la cible de l'unité
+	 * @param targetY
+	 * 	la coordonnée Y de la cible de l'unité
+	 * @param x
+	 * 	la coordonnée X de l'unité
+	 * @param y
+	 * 	la coordonnée Y de l'unité
+	 * @return la direction vers laquelle doit se déplacer l'unité
+	 */
 	static String caseOfonACorner(int corner, int targetX,int targetY,double x, double y) {
 		switch(corner) {
 			case 1:	//LT	move DOWN or exit
@@ -535,6 +657,15 @@ public class Movement {
 		}
 	}
 	
+	/**
+	 * méthode qui déplace de 1 pixel un rectangle en fonction de la direction dir
+	 * @param ost
+	 * 	l'OST du rectangle r
+	 * @param dir
+	 * 	la direction vers laquelle doit se déplacer le rectangle
+	 * @param r
+	 * le rectangle à déplacer
+	 */
 	static void moveRectangle(OST ost, String dir, Rectangle r) {
 		switch(dir) {
 		case "LEFT" :
@@ -554,6 +685,15 @@ public class Movement {
 		}
 	}
 	
+	/**
+	 * méthode qui déplace de 1 pixel un cercle en fonction de la direction dir
+	 * @param ost
+	 * 	l'OST du cercle c
+	 * @param dir
+	 * 	la direction vers laquelle doit se déplacer le cercle
+	 * @param c
+	 * le cercle à déplacer
+	 */
 	static void moveCircle(OST ost, String dir, Circle c) {
 		switch(dir) {
 			case "LEFT" :
@@ -574,6 +714,15 @@ public class Movement {
 		}		
 	}
 	
+	/**
+	 * méthode qui déplace de 1 pixel un polygon en fonction de la direction dir
+	 * @param ost
+	 * 	l'OST du polygon p
+	 * @param dir
+	 * 	la direction vers laquelle doit se déplacer le polygon
+	 * @param p
+	 * le polygon à déplacer
+	 */
 	static void movePolygon(OST ost, String dir, Polygon p) {
 		ObservableList<Double> pos = p.getPoints();
 		switch(dir) {

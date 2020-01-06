@@ -104,12 +104,7 @@ public class Main extends Application {
 				// Timer qui actualise à intervalle régulier le trésor de tous les chateaux
 				if(countSec == 60) {
 					tabOfCastle.forEach(castle -> {
-						if(castle.getType() == "Baron") {
-							RunACastle.updateTresorBaron(castle);
-						}
-						else {
-							RunACastle.updateTresor(castle); 
-						}
+						RunACastle.updateTresor(castle); 
 					});
 				}
 				

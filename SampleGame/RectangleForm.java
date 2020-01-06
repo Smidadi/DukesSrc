@@ -4,6 +4,19 @@ import java.util.ArrayList;
 
 import javafx.scene.shape.Rectangle;
 
+/**
+ * @param x
+ * 	coordonnée x du coin supérieur gauche
+ * @param y
+ * 	coordonnée y du coin supérieur gauche
+ * @param width
+ * @param height
+ * @param color
+ * 	la couleur du château
+ * @param type
+ * 	le type de la forme géométrique, nécessaire pour savoir comment la traiter
+
+ */
 class RectangleForm extends GeometricForm {
 	private int width;
 	private int height;
@@ -12,6 +25,16 @@ class RectangleForm extends GeometricForm {
 	private TeamColor color;
 	private String type = "rectangle";
 	
+	/**
+	 * Constructeur de la class RectangleForm
+	 * @param CastleDoor
+	 * 	permet d'avoir la position de la porte du château qui souhaite émettre une OST
+	 * 	@see CastleDoor
+	 * @param color
+	 * 	la couleur qu'aura le rectangle
+	 * @param position
+	 * 	position par rapport a la porte, par exemple: 1 = gauche, 2 = centre et 3 = droite.
+	 */
 	RectangleForm(CastleDoor CastleDoor, TeamColor color, int position){ //position  between 1 & 3
 		Coordonnee door = CastleDoor.getCenter();
 		char direction = CastleDoor.getDirection();
@@ -55,6 +78,14 @@ class RectangleForm extends GeometricForm {
 		this.color = color;
 	}
 	
+	 /**
+	  * Permet de convertir un rectangle de javafx.scene.shape.rectangle en RectangleForm
+	  * pour pouvoir le sauvegarder
+	  * @param rectangle
+	  * le rectangle à convertir pour la sauvegarde
+	  * @param color
+	  * la couleur du rectangle
+	  */
 	RectangleForm(Rectangle rectangle,TeamColor color){
 		this.x = (int) rectangle.getX();
 		this.y = (int) rectangle.getY();

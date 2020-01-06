@@ -8,33 +8,73 @@ public class Coordonnee implements Serializable {
 	private int x;
 	private int y;
 	
+	/**
+	 * Constructeur de la class Coordonnee
+	 * sans paramétre pour le création d'un point aléatoire dans le cadre du jeu
+	 */
 	public Coordonnee() {
 		this.x =  (int) ( Settings.DOORSIZE + Settings.DUCSIZE + Math.random() * (Settings.SCENE_WIDTH - 2* (Settings.DOORSIZE + Settings.DUCSIZE)));
 		this.y =  (int) ( Settings.DOORSIZE + Settings.DUCSIZE + Math.random() * (Settings.SCENE_HEIGHT - 2* (Settings.DOORSIZE + Settings.DUCSIZE)));		
 	}
 
-	public Coordonnee(int d, int e) {
-		this.x =  d;
-		this.y =  e;
+	/**
+	 * Constructeur de la class Coordonnée
+	 * @param x
+	 * @param y
+	 */
+	public Coordonnee(int x, int y) {
+		this.x =  x;
+		this.y =  y;
 	}
 	
-	public static double distance(Coordonnee castle, Coordonnee newCastle){
-		int d1 = castle.x - newCastle.x;
-		int d2 = castle.y - newCastle.y;
+	/**
+	 * Calcule la distance entre 2 points
+	 * utile pour calculer la hauteur / largueur d'un rectangle par exemple.
+	 * @param pt1
+	 * @param pt2
+	 * @return	la distance entre les 2 points
+	 */
+	public static double distance(Coordonnee pt1, Coordonnee pt2){
+		int d1 = pt1.x - pt2.x;
+		int d2 = pt1.y - pt2.y;
         return Math.sqrt(d1*d1 + d2*d2);
     }
 	
+	/**
+	* Calcule la distance entre 2 points
+	 * utile pour calculer la hauteur / largueur d'un rectangle par exemple.
+	 * @param x1 y1
+	 * 	premier point
+	 * @param x2 y2
+	 * 	deuxième point
+	 * @return	la distance entre les 2 points
+	 */
 	public static double distance(int x1, int y1, int x2, int y2) {
 		int dx = x1 - x2;
 		int dy = y1 - y2;
 		return Math.sqrt(dx*dx + dy*dy);
 	}
 	
+	/**
+	 * Calcule la distance entre 2 points sur le même axe
+	 * @param x1
+	 * @param x2
+	 * @return la distance entre 2 points
+	 */
 	public static int distance(int x1, int x2) {
 		return (int) Math.sqrt((x1-x2)*(x1-x2));
 	}
 	
-
+	/**
+	 * Vérifie si un point se trouve dans un carré + un espace
+	 * @param Castle
+	 * 	le "carré"
+	 * @param x
+	 * @param y
+	 * @param space
+	 * 		l'espace réservé au château en plus de sa taille actuelle
+	 * @return	true si le point est dans le château sinon false
+	 */
 	static Boolean inASquare(CastleStruct Castle, int x, int y, int space) {
 		// Xmin <= x <= Xmax ET Ymin <= y <= Ymax
 		int xMin = Castle.getCornerLT().getX() - space; //LEFT CORNER
@@ -47,6 +87,37 @@ public class Coordonnee implements Serializable {
 		return false;
 	}
 	
+	/**
+	 * Vérifie si un point se trouve dans un carré + un espace
+	 * @param Castle
+	 * 	le "carré"
+	 * @param x
+	 * @param y
+	 * @return	true si le point est dans le château sinon false
+	 */
+	static Boolean inASquare(CastleStruct Castle, Coordonnee aPoint) {
+		// Xmin <= x <= Xmax ET Ymin <= y <= Ymax
+		double xMin = Castle.getCornerLT().getX() - Settings.DOORSIZE; //LEFT CORNER
+		double xMax = Castle.getCornerRT().getX() + Settings.DOORSIZE;	//RIGHT CORNER
+		double yMin = Castle.getCornerLT().getY() - Settings.DOORSIZE;	//TOP CORNER
+		double yMax = Castle.getCornerLB().getY() + Settings.DOORSIZE; //TOP CORNER
+		if( (xMin <= aPoint.getX() && aPoint.getX() <= xMax) && (yMin <= aPoint.getY() && aPoint.getY() <= yMax) ) {
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Vérifie si un point se trouve à "space" distance d'un château,
+	 * il est alors dans sa bordure
+	 * @param Castle
+	 * 	le château autour du quel on vérifie si le point est
+	 * @param x
+	 * @param y
+	 * @param space
+	 * 	la distance à laquelle doit se trouver le point pour être sur la bordure
+	 * @return
+	 */
 	static Boolean onTheBorder(CastleStruct Castle, double x, double y, int space) {
 		// Xmin <= x <= Xmax ET Ymin <= y <= Ymax
 
@@ -67,6 +138,16 @@ public class Coordonnee implements Serializable {
 		return false;
 	}
 	
+	/**
+	 * Vérifie si un point se trouve sur un coin de la bordure du château
+	 * @param Castle
+	 * 	le château autour du quel on vérifie si le point est
+	 * @param x
+	 * @param y
+	 * @param space
+	 * 	la distance à laquelle doit se trouver le point pour être sur la bordure
+	 * @return
+	 */
 	static int onACorner(CastleStruct Castle, double x, double y, int space) {
 		// Xmin <= x <= Xmax ET Ymin <= y <= Ymax
 		int xCorner, yCorner;

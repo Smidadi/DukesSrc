@@ -5,6 +5,45 @@ import java.util.ArrayList;
 
 import javafx.scene.shape.Rectangle;
 
+/**
+	 * Il s'agit de classe qui regroupe les informations nécessaires au fonctionnement des chateaux.
+	 *	@param name
+	 * 	le nom du château, intribué dans l'ordre de création via un tableau. 
+	 * 	@see Settings
+	 * @param owner
+	 * 	le propriétaire du chateau, détermine si il reçoit un OST en renfort ou si elle l'attaque.
+	 * @param type
+	 * 	le type du chateau, Duc ou Baron. Détermine sa taille, sa trésorie, etc...
+	 * @param typeOwner
+	 * 	le type du propriétaire, Duc ou Baron. Détermine les actions que peut entreprendre le chateau via l'IA.
+	 * 	@see IA
+	 * @param level
+	 * 	le niveau actuel du château. Détermine son revenue et le coup de la future amélioration de niveau. 
+	 * 	@see RunACastle
+	 * @param tresor
+	 * 	le tresor actuel du château. Détermine ce qu'il peut produire @see ProductionLine
+	 * @param revenu
+	 * 	le revenu du château. Le montant de florin que le château gagne par seconde.
+	 * @param tabTroupes
+	 * 	c'est un tableau qui regroupe l'ensemble des troupes en réserve dans le château.
+	 * @productionLine
+	 * 	@see production
+	 * @param castle
+	 * 	la structure du chateau, ses différentes coordonnées.
+	 * 	@see CastleStruct
+	 * @param CastleDoor
+	 * 	la structure de la porte du château, ses différentes coordonnées.
+	 * 	@see CastleDoor
+	 * @param color
+	 * 	la couleur du château et des des troupes de ce propriétaire (joueur/IA).
+	 * 	@see TeamColor
+	 * @param rectCastle
+	 * 	la forme géométrique du château pour affichage à l'écran. Dessiner à partir des informations du paramètre castle
+	 * @param rectDoor
+	 * 	la forme géométrique de la porte du château pour affichage à l'écran. Dessiner à partir des informations du paramètre CastleDoor
+	 *
+	 * */
+	 
 public class Castle implements Serializable  {
 	private String name;
 	private String owner;
@@ -27,7 +66,18 @@ public class Castle implements Serializable  {
 	transient private Rectangle rectCastle;
 	transient private Rectangle rectDoor;
 	
-	
+	/**
+	 * Il s'agit du constructeur de la class Castle
+	 * @param type
+	 * 	le type du chateau, Duc ou Baron.
+	 * @param tabOfCastle
+	 * 	l'ArrayList qui regroupe l'ensemble des châteaux du jeu.
+	 * @param nb
+	 * 	permet de nommer différent les Ducs et Barons sans faire recours un à un tableau de nom
+	 * @param tabOfCastleName
+	 * 	@see Settings
+	 * 	permet de nommer chaque chateau via un tableau de nom
+	 */
 	Castle(String type, ArrayList<Castle> tabOfCastle, int nb, String tabOfCastleName[]) {
 		if(type == "Duc" || type == "Player") {
 			if(type == "Player") {

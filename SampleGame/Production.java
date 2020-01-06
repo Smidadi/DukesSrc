@@ -3,6 +3,24 @@ package SampleGame;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ *La class Production gére la production d'un château 
+ * 
+ *@param tabOfProduction
+ * 	le tableau qui contient le nom des éléments présent dans la file de production
+ *@param timeOfPiquier, timeOfChevalier, timeOfOnagre
+ *	les différents temps de production selon le type d'unité, ne peux pas être modifié
+ *@param costOfPiquier, costOfChevalier, costOfOnagre
+ *	les différents coûts de production selon le type d'unité, ne peux pas être modifié
+ *@param timeOfUpgrade
+ *	le temps d'amélioration du château. Varie selon son niveau
+ *	@see RunACastle
+ *@param costOfUpgrade
+ *	le coût d'amélioration du château. Varie selon son niveau
+ *	@see RunACastle
+ *@param timeLeft
+ *		le temps restant de la production en cours.
+ */
 public class Production implements Serializable {
 	private ArrayList<String> tabOfProduction = new ArrayList<String>();
 	//troupes
@@ -18,16 +36,34 @@ public class Production implements Serializable {
 	//
 	private int timeLeft;
 	
+	/**
+	 * Constructeur de la class Production
+	 * initialise le coût et le temps de production de l'amélioration du château
+	 * @param level
+	 * 	le level du château
+	 */
 	Production(int level){
 		this.timeOfUpgrade = 100 + 50 * level;
 		this.costOfUpgrade = 1000 * level;
 	}
 		
+	/**
+	 * Augmente le temps et coût de l'amélioration du château c
+	 * @param c
+	 * 	le château
+	 */
 	static void increaseCostOfUpgrade(Castle c) {
 		c.getProductionLine().setTimeOfUpgrade(100 + 50 * c.getLevel());
 		c.getProductionLine().setTimeOfUpgrade(1000 * c.getLevel());
 	}
 	
+	/**
+	 * Actualise la file de production du chateau c
+	 * retire le premier élément de la file
+	 * redéfinie le temps restant de production
+	 * @param c
+	 * 	le chateau
+	 */
 	 static void updateProduction(Castle c) {
 		c.getProductionLine().getTabOfProduction().remove(0);
 		if(c.getProductionLine().getTabOfProduction().isEmpty() == false) {
