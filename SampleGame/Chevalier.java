@@ -1,8 +1,8 @@
 package SampleGame;
 
+import java.io.Serializable;
 
-
-public class Chevalier extends Troupes {
+public class Chevalier extends Troupes implements Serializable {
 	
 	Chevalier( String owner) {
 		this.name = "Chevalier";

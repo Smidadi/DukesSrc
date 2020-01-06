@@ -1,5 +1,6 @@
 package SampleGame;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -7,23 +8,37 @@ import java.util.ArrayList;
 
 import javafx.scene.shape.Rectangle;
 
+/**
+ * La class LoadSave charge les données de la dernière partie sauvegardée dans la nouvelle partie
+ * 	Vérifie l'existence du fichier "save.ser" et va lire son contenue pour 
+ * 	récupérer les données de tabOfCastle et de tabOfOST de l'ancienne partie
+ * 	ainsi que la taille du tableau tabOfOST pour récréer un nouveau tableau 
+ * 	avec le nombre exact d'OST
+ */
+
 public class LoadSave extends Main {	
 	static public void loadSave(ArrayList<Castle> tabOfCastle, ArrayList<OST> tabOfOST) {
 		ObjectInputStream ois = null;
 		try {
-			FileInputStream in = new FileInputStream("save.ser");
-			ois = new ObjectInputStream(in);
-			
-			// Récupération des chateaux
-			for(int i = 0; i < tabOfCastle.size(); i++) {
-				tabOfCastle.set(i, (Castle) ois.readObject());
-				LoadSave.createRectangleOfCastle(tabOfCastle.get(i));
-				LoadSave.createDoorOfCastle(tabOfCastle.get(i));
-			}
-			
-			// Récupération des OST
-			for(int i =0; i < tabOfOST.size(); i++) {
-				tabOfOST.set(i, (OST) ois.readObject());
+			File f = new File("save.ser");
+			if(f.exists()) {
+				FileInputStream in = new FileInputStream("save.ser");
+				ois = new ObjectInputStream(in);
+				
+				// Récupération des chateaux
+				for(int i = 0; i < tabOfCastle.size(); i++) {
+					tabOfCastle.set(i, (Castle) ois.readObject());
+					LoadSave.createRectangleOfCastle(tabOfCastle.get(i));
+					LoadSave.createDoorOfCastle(tabOfCastle.get(i));
+				}
+				
+				// Récupération de la taille de tabOfOST
+				int sizeTabOfOST = ois.read();
+	
+				// Récupération des OST
+				for(int i =0; i < sizeTabOfOST; i++) {
+					tabOfOST.add(i, (OST) ois.readObject());
+				}
 			}
 		} catch(java.io.IOException e) {
 			e.printStackTrace();
@@ -40,11 +55,11 @@ public class LoadSave extends Main {
 	    }
 	}
 	
-	static public void createOST(OST ost) {
-		for(int i = 0; i < ost.getTabOfGeometricForm().size(); i++) {
-			//ost.getTabOfGeometricForm().set(i,);
-		}
-	}
+	/**
+	 * Recrée les châteaux sur la map
+	 * @param c
+	 * 	accède au château pour recréer les formes à l'écran
+	 */
 	
 	static public void createRectangleOfCastle(Castle c) {
 		double x = c.getCastle().getCornerLT().getX();
@@ -53,6 +68,12 @@ public class LoadSave extends Main {
 		double h = Coordonnee.distance(c.getCastle().getCornerLT(), c.getCastle().getCornerLB());
 		c.setRectCastle(new Rectangle(x,y,w,h));
 	}
+	
+	/**
+	 * Recrée les portes des châteaux sur la map
+	 * @param c
+	 * 	accède au château pour recréer les portes sur les châteaux à l'écran
+	 */
 	
 	static public void createDoorOfCastle(Castle c) {
 		double x = c.getCastleDoor().getCornerLT().getX();

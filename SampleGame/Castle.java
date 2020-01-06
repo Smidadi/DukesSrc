@@ -34,13 +34,13 @@ public class Castle implements Serializable  {
                 this.name = tabOfCastleName[tabOfCastle.size()];
                 this.owner = type;
                 this.color = new TeamColor(220,20,60);
-                this.tabTroupes = Troupes.createTroupes(this.name,2,2,2); // Temporary
+                this.tabTroupes = Troupes.createTroupes(this.name,10,5,2); 
             }
             else {
                 this.name = tabOfCastleName[tabOfCastle.size()];
                 this.owner = "Duc " + Integer.toString(nb);
                 this.color = new TeamColor();
-                this.tabTroupes = Troupes.createTroupes(this.name,2,2,2); // Temporary
+                this.tabTroupes = Troupes.createTroupes(this.name,2,2,2); 
 			}
 			this.level = 1;
 			this.tresor = 0;
@@ -52,9 +52,9 @@ public class Castle implements Serializable  {
 		if(type == "Baron") {
 			this.name = tabOfCastleName[tabOfCastle.size()];
 			this.owner = "Baron " + Integer.toString(nb);
-			this.level = 1 + (int) Math.random() * 5;
-			this.tresor = 500 + (int) Math.random() * 1001;	// 500 - 1500			
-			this.tabTroupes = Troupes.createTroupes(this.name,(int) (Math.random() * 6),(int) (Math.random() * 6),(int) (Math.random() * 6)); // temporaire
+			this.level = 1 + (int) (Math.random() * 5);
+			this.tresor = 500 + (int) (Math.random() * 1001);	// 500 - 1500			
+			this.tabTroupes = Troupes.createTroupes(this.name,(int) (Math.random() * 6),(int) (Math.random() * 6),(int) (Math.random() * 6)); 
 			this.Castle = new CastleStruct(type,tabOfCastle);
 			this.CastleDoor = new CastleDoor(this.Castle.getCenter(),type);
 			this.color = new TeamColor(128,128,128); //grey 

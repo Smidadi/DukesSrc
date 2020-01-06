@@ -13,6 +13,12 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import javafx.stage.Stage; 
 
+/**
+ * La class Main lance les boucles 
+ *
+ *
+ */
+
 public class Main extends Application {
 	protected static final Text NULL = null;
 	protected static final Castle NULLL = null;
@@ -104,12 +110,7 @@ public class Main extends Application {
 				// Timer qui actualise à intervalle régulier le trésor de tous les chateaux
 				if(countSec == 60) {
 					tabOfCastle.forEach(castle -> {
-						if(castle.getType() == "Baron") {
-							RunACastle.updateTresorBaron(castle);
-						}
-						else {
-							RunACastle.updateTresor(castle); 
-						}
+						RunACastle.updateTresor(castle); 
 					});
 				}
 				
@@ -127,7 +128,7 @@ public class Main extends Application {
 				// Interaction avec les zones de texte
 				tabOfText.forEach(text -> text.setOnMouseClicked(e -> { 
 					// Ameliore le niveau du chateau
-					if(selectedCastle.getOwner() == "Player") {
+					if(selectedCastle.getOwner().compareTo("Player") == 0) {
 						if(text == upgrade) {
 							if(!selectedCastle.getProductionLine().getTabOfProduction().contains("Améliorer") 
 									&& selectedCastle.getTresor() >= selectedCastle.getProductionLine().getCostOfUpgrade() * selectedCastle.getLevel()) { // si il n'y  a pas déjà une amélioration
@@ -156,15 +157,15 @@ public class Main extends Application {
 				
 				// Modifications visuelles des informations du chateau selectionné
 				if(status != NULL) {
-					if(selectedCastle.getTresor() >= selectedCastle.getProductionLine().getCostOfUpgrade() * selectedCastle.getLevel() && selectedCastle.getOwner() == "Player" 
+					if(selectedCastle.getTresor() >= selectedCastle.getProductionLine().getCostOfUpgrade() * selectedCastle.getLevel() && selectedCastle.getOwner().compareTo("Player") == 0 
 							&& !selectedCastle.getProductionLine().getTabOfProduction().contains("Améliorer")){
 						upgrade.setText("> Améliorer <\n" + selectedCastle.getProductionLine().getCostOfUpgrade() * selectedCastle.getLevel() +" florins");
 					}
-					else if(selectedCastle.getOwner() != "Player") {
+					else if(selectedCastle.getOwner().compareTo("Player") == 0) {
 						upgrade.setText(" ");
 					}
 					
-					if(selectedCastle.getOwner() == "Player") {
+					if(selectedCastle.getOwner().compareTo("Player") == 0) {
 						product.setText("> Produire <\n" + (selectedCastle.getProductionLine().getTimeLeft()) + "s");
 					}
 					
@@ -201,9 +202,6 @@ public class Main extends Application {
 							}
 						}
 					}
-					/*if(ost.getInMovment() == false) {
-						tabOfOST.remove(ost);
-					}*/
 				});
 				
 				// Timer du jeu
@@ -214,13 +212,13 @@ public class Main extends Application {
 				
 				if(countSecIA == 5) {
 					tabOfCastle.forEach(castle -> {
-						if(castle.getTypeOwner() == "Duc") {
+						if(castle.getTypeOwner().compareTo("Duc") == 0) { // castle.getTypeOwner().compareTo("Duc") == 0
 							IA.randomAction(castle, tabOfCastle, tabOfOST);
+							
 						}
 					});
 					countSecIA = 0;					
 				}
-				
 				countSec++;
 			}
 			
@@ -250,7 +248,7 @@ public class Main extends Application {
 				
 				// Choix de la cible de l'attaque
 				tabOfCastle.forEach(castle -> castle.getRectCastle().setOnMouseClicked(e -> {
-					if(status != NULL && targetText == NULL && castle.getRectCastle() != createEscape) {
+					if(status != NULL && targetText == NULL && castle.getRectCastle() != createEscape && inProduction == NULL) {
 						selectedCastle = castle;
 						updateStatus();
 					}
@@ -269,6 +267,7 @@ public class Main extends Application {
 					else if(text == load) {
 						loadOldGame();
 					}
+
 					// Gere la production des troupes
 					if(text == product && targetText == NULL) {
 						createProduction();
@@ -556,9 +555,18 @@ public class Main extends Application {
 	
 	private void loadOldGame() {
 		root.getChildren().clear();
-		resetScreen.resetTextScreen(root, tabOfText, tabOfOST);
+		resetScreen.resetTextScreen(root, tabOfText);
 		LoadSave.loadSave(tabOfCastle, tabOfOST);
+		
 		printAllCastle(tabOfCastle, root);
+		for(int i = 0; i < tabOfOST.size(); i++) {
+			tabOfOST.get(i).setRectangle(new ArrayList<>());
+			tabOfOST.get(i).setCircle(new ArrayList<>());
+			tabOfOST.get(i).setPolygon(new ArrayList<>());
+			if(!tabOfOST.get(i).getTabOfGeometricForm().isEmpty()) {
+				printUnites(tabOfOST.get(i), tabOfOST.get(i).getTabOfGeometricForm());
+			}
+		}
 	}
 	
 	private void createEscape() {
@@ -729,8 +737,9 @@ public class Main extends Application {
 			tabOfText.add(upgrade);
 			root.getChildren().add(upgrade);
 		}
+		
 		// Verifie si Envoyer des troupes est dans tabOfText pour eviter la superposition du texte
-		if(!tabOfText.contains(sendTroupes) && c.getOwner() == "Player") {
+		if(!tabOfText.contains(sendTroupes) && c.getOwner().compareTo("Player") == 0) {
 			sendTroupes = new Text("> Envoyer des troupes <");
 			sendTroupes.setLayoutX(Settings.INFORMATIONSCASTLEXY * 3);
 			sendTroupes.setLayoutY(Settings.INFORMATIONSHEIGHT);
@@ -739,7 +748,7 @@ public class Main extends Application {
 		}
 		
 		// Verifie si Produire est dans tabOfText pour eviter la superposition du texte
-		if(!tabOfText.contains(product) && c.getOwner() == "Player") {
+		if(!tabOfText.contains(product) && c.getOwner().compareTo("Player") == 0) {
 			product = new Text("> Produire <");
 			product.setLayoutX(Settings.INFORMATIONSHEIGHT - 10);
 			product.setLayoutY(Settings.INFORMATIONSHEIGHT - 40);
@@ -747,7 +756,7 @@ public class Main extends Application {
 			root.getChildren().add(product);
 		}
 		
-		if(c.getOwner() == "Player") {
+		if(c.getOwner().compareTo("Player") == 0) {
 			allProduction = new Text("Production : " + c.getProductionLine().getTabOfProduction().size());
 			allProduction.setLayoutX(Settings.INFORMATIONSCASTLEXY * 3);
 			allProduction.setLayoutY(Settings.INFORMATIONSHEIGHT - 40);

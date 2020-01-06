@@ -2,14 +2,31 @@ package SampleGame;
 
 import java.util.ArrayList;
 
+/**
+ *  La class IA gère les actions à effectuer par les châteaux non jouables
+ *
+ */
+
 public class IA {
+	
+	/**
+	 * Attribue une action aléatoire à effectuer à un château non jouable à l'aide de
+	 * variables randoms
+	 * @param c
+	 * 	château ciblé pour effectuer l'action
+	 * @param tabOfCastle
+	 * 	tableau de tous les châteaux présents dans le jeu
+	 * @param tabOfOST
+	 * 	tableau de tous les OST présents sur la map
+	 */
+	
 	static void randomAction(Castle c, ArrayList<Castle> tabOfCastle, ArrayList<OST> tabOfOST) {
 		int random = (int) (Math.random() * 2);
 		int randUnite;
 		int tab[] = new int[3];
 		if(random == 0) {
 			// Cas de production de troupes
-			random = (int) (Math.random() * 3);
+			random = (int) (Math.random() * 4);
 			switch(random) {
 			case 0 : // Production d'un piquier
 				if(c.getTresor() >= c.getProductionLine().getCostOfPiquier()) {
@@ -19,7 +36,6 @@ public class IA {
 						c.getProductionLine().setTimeLeft(c.getProductionLine().getTimeOfPiquier());
 					}
 				}
-				System.out.println("Impossible pour piquier");
 				break;
 			case 1 : // Production d'un chevalier
 				if(c.getTresor() >= c.getProductionLine().getCostOfChevalier()) {
@@ -29,7 +45,6 @@ public class IA {
 						c.getProductionLine().setTimeLeft(c.getProductionLine().getTimeOfChevalier());
 					}
 				}
-				System.out.println("Impossible pour chevalier");
 				break;
 			case 2 : // Production d'un onagre
 				if(c.getTresor() >= c.getProductionLine().getCostOfOnagre()) {
@@ -39,8 +54,15 @@ public class IA {
 						c.getProductionLine().setTimeLeft(c.getProductionLine().getTimeOfOnagre());
 					}
 				}
-				System.out.println("Impossible pour onagre");
 				break;
+			case 3 :
+				if(c.getTresor() >= c.getProductionLine().getCostOfUpgrade() && c.getTypeOwner().compareTo("Duc") == 0) {
+					c.getProductionLine().getTabOfProduction().add("Améliorer");
+					RunACastle.removeCostOfProduction(c);
+					if(c.getProductionLine().getTimeLeft() == 0) {
+						c.getProductionLine().setTimeLeft(c.getProductionLine().getTimeOfUpgrade());
+					}
+				}
 			default :
 				break;
 			}
@@ -88,6 +110,17 @@ public class IA {
 		}
 	}
 	
+	/**
+	 * Selon le type d'unité choisie : l'algorithme choisi un nombre aléatoire entre 0 et le nombre
+	 * maximal de troupes de l'unité choisie à envoyer
+	 * @param c
+	 * 	château ciblé pour effectuer l'action
+	 * @param unite
+	 * 	unité à envoyer
+	 * @param tab
+	 * 	tableau contenant l'OST
+	 */
+	
 	static void setInTabRandomUnite(Castle c, String unite, int[] tab) {
 		if(unite == "Piquier") {
 			if(RunACastle.countTroupes(unite, c.getTabTroupes()) == 1) {
@@ -118,6 +151,16 @@ public class IA {
 		}
 	}
 	
+	/**
+	 * Choisi un château cible random dans le jeu
+	 * @param c
+	 * 	château ciblé pour effectuer l'action : permet de vérifier s'il ne s'enfoi pas des troupes 
+	 * 	à lui-même
+	 * @param tabOfCastle
+	 * 	cherche un château parmis ceux présents dans le jeu
+	 * @return	retourne le château à attaquer
+	 */
+	
 	static Castle randomTargetCastle(Castle c, ArrayList<Castle> tabOfCastle) {
 		int randomTargetCastle = (int) (Math.random() * tabOfCastle.size());
 		while(tabOfCastle.get(randomTargetCastle) == c) {
@@ -125,6 +168,13 @@ public class IA {
 		}
 		return tabOfCastle.get(randomTargetCastle);
 	}
+	
+	/**
+	 * Choisi une unité random
+	 * @param random
+	 * 	variable random permettant de retourner la troupe choisi
+	 * @return retourne la troupe à envoyer
+	 */
 	
 	static String randomUnite(int random) {
 		switch(random) {

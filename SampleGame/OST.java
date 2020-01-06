@@ -46,15 +46,15 @@ public class OST implements Serializable {
 			if(tab[i]!= 0) {
 				switch (i) {
 					case 0:
-						this.MaxSpeed = 4;
+						this.MaxSpeed = 3;
 						while(tab[i] > 0) {
 							this.ostUnites.add(new Onagre(owner.getName()));
 							tab[i]--;
 						}
 						break;
 					case 1:
-						if(this.MaxSpeed < 3) {
-							this.MaxSpeed = 3;
+						if(this.MaxSpeed < 2) {
+							this.MaxSpeed = 2;
 						}
 						while(tab[i] > 0) {
 							this.ostUnites.add(new Piquier(owner.getName()));

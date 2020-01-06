@@ -5,8 +5,14 @@ import javafx.scene.text.Text;
 
 import javafx.scene.layout.Pane;
 
+/**
+ * Mets tous les textes présents dans Main à NULL afin de réinitialiser les variables
+ * Vide le tableau de texte pour éviter les confusions à l'affichage
+ */
+
+
 public class resetScreen extends Main {
-	static void resetTextScreen(Pane root, ArrayList<Text> tabOfText, ArrayList<OST> tabOfOST) {
+	static void resetTextScreen(Pane root, ArrayList<Text> tabOfText) {
 		// Message pour le jeu en pause
 		textPause = NULL;
 		// Barre d'informations du chateau
@@ -43,7 +49,6 @@ public class resetScreen extends Main {
 		
 		selectedCastle = NULLL;
 		
-		tabOfOST.clear();
 		tabOfText.clear();
 	}	
 }

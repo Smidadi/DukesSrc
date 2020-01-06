@@ -1,7 +1,8 @@
 package SampleGame;
 
+import java.io.Serializable;
 
-public class Piquier extends Troupes {
+public class Piquier extends Troupes implements Serializable {
 	
 	Piquier(String owner) {
 		this.name = "Piquier";

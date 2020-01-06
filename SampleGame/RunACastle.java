@@ -1,29 +1,30 @@
 package SampleGame;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class RunACastle {	// w : 1500 ; h : 1000 pour la map
+public class RunACastle implements Serializable {	// w : 1500 ; h : 1000 pour la map
 	
 	static public int countTroupes(String typeUnit, ArrayList<Troupes> tab) {
 		int cpt = 0;
 		switch(typeUnit) {
 		case "Piquier" :
 			for(int i = 0; i < tab.size(); i++) {
-				if(tab.get(i).getName() == typeUnit) {
+				if(tab.get(i).getName().compareTo(typeUnit) == 0) {
 					cpt++;
 				}
 			}
 			return cpt;
 		case "Chevalier" :
 			for(int i = 0; i < tab.size(); i++) {
-				if(tab.get(i).getName() == typeUnit) {
+				if(tab.get(i).getName().compareTo(typeUnit) == 0) {
 					cpt++;
 				}
 			}
 			return cpt;
 		case "Onagre" :
 			for(int i = 0; i < tab.size(); i++) {
-				if(tab.get(i).getName() == typeUnit) {
+				if(tab.get(i).getName().compareTo(typeUnit) == 0) {
 					cpt++;
 				}
 			}
