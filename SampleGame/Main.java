@@ -190,8 +190,14 @@ public class Main extends Application {
 						if(ost.getTabOfGeometricForm().size() != 0 && countSec == 60) {
 							printUnites(ost,ost.getTabOfGeometricForm());
 						}
+<<<<<<< HEAD
 						Movement.move(root, tabOfCastle, ost, ost.getOwner(), ost.getTarget());
 						
+=======
+						if(countSec%2 == 0) {
+							Movement.move(root, tabOfCastle, ost, ost.getOwner(), ost.getTarget());
+						}
+>>>>>>> f953f1b09bb4ed16d24d4f89eed7d33430074beb
 						
 						if(ost.getCanAttack() == true) {
 							if(Troupes.attackACastle(tabOfCastle, ost.getOwner(), ost.getTarget(), ost.getOstUnites(), ost.getTarget().getTabTroupes()) == true) {
@@ -797,8 +803,6 @@ public class Main extends Application {
 					Rectangle onagre = new Rectangle(tabOfGeometricForm.get(i).getX(),tabOfGeometricForm.get(i).getY(),(double) tabOfGeometricForm.get(i).getWidth(),(double) tabOfGeometricForm.get(i).getHeight());
 					onagre.setFill(Color.rgb(r, g, b));
 					ost.getRectangle().add(onagre);
-					ost.getRectDodgeX().add(false);
-					ost.getRectDodgeY().add(false);
 					root.getChildren().add(onagre); 
 					tabOfGeometricForm.remove(i);
 					break;
@@ -810,8 +814,6 @@ public class Main extends Application {
 						    (double) tabOfGeometricForm.get(i).getS3().getX(), (double) tabOfGeometricForm.get(i).getS3().getY()});
 					piquier.setFill(Color.rgb(r, g, b));
 					ost.getPolygon().add(piquier);
-					ost.getPolyDodgeX().add(false);
-					ost.getPolyDodgeY().add(false);
 					root.getChildren().add(piquier); 
 					tabOfGeometricForm.remove(i);
 					break;
@@ -819,8 +821,6 @@ public class Main extends Application {
 					Circle chevalier = new Circle((double) tabOfGeometricForm.get(i).getX(),(double) tabOfGeometricForm.get(i).getY(),(double) tabOfGeometricForm.get(i).getRadius());
 					chevalier.setFill(Color.rgb(r, g, b));
 					ost.getCircle().add(chevalier);
-					ost.getCircleDodgeX().add(false);
-					ost.getCircleDodgeY().add(false);
 					root.getChildren().add(chevalier); 
 					tabOfGeometricForm.remove(i);
 					break;

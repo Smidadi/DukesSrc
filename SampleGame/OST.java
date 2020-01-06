@@ -18,6 +18,7 @@ public class OST implements Serializable {
 	
 	private ArrayList<GeometricForm> tabOfGeometricForm;
 	
+<<<<<<< HEAD
 	transient private ArrayList<Rectangle> rectangle = new ArrayList<>();
 	transient private ArrayList<Circle> circle = new ArrayList<>();
 	transient private ArrayList<Polygon> polygon = new ArrayList<>();
@@ -29,6 +30,12 @@ public class OST implements Serializable {
 	private ArrayList<Boolean> polyDodgeX = new ArrayList<>();
 	private ArrayList<Boolean> polyDodgeY = new ArrayList<>();
 	
+=======
+	private ArrayList<Rectangle> rectangle = new ArrayList<>();
+	private ArrayList<Circle> circle = new ArrayList<>();
+	private ArrayList<Polygon> polygon = new ArrayList<>();
+		
+>>>>>>> f953f1b09bb4ed16d24d4f89eed7d33430074beb
 	private int targetX;
 	private int targetY;
 	
@@ -44,7 +51,11 @@ public class OST implements Serializable {
 		this.owner = owner;
 		this.ostUnites = new  ArrayList<Troupes>();
 		this.Target = Target;
+<<<<<<< HEAD
 		this.MaxSpeed = 2;
+=======
+		this.MaxSpeed = 3;
+>>>>>>> f953f1b09bb4ed16d24d4f89eed7d33430074beb
 		this.targetX = Target.getCastleDoor().getCenter().getX();
 		this.targetY = Target.getCastleDoor().getCenter().getY();
 		for(int i = 0; i < 3; i++) {
@@ -58,8 +69,8 @@ public class OST implements Serializable {
 						}
 						break;
 					case 1:
-						if(this.MaxSpeed == 6) {
-							this.MaxSpeed = 2 ;
+						if(this.MaxSpeed > 2) {
+							this.MaxSpeed = 2;
 						}
 						while(tab[i] > 0) {
 							this.ostUnites.add(new Piquier(owner.getName()));
@@ -163,45 +174,5 @@ public class OST implements Serializable {
 	}
 	public void setTabOfGeometricForm(ArrayList<GeometricForm> tabOfGeometricForm) {
 		this.tabOfGeometricForm = tabOfGeometricForm;
-	}
-
-// RECTANGLE
-	public ArrayList<Boolean> getRectDodgeX() {
-		return rectDodgeX;
-	}
-	public void setRectDodgeX(ArrayList<Boolean> rectDodgeX) {
-		this.rectDodgeX = rectDodgeX;
-	}
-	public ArrayList<Boolean> getRectDodgeY() {
-		return rectDodgeY;
-	}
-	public void setRectDodgeY(ArrayList<Boolean> rectDodgeY) {
-		this.rectDodgeY = rectDodgeY;
-	}
-//CIRCLE
-	public ArrayList<Boolean> getCircleDodgeX() {
-		return circleDodgeX;
-	}
-	public void setCircleDodgeX(ArrayList<Boolean> circleDodgeX) {
-		this.circleDodgeX = circleDodgeX;
-	}
-	public ArrayList<Boolean> getCircleDodgeY() {
-		return circleDodgeY;
-	}
-	public void setCircleDodge(ArrayList<Boolean> circleDodgeY) {
-		this.circleDodgeY = circleDodgeY;
-	}
-//POLYGON
-	public ArrayList<Boolean> getPolyDodgeY() {
-		return polyDodgeY;
-	}
-	public void setPolyDodgeY(ArrayList<Boolean> polyDodgeY) {
-		this.polyDodgeY = polyDodgeY;
-	}		
-	public ArrayList<Boolean> getPolyDodgeX() {
-		return polyDodgeX;
-	}
-	public void setPolyDodgeX(ArrayList<Boolean> polyDodgeX) {
-		this.polyDodgeX = polyDodgeX;
 	}	
 }
