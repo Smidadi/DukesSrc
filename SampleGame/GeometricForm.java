@@ -6,6 +6,23 @@ import java.util.ArrayList;
 
 public abstract class GeometricForm implements Serializable {
 	
+	/**
+	 * Class mére de CircleForm, RectangleForm, TriangleForm
+	 */
+	
+	
+	/**
+	 * Créer un tableau de GeometricForm lors de la création d'une OST.
+	 * @see	CircleForm
+	 * @see	RectangleForm
+	 * @see	TriangleForm
+	 * @param ost
+	 * 	l'OST pour lequel on crée un tableau de GeometricForm
+	 * @param tabOfCastle
+	 * 	l'ArrayList qui regroupe l'ensemble des châteaux du jeu.
+	 * 	Sert à trouver la position de la porte du château qui souhaite émettre un OST
+	 * @return	tableau de GeometricForm
+	 */
 	static ArrayList<GeometricForm> tabOfGeometricForm( OST ost, ArrayList<Castle> tabOfCastle) {
 		ArrayList<GeometricForm> tabOfGeometricForm = new ArrayList<GeometricForm>();
 		for(int i=0; i<tabOfCastle.size(); i++) {
@@ -26,7 +43,7 @@ public abstract class GeometricForm implements Serializable {
 							break;
 					}
 					if(pos == 3) {
-						pos =1;
+						pos = 1;
 					}else {
 						pos++;
 					}
@@ -36,6 +53,12 @@ public abstract class GeometricForm implements Serializable {
 		return tabOfGeometricForm;
 	}
 	
+	/**
+	 * Créer un tableau de GeometricForm lors de la sauvegarde du jeu en cours
+	 * @param ost
+	 * 	l'OST dont il faut sauvegarder la position de chacune des unités en déplacement
+	 * @return	un tableau de GeometricForm
+	 */
 	static ArrayList<GeometricForm> newTabOfGeometricForm( OST ost) {
 		ArrayList<GeometricForm> tabOfGeometricForm = new ArrayList<GeometricForm>();
 		for(int i=0; i<ost.getRectangle().size(); i++) {

@@ -8,7 +8,31 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 
-
+/**
+ * La Class OST regroupe les informations nécessaire au déplacement de troupes 
+ * et à l'attaque entre châteaux * 
+ *
+ *@param ostUnites
+ *	le tableau des troupes présentent dans l'OST
+ *@param MaxSpeed
+ *	la vitesse maximale de l'OST (plus la valeur est élevé plus l'OST sera lent)
+ *@param Target
+ *	le château vers lequel l'OST est envoyé
+ *@param TeamColor
+ *	la couleur du propriétaire (donc la couleur des unités)
+ *@param owner
+ *	le château qui a envoyé l'OST
+ *@param tabOfGeometricForm
+ *	le tableau de l'ensemble des formes géométriques de l'OST
+ *@param rectangle, circle, polygon
+ *	les tableaux des formes qui sont affichées dans le jeu
+ *@param targetX, targetY
+ *	les coordonnées de la porte du château cible
+ *@param inMovment
+ *	permet de savoir si les unités ont été affiché dans le jeu et peuvent donc être déplacé
+ *@param canAttack
+ *	permet de savoir si toutes les unités sont arrivés au château cible
+ */
 public class OST implements Serializable {
 	private ArrayList<Troupes> ostUnites;
 	private int MaxSpeed;
@@ -28,6 +52,17 @@ public class OST implements Serializable {
 	private boolean inMovment;
 	private boolean canAttack;
 	
+	/**
+	 * Constructeur de OST
+	 * @param Target
+	 * 	le château cible
+	 * @param tab
+	 * 	un tableau de 3 entier, qui représente le nombre d'onagres, de piquiers et enfin de chevaliers
+	 * @param owner
+	 * 	le château qui envoie l'OST
+	 * @param tabOfCastle
+	 * 	l'ArrayList qui regroupe l'ensemble des châteaux du jeu.
+	 */
 	OST(Castle Target, int tab[], Castle owner, ArrayList<Castle> tabOfCastle) {
 		for(int i=0; i <tabOfCastle.size(); i++) {
 			if(tabOfCastle.get(i).getName() == owner.getName()) {

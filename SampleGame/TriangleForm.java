@@ -3,6 +3,19 @@ package SampleGame;
 import javafx.collections.ObservableList;
 import javafx.scene.shape.Polygon;
 
+/**
+ * @param s1
+ * 	coordonnée du sommet supérieur
+ * @param s2
+ * 	coordonnée du sommet inférieur gauche
+ * @param s3
+ * 	coordonnée du sommet inférieur droit
+ * @param color
+ * 	la couleur du château
+ * @param type
+ * 	le type de la forme géométrique, nécessaire pour savoir comment la traiter
+
+ */
 public class TriangleForm extends GeometricForm {
 	private Coordonnee s1 = new Coordonnee(0,0); 
 	private Coordonnee s2 = new Coordonnee(0,0);
@@ -10,6 +23,16 @@ public class TriangleForm extends GeometricForm {
 	private TeamColor color;
 	private String type = "triangle";
 	
+	/**
+	 * Constructeur de la class TriangleForm
+	 * @param CastleDoor
+	 * 	permet d'avoir la position de la porte du château qui souhaite émettre un OST
+	 * 	@see CastleDoor
+	 * @param color
+	 * 	la couleur qu'aura le triangle
+	 * @param position
+	 * 	position par rapport a la porte, par exemple: 1 = gauche, 2 = centre et 3 = droite.
+	 */
 	TriangleForm(CastleDoor CastleDoor, TeamColor color,  int position){
 		Coordonnee door = CastleDoor.getCenter();
 		char direction = CastleDoor.getDirection();
@@ -55,6 +78,14 @@ public class TriangleForm extends GeometricForm {
 		this.color = color;
 	}
 
+	/**
+	  * Permet de convertir un polygon de javafx.scene.shape.polygon en TriangleForm
+	  * pour pouvoir le sauvegarder
+	  * @param polygon
+	  * le polygon à convertir pour la sauvegarde
+	  * @param color
+	  * la couleur du polygon
+	  */
 	TriangleForm(Polygon polygon, TeamColor color){
 		ObservableList<Double> PointList = polygon.getPoints();
 		this.s1.setX( PointList.get(0).intValue());

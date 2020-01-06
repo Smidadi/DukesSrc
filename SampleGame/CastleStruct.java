@@ -5,9 +5,20 @@ import java.util.ArrayList;
 
 
 public class CastleStruct implements Serializable {	
-	
+	/**
+	 * @param center, cornerLT, cornerLB, cornerRT, cornerRB
+	 * 	le centre du château et ses 4 coins, 
+	 * 	utilisé pour la création du rectangle à afficher et pour gérer les déplacements. 
+	 * 	@Coordonnee
+	 */
 	private Coordonnee center, cornerLT, cornerLB, cornerRT, cornerRB;
-	
+	/**
+	 * Constructeur de la class CastleStruct
+	 * @param typeCastle
+	 * 	permet de déterminer la largeur du château en fonction de son type. @see Settings
+	 * @param tabOfCastle
+	 * 	l'ArrayList qui regroupe l'ensemble des châteaux du jeu. Il y est ajouté à la fin de sa création
+	 */
 	CastleStruct(String typeCastle, ArrayList<Castle> tabOfCastle) {
 		
 		Coordonnee c = new Coordonnee();
@@ -28,7 +39,17 @@ public class CastleStruct implements Serializable {
 	}
 		
 
-	
+	/**
+	 * Vérifie si le château peut être placé à cette coordonnée
+	 *
+	 * @param center
+	 * 	coordonnée générée aléatoirement, à tester.
+	 * @param typeCastle
+	 * 	permet de déterminer la largeur du château en fonction de son type. @see Settings
+	 * @param tabOfCastle
+	 * 	l'ArrayList qui regroupe l'ensemble des châteaux du jeu.
+	 * @return un boolean qui indique si le château créé avec center est en collision avec les châteaux déjà créés.
+	 */
 	private Boolean invalideCoordonnee(Coordonnee center, String typeCastle, ArrayList<Castle> tabOfCastle) {
 		int size;
 		if( typeCastle == "Duc" || typeCastle == "Player") {
@@ -42,7 +63,7 @@ public class CastleStruct implements Serializable {
 		Coordonnee cornerRB = new Coordonnee(center.getX() + size, center.getY() + size);
 		for(int i=0;i<tabOfCastle.size();i++) {
 			CastleStruct castle = tabOfCastle.get(i).getCastle();
-			if(inASquare(castle, cornerLT) == true || inASquare(castle, cornerLB) == true || inASquare(castle, cornerRT) == true || inASquare(castle, cornerRB) == true){
+			if(Coordonnee.inASquare(castle, cornerLT) == true || Coordonnee.inASquare(castle, cornerLB) == true || Coordonnee.inASquare(castle, cornerRT) == true || Coordonnee.inASquare(castle, cornerRB) == true){
 				return false;
 			}
 			
@@ -52,19 +73,7 @@ public class CastleStruct implements Serializable {
 		}
 		return true;
 	}
-	
-	private Boolean inASquare(CastleStruct Castle, Coordonnee aPoint) {
-		// Xmin <= x <= Xmax ET Ymin <= y <= Ymax
-		double xMin = Castle.getCornerLT().getX() - Settings.DOORSIZE; //LEFT CORNER
-		double xMax = Castle.getCornerRT().getX() + Settings.DOORSIZE;	//RIGHT CORNER
-		double yMin = Castle.getCornerLT().getY() - Settings.DOORSIZE;	//TOP CORNER
-		double yMax = Castle.getCornerLB().getY() + Settings.DOORSIZE; //TOP CORNER
-		if( (xMin <= aPoint.getX() && aPoint.getX() <= xMax) && (yMin <= aPoint.getY() && aPoint.getY() <= yMax) ) {
-			return true;
-		}
-		return false;
-	}
-		
+			
 
 	/* ----- GETTER ----- */
 	/* ----- SETTER ----- */

@@ -4,9 +4,26 @@ import java.io.Serializable;
 
 public class CastleDoor implements Serializable {
 	
+	/**
+	 * @param center, cornerLT, cornerLB, cornerRT, cornerRB
+	 * 	le centre de la porte et ses 4 coins, 
+	 * 	utilisé pour la création du rectangle à afficher et pour gérer les déplacements. 
+	 * 	@Coordonnee
+	 * @param direction
+	 * 	définit aléatoirement, donne côté du château où sera placé la porte.
+	 * 	Nécessaire pour savoir ou faire sortir et entrer les unités
+	 * 	@Coordonnee
+	 */
 	private Coordonnee center, cornerLT, cornerLB, cornerRT, cornerRB;
 	private char direction; //N , E , S , W
 	
+	/**
+	 * Constructeur de la class CastleDoor
+	 * @param center2
+	 * 	le centre du château auquel appartient cette porte
+	 * @param typeCastle
+	 * 	permet de déterminer la largeur du château en fonction de son type. @see Settings
+	 */
 	CastleDoor(Coordonnee center2, String typeCastle) {	
 		int sizeDW = Settings.DOORSIZE;
 		int sizeDH = Settings.DOORTICKNESS; //Pixels
