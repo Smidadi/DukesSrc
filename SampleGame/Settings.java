@@ -1,5 +1,12 @@
 package SampleGame;
 
+
+/*import java.awt.Dimension;
+
+Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+int height = (int)dimension.getHeight();
+int width  = (int)dimension.getWidth();*/
+
 public class Settings {
 	static final String tabOfCastleName[] = {"Versailles","Castelnaud","Chambord","Chenonceau","Villandry",
 			"Cheverny","Vaux-le-Vicomte","Fontainebleau","Cathare","Ussé",

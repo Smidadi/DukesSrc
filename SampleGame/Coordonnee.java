@@ -1,15 +1,8 @@
 package SampleGame;
 
-<<<<<<< HEAD
+
 import java.io.Serializable;
 
-=======
->>>>>>> f953f1b09bb4ed16d24d4f89eed7d33430074beb
-/*import java.awt.Dimension;
-
-Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-int height = (int)dimension.getHeight();
-int width  = (int)dimension.getWidth();*/
 
 public class Coordonnee implements Serializable {
 	private int x, y;
@@ -58,18 +51,12 @@ public class Coordonnee implements Serializable {
 	
 	static Boolean onTheBorder(CastleStruct Castle, double x, double y, int space) {
 		// Xmin <= x <= Xmax ET Ymin <= y <= Ymax
-<<<<<<< HEAD
-		int xMin = Castle.getCornerLT().getX() - space; //LEFT CORNER
-		int xMax = Castle.getCornerRB().getX() + space;	//RIGHT CORNER
-		int yMin = Castle.getCornerRT().getY() - space;	//TOP CORNER
-		int yMax = Castle.getCornerLB().getY() + space; //TOP CORNER
-=======
+
 		int xMin = Castle.getCornerLB().getX() - space; //LEFT CORNER
 		int xMax = Castle.getCornerRT().getX() + space;	//RIGHT CORNER
 		int yMin = Castle.getCornerRT().getY() - space;	//TOP CORNER
-		int yMax = Castle.getCornerLB().getY() + space; //TOP CORNER
+		int yMax = Castle.getCornerLB().getY() + space; //BOTTOM CORNER
 		
->>>>>>> f953f1b09bb4ed16d24d4f89eed7d33430074beb
 		if( (xMin <= x && x <= xMax) && (yMin == y) ) {	//TOP BORDER
 			return true;
 		}else if( (xMin <= x && x <= xMax) && (yMax == y) ) {	//BOTTOM BORDER
